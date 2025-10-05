@@ -1,0 +1,49 @@
+title: Weather Programmer
+author: Ray Hawthorne
+description: >-
+  A blog exploring the intersection of meteorology and applied data science
+  in an operational setting —
+  blending weather analysis with practical solutions,
+  and other topics I find interesting along the way.
+
+baseurl: "" # for main domain
+url: "https://weatherprogrammer.com" # match your CNAME
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+sass:
+  quiet_deps: true
+
+collections:
+  posts:
+    output: true
+    permalink: /:year/:month/:day/:name/
+    sort_by: date
+    sort_order: desc
+  folder_posts:
+    output: true
+    permalink: /:year/:month/:day/:name/
+    sort_by: date
+    sort_order: desc
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: post
+      permalink: /:year/:month/:day/:name/
+  - scope:
+      path: "_folder_posts"
+      type: "folder_posts"
+    values:
+      layout: post
+      permalink: /:year/:month/:day/:name/
+
+github_username: frontogenesis
+linkedin_username: ray-hawthorne-413a96334
+twitter_username: ray_hawthorne
