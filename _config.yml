@@ -8,6 +8,7 @@ description: >-
 
 baseurl: "" # for main domain
 url: "https://weatherprogrammer.com" # match your CNAME
+future: true
 
 theme: minima
 
