@@ -3,6 +3,7 @@ layout: post
 title: "Creating Custom Model Images with Claude Code — No Coding Experience Required"
 date: 2026-03-15 12:00:00 -0500
 categories: Meteorology
+permalink: /2026/03/15/creating-model-images-with-claude-code/
 ---
 
 If you've spent any time in an operational meteorology setting, you've probably had a moment where you wished you could pull a specific model field, display it exactly the way you want it — maybe a specific domain, a specific level, a specific variable — without waiting for someone else to build it.
