@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Setting up your environment - Part 1"
-date: 2026-03-17 12:00:00 -0500
+date: 2026-03-22 12:23:00 -0500
 categories: Development
-permalink: /2026/03/17/setting-up-your-environment-part1/
+permalink: /2026/03/22/setting-up-your-environment-part1/
 ---
 If you read my post on "Creating Custom Model Images with Claude Code - No Coding Experience Required", you may have wanted to jump at the chance of trying your hand at creating your own model content. Toward the end of the blog post, you reached the dreaded **A Few Honest Caveats** and thought I'd leave you hanging? Nah.  
 
