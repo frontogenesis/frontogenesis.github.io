@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Setting up your environment - Part 1"
+title: "Setting up your AI Coding Environment for Scripting Meteorological Plots - Part 1"
 date: 2026-03-22 12:23:00 -0500
 categories: Development
 permalink: /2026/03/22/setting-up-your-environment-part1/
