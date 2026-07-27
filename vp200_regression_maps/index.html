@@ -435,7 +435,7 @@
           <span class="step-num">1</span>
           <span class="key-term">True VP200 (not a proxy)</span>
           <span class="key-hint">Computed via spherical harmonics, not raw divergence</span>
-          <template>200 mb velocity potential (VP200) is derived from 200 mb u/v wind by computing horizontal divergence (a purely local, pointwise quantity), then inverting the Poisson equation (the Laplacian of VP200 equals divergence) via a global spherical harmonic transform to recover VP200 itself. This is genuine VP200, not a divergence proxy for it: an earlier version of this analysis stopped at the divergence step and used it directly as a stand-in, because the standard tool for the spherical-harmonic half of this (windspharm) wouldn't build against a newer NumPy version; a leaner alternative (pyshtools) has since filled that gap. One detail worth knowing: VP200 is oriented here so that positive values mean enhanced convection, the opposite of its native meteorological sign convention (where enhanced convection is negative). It's flipped throughout this tool so "positive = more active convection" reads the same way as everything else on the page.</template>
+          <template>200 mb velocity potential (VP200) is derived from 200 mb u/v wind by computing horizontal divergence, then inverting the Poisson equation via a global spherical harmonic transform to recover VP200 itself. VP200 is oriented here so that positive values mean enhanced convection, the opposite of its native meteorological sign convention (where enhanced convection is negative). It's flipped throughout this tool so "positive = more active convection" reads the same way as everything else on the page.</template>
         </button>
 
         <button class="key-chip" type="button" aria-expanded="false">
@@ -462,7 +462,7 @@
           <span class="chip">5D</span>
           <span class="key-term">Pentad lead windows</span>
           <span class="key-hint">Response averaged over a 5-day window</span>
-          <template>Rather than reading the 500 mb height on a single lead day, each map averages it over a 5-day window (e.g. "Day 10-14" is the mean of lead days 10, 11, 12, 13, and 14). Averaging damps fast day-to-day weather noise in the response, so a genuine slower-moving relationship comes through more clearly. The tropical VP200 index itself (the dashed contours) is still a single day 0 value, not averaged.</template>
+          <template>Rather than reading the 500 mb height on a single lead day, each map averages it over a 5-day window (e.g. "Day 10-14" is the mean of lead days 10, 11, 12, 13, and 14). Averaging damps fast day-to-day weather noise in the response, so a genuine slower-moving relationship comes through more clearly. The tropical VP200 index itself are the dashed contours representing a Day 0 value.</template>
         </button>
 
         <button class="key-chip" type="button" aria-expanded="false">
