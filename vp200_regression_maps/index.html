@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subseasonal Forcing: VP200 -> 500 mb Height Correlation Maps</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --panel-2: #f6f3ec;
+    --border: #e3ddd0;
+    --text: #21262f;
+    --text-muted: #6b6f7a;
+    --accent: #a8701f;
+    --accent-dim: rgba(168, 112, 31, 0.10);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .page-header {
+    margin-bottom: 18px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .eyebrow a {
+    color: var(--accent);
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  .h1-sub {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .subtitle {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  a {
+    color: var(--accent);
+  }
+  .controls {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 20px 0 16px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  label {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  select {
+    padding: 6px 10px;
+    font-size: 14px;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .slider-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: min(280px, 100%);
+  }
+  input[type=range] {
+    flex: 1 1 80px;
+    min-width: 80px;
+    accent-color: var(--accent);
+  }
+  #leadLabel {
+    min-width: 62px;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  button {
+    padding: 6px 14px;
+    font-size: 13.5px;
+    font-family: var(--sans);
+    font-weight: 600;
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+  }
+  button:focus-visible,
+  select:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  img {
+    width: 100%;
+    display: block;
+  }
+  .hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .key {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .key h2 {
+    font-size: 15px;
+    margin: 0 0 18px;
+    color: var(--text);
+    text-wrap: balance;
+  }
+  .key-group {
+    margin-bottom: 22px;
+  }
+  .key-group:last-child {
+    margin-bottom: 0;
+  }
+  .key-group-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 10px;
+  }
+  /* Compact, uniform-height chips: clicking one never resizes the chip
+     itself, it only reveals the shared .key-detail panel below the whole
+     row. This avoids CSS grid's row-stretch behavior (every item in a row
+     growing to match the tallest one) leaving empty-looking gaps under
+     still-collapsed neighbors when one entry's explanation is long. */
+  .key-chip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 4px;
+    column-gap: 10px;
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 0;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    appearance: none;
+  }
+  .key-chip:hover {
+    border-color: var(--accent);
+  }
+  .key-chip[aria-expanded="true"] {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .key-chip::after {
+    content: "+";
+    order: 3;
+    margin-left: auto;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 15px;
+  }
+  .key-chip[aria-expanded="true"]::after {
+    content: "\2212";
+    color: var(--accent);
+  }
+  .key-chip:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .key-term {
+    order: 2;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    flex: none;
+  }
+  .key-hint {
+    order: 4;
+    flex-basis: 100%;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .key-detail {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  /* Subtle highlight tying the panel back to whichever chip opened it,
+     matching that chip's own accent-colored border/background treatment. */
+  .key-detail:not([hidden]) {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-dim);
+  }
+  .key-detail p {
+    margin: 0;
+  }
+
+  .swatch {
+    width: 34px;
+    height: 14px;
+    border-radius: 3px;
+    flex: none;
+    display: inline-block;
+  }
+  .swatch-gradient {
+    background: linear-gradient(to right, #3573a8 0%, #e9ecef 50%, #b8503c 100%);
+  }
+  .swatch-box {
+    height: 16px;
+    border: 2px solid var(--text);
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+  }
+  .swatch-dots {
+    height: 16px;
+    background-image: radial-gradient(circle, var(--text) 1.1px, transparent 1.3px);
+    background-size: 6px 6px;
+    border-radius: 3px;
+  }
+  .swatch-dashed {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    height: 16px;
+  }
+  .swatch-dashed span {
+    display: block;
+    height: 0;
+    border-top: 2px dashed;
+  }
+  .swatch-dashed .g { border-color: #4caf6b; }
+  .swatch-dashed .o { border-color: #d98a3d; }
+  .swatch-star {
+    width: 20px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #111;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  }
+  .chip {
+    flex: none;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: 3px 6px;
+    letter-spacing: 0.02em;
+  }
+  .step-num {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="page-header">
+    <p class="eyebrow">Tropical Forcing Diagnostics &middot; <a href="../vp200_monthly_regression_maps/index.html">Low Frequency Forcing companion</a></p>
+    <h1>Subseasonal Forcing</h1>
+    <p class="h1-sub">500 mb Height Correlation with Tropical 200 mb Velocity Potential (VP200)</p>
+    <p class="subtitle">Lag-regression maps by lead time, calendar month, and source region of tropical convection (NCEP/NCAR Reanalysis 1, 1979-2025).</p>
+  </div>
+
+  <div class="controls">
+    <div class="control">
+      <label for="phase">Active Convection</label>
+      <select id="phase"></select>
+    </div>
+    <div class="control">
+      <label for="month">Month</label>
+      <select id="month"></select>
+    </div>
+    <div class="slider-wrap">
+      <label for="lead">Lead time</label>
+      <input type="range" id="lead" min="0" max="4" step="1" value="0">
+      <span id="leadLabel"></span>
+      <button id="playBtn" type="button">Play</button>
+    </div>
+  </div>
+  <div class="frame">
+    <img id="mapImg" src="" alt="regression map">
+  </div>
+  <div class="hint">Left/Right arrow keys step through lead time. Play auto-cycles Day 0-4 &rarr; 5-9 &rarr; 10-14 &rarr; 15-19 &rarr; 20-24.</div>
+
+  <div class="key">
+    <h2>Map Key</h2>
+
+    <div class="key-group">
+      <p class="key-group-label">Reading the chart</p>
+      <div class="key-grid">
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="swatch swatch-gradient" aria-hidden="true"></span>
+          <span class="key-term">Color fill</span>
+          <span class="key-hint">Correlation (r), compressed to &plusmn;0.5</span>
+          <template>Pearson correlation coefficient (r) between the VP200 index and 500 mb height at that point: red = positive (height tends to rise when the VP200 index rises, i.e. when convection is enhanced), blue = negative. Correlation, not a raw regression in meters, because 500 mb height naturally varies far less in the tropics than at high latitudes: a raw-meters map would make high-latitude features look mechanically "bigger" regardless of how tight the actual relationship is there. The color scale on these lagged maps is compressed to -0.5..0.5, not the full -1..1: lagged correlations are consistently much weaker than the same-month, no-lag ones in the monthly companion viewer, so the full scale would leave most of the map looking like a nearly uniform pale wash. Compressing the range spreads that same weak-to-moderate signal across more of the color ramp, at the cost of clamping (saturating) any point whose correlation happens to exceed 0.5 in magnitude to the end color. Small triangular arrows on the colorbar mark where that clamping happens.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="swatch swatch-dashed" aria-hidden="true"><span class="g"></span><span class="o"></span></span>
+          <span class="key-term">Dashed contours</span>
+          <span class="key-hint">Green = enhanced convection, orange = suppressed</span>
+          <template>Green means enhanced convection (positive VP200 index, upper-level outflow); orange means suppressed convection (negative VP200 index, drier and subsiding).</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="swatch swatch-box" aria-hidden="true"></span>
+          <span class="key-term">Black box</span>
+          <span class="key-hint">Source region for the VP200 index</span>
+          <template>The region whose VP200 was averaged into the VP200 index driving this map, shaded gray so it stands out from the correlation coloring underneath.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="swatch swatch-dots" aria-hidden="true"></span>
+          <span class="key-term">Stippling</span>
+          <span class="key-hint">Passed an 80% significance test</span>
+          <template>The correlation at that point passed a significance test at the 80% level. The test shuffles which year's VP200 season is paired with which year's height season (keeping each year's own day-to-day sequence intact) to build a null distribution, treating years as the independent unit rather than individual days, since a persistent pattern lasting several days isn't several independent samples. 80% (not the stricter, more conventional 95%) was chosen deliberately: these lagged correlations are consistently weak (see the Color fill note above), so a 95% threshold left almost nothing stippled. At 80%, there's roughly a 1-in-5 chance any single stippled point is a false positive, which also compounds with testing thousands of points at once (some "significant" dots are expected from chance alone). Treat isolated, scattered dots with real skepticism; a broad, spatially coherent patch of stippling is much better evidence of a genuine, if gentle, signal than a handful scattered around. Unstippled regions may still show a colored pattern, but that pattern isn't statistically distinguishable from noise even at this relaxed threshold. Stippling is also suppressed within 20 degrees of the equator regardless of significance: VP200 and height are tightly, almost mechanically coupled there (weak temperature gradient dynamics), so blanket tropical stippling wouldn't signal a genuine remote teleconnection the way it does in the extratropics. It would just be visual clutter.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="swatch swatch-star" aria-hidden="true">&#9733;</span>
+          <span class="key-term">Star</span>
+          <span class="key-hint">Texas, shown for reference</span>
+          <template>Texas, shown for reference throughout.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="chip">T+N</span>
+          <span class="key-term">Contours + lead time</span>
+          <span class="key-hint">Day-0 forcing vs. the response N days later</span>
+          <template>The dashed lines show what the tropical convective (VP200) pattern typically looks like at day 0 (the current day). The color-filled 500 mb map shows how strongly the atmosphere elsewhere tends to co-vary with that pattern in the selected lead window (Day 0-4, 5-9, 10-14, 15-19, or 20-24 days later). Both are statistical summaries built from many matching days in 1979-2025, not a forecast for any single event.</template>
+        </button>
+      </div>
+      <div class="key-detail" hidden></div>
+    </div>
+
+    <div class="key-group">
+      <p class="key-group-label">Signal processing</p>
+      <div class="key-grid">
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="step-num">1</span>
+          <span class="key-term">True VP200 (not a proxy)</span>
+          <span class="key-hint">Computed via spherical harmonics, not raw divergence</span>
+          <template>200 mb velocity potential (VP200) is derived from 200 mb u/v wind by computing horizontal divergence (a purely local, pointwise quantity), then inverting the Poisson equation (the Laplacian of VP200 equals divergence) via a global spherical harmonic transform to recover VP200 itself. This is genuine VP200, not a divergence proxy for it: an earlier version of this analysis stopped at the divergence step and used it directly as a stand-in, because the standard tool for the spherical-harmonic half of this (windspharm) wouldn't build against a newer NumPy version; a leaner alternative (pyshtools) has since filled that gap. One detail worth knowing: VP200 is oriented here so that positive values mean enhanced convection, the opposite of its native meteorological sign convention (where enhanced convection is negative). It's flipped throughout this tool so "positive = more active convection" reads the same way as everything else on the page.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="step-num">2</span>
+          <span class="key-term">Detrending</span>
+          <span class="key-hint">Long-term warming trend removed</span>
+          <template>Before any of this is computed, both the VP200 index and 500 mb height have a linear trend over the full 1979-2025 record removed at every point. 500 mb height has a real, well-documented long-term rise (tropospheric warming raises the height of pressure surfaces), and without removing it, two variables that are each just drifting upward over the decades could look spuriously correlated even with no genuine day-to-day relationship.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="step-num">3</span>
+          <span class="key-term">ENSO removed</span>
+          <span class="key-hint">El Ni&ntilde;o/La Ni&ntilde;a regressed out</span>
+          <template>El Nino/La Nina (via NOAA's Oceanic Nino Index, ONI) is also regressed out of both the VP200 index and 500 mb height at every point, on top of detrending. El Nino/La Nina is the tropical Pacific's dominant mode of year-to-year variability, and without removing it, two variables that both simply respond to it could look correlated with each other largely because of that shared response, rather than any direct relationship between them.</template>
+        </button>
+      </div>
+      <div class="key-detail" hidden></div>
+    </div>
+
+    <div class="key-group">
+      <p class="key-group-label">Scope &amp; design notes</p>
+      <div class="key-grid">
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="chip">5D</span>
+          <span class="key-term">Pentad lead windows</span>
+          <span class="key-hint">Response averaged over a 5-day window</span>
+          <template>Rather than reading the 500 mb height on a single lead day, each map averages it over a 5-day window (e.g. "Day 10-14" is the mean of lead days 10, 11, 12, 13, and 14). Averaging damps fast day-to-day weather noise in the response, so a genuine slower-moving relationship comes through more clearly. The tropical VP200 index itself (the dashed contours) is still a single day 0 value, not averaged.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="chip">SCOPE</span>
+          <span class="key-term">Subseasonal focus</span>
+          <span class="key-hint">Built for 0-24 day lead signals</span>
+          <template>These maps are built to capture subseasonal signals. The VP200 index is a day's VP200 value minus a smoothed seasonal-cycle average, minus its long-term linear trend, and minus the linear ENSO signal (as above). It isn't additionally processed to isolate a specific timescale (a step called "bandpass filtering," which would mean digitally keeping only fluctuations in a target period range, like 20-60 days, and removing everything faster or slower). Without that step, other slower-moving variability that isn't a simple linear trend or a linear ENSO response (e.g. decadal-scale patterns, or ENSO effects that aren't perfectly linear) can still ride along in the VP200 index alongside genuine day-to-day subseasonal swings.</template>
+        </button>
+
+        <button class="key-chip" type="button" aria-expanded="false">
+          <span class="chip">GUIDE</span>
+          <span class="key-term">Active Convection is a guide</span>
+          <span class="key-hint">Check the dashed contours for where convection really is</span>
+          <template>The eight "Active Convection" options are fixed longitude sectors aligned with the standard 8-phase MJO/RMM convention, useful as a starting menu of tropical source regions. Use the dashed green/orange contours on the map itself (day-0 VP200) to see where the real signal is.</template>
+        </button>
+      </div>
+      <div class="key-detail" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHASES = [
+  ["phase1", "Phase 1: South America / Atlantic / Africa"],
+  ["phase2", "Phase 2: Horn of Africa / W. Indian Ocean"],
+  ["phase3", "Phase 3: Central Indian Ocean"],
+  ["phase4", "Phase 4: E. Indian Ocean / Maritime Continent"],
+  ["phase5", "Phase 5: Maritime Continent / W. Pacific"],
+  ["phase6", "Phase 6: Date Line Pacific"],
+  ["phase7", "Phase 7: Central / E. Pacific"],
+  ["phase8", "Phase 8: E. Pacific / South America"],
+];
+const MONTHS = ["june", "july", "august", "september", "october", "november", "december", "january", "february"];
+const PENTADS = [[0, 4], [5, 9], [10, 14], [15, 19], [20, 24]];
+const YEAR_RANGE = "1979-2025";
+const PLAY_INTERVAL_MS = 1200;
+
+const phaseSelect = document.getElementById("phase");
+const monthSelect = document.getElementById("month");
+const leadSlider = document.getElementById("lead");
+const leadLabel = document.getElementById("leadLabel");
+const playBtn = document.getElementById("playBtn");
+const img = document.getElementById("mapImg");
+
+let playTimer = null;
+
+PHASES.forEach(([key, label]) => {
+  const opt = document.createElement("option");
+  opt.value = key;
+  opt.textContent = label;
+  phaseSelect.appendChild(opt);
+});
+MONTHS.forEach(m => {
+  const opt = document.createElement("option");
+  opt.value = m;
+  opt.textContent = m[0].toUpperCase() + m.slice(1);
+  monthSelect.appendChild(opt);
+});
+monthSelect.value = "july";
+
+function update() {
+  const phase = phaseSelect.value;
+  const month = monthSelect.value;
+  const [start, end] = PENTADS[leadSlider.value];
+  leadLabel.textContent = `Day ${start}-${end}`;
+  const startStr = String(start).padStart(2, "0");
+  const endStr = String(end).padStart(2, "0");
+  // Cache-bust: these filenames get overwritten in place whenever the
+  // underlying data/boxes are regenerated, and browsers otherwise keep
+  // showing old cached bytes for a URL that "hasn't changed."
+  img.src = `z500_correlation_div200_${phase}_${month}_lead${startStr}-${endStr}d_${YEAR_RANGE}.png?v=${Date.now()}`;
+}
+
+function stopPlaying() {
+  if (playTimer !== null) {
+    clearInterval(playTimer);
+    playTimer = null;
+    playBtn.textContent = "Play";
+  }
+}
+
+function togglePlay() {
+  if (playTimer !== null) {
+    stopPlaying();
+    return;
+  }
+  playBtn.textContent = "Pause";
+  playTimer = setInterval(() => {
+    const next = (Number(leadSlider.value) + 1) % PENTADS.length;
+    leadSlider.value = next;
+    update();
+  }, PLAY_INTERVAL_MS);
+}
+
+phaseSelect.addEventListener("change", () => { stopPlaying(); update(); });
+monthSelect.addEventListener("change", () => { stopPlaying(); update(); });
+leadSlider.addEventListener("input", () => { stopPlaying(); update(); });
+playBtn.addEventListener("click", togglePlay);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    stopPlaying();
+    leadSlider.value = Math.min(Number(leadSlider.value) + 1, PENTADS.length - 1);
+    update();
+  } else if (e.key === "ArrowLeft") {
+    stopPlaying();
+    leadSlider.value = Math.max(Number(leadSlider.value) - 1, 0);
+    update();
+  }
+});
+
+update();
+
+// Each Map Key group has one shared detail panel below its row of chips.
+// Clicking a chip fills that panel with the chip's own explanation and
+// closes any other open chip in the same group; the chips themselves never
+// change size, so there's no row-stretch/empty-space artifact regardless
+// of how long an explanation is.
+document.querySelectorAll(".key-group").forEach((group) => {
+  const chips = Array.from(group.querySelectorAll(".key-chip"));
+  const detail = group.querySelector(".key-detail");
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const alreadyOpen = chip.getAttribute("aria-expanded") === "true";
+      chips.forEach((c) => c.setAttribute("aria-expanded", "false"));
+      if (alreadyOpen) {
+        detail.hidden = true;
+        detail.innerHTML = "";
+      } else {
+        chip.setAttribute("aria-expanded", "true");
+        const text = chip.querySelector("template").innerHTML;
+        detail.innerHTML = `<p>${text}</p>`;
+        detail.hidden = false;
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
