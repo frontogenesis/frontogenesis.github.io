@@ -19,6 +19,14 @@ module Jekyll
       folder_posts_dir = File.join(site.source, "_folder_posts")
       return unless Dir.exist?(folder_posts_dir)
 
+      # Jekyll reads these same images a second time on its own, as static
+      # files belonging to the folder_posts collection, and writes them to
+      # the collection's permalink template with nothing to interpolate --
+      # producing a literal "/:year/:month/:day/" directory. The
+      # PostAssetFile entries below place them at the post's real URL, so
+      # drop Jekyll's copies to avoid publishing both.
+      site.static_files.reject! { |f| f.type == :folder_posts }
+
       Dir.glob(File.join(folder_posts_dir, "**", "*")).each do |file|
         next if File.directory?(file)
         next if File.basename(file) == "index.md"
