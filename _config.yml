@@ -1,10 +1,8 @@
 title: Weather Programmer
 author: Ray Hawthorne
 description: >-
-  A blog exploring the intersection of meteorology and applied data science
-  in an operational setting —
-  blending weather analysis with practical solutions,
-  and other topics I find interesting along the way.
+  Exploring the intersection of meteorology and applied data science
+  in an operational setting.
 
 baseurl: "" # for main domain
 url: "https://weatherprogrammer.com" # match your CNAME
