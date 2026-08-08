@@ -63,6 +63,14 @@
     color: var(--text-muted);
     margin: 0;
   }
+  .mjo-status {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 6px 0 0;
+  }
+  .mjo-status strong {
+    color: var(--accent);
+  }
   a {
     color: var(--accent);
   }
@@ -354,6 +362,7 @@
     <h1>Subseasonal Forcing</h1>
     <p class="h1-sub">500 mb Height Correlation with Tropical 200 mb Velocity Potential (VP200)</p>
     <p class="subtitle">Lag-regression maps by lead time, calendar month, and source region of tropical convection (NCEP/NCAR Reanalysis 1, 1979-2025).</p>
+    <p class="mjo-status" id="mjoStatus" hidden></p>
   </div>
 
   <div class="controls">
@@ -502,6 +511,7 @@ const PLAY_INTERVAL_MS = 1200;
 
 const phaseSelect = document.getElementById("phase");
 const monthSelect = document.getElementById("month");
+const mjoStatus = document.getElementById("mjoStatus");
 const leadSlider = document.getElementById("lead");
 const leadLabel = document.getElementById("leadLabel");
 const playBtn = document.getElementById("playBtn");
@@ -509,19 +519,51 @@ const img = document.getElementById("mapImg");
 
 let playTimer = null;
 
-PHASES.forEach(([key, label]) => {
-  const opt = document.createElement("option");
-  opt.value = key;
-  opt.textContent = label;
-  phaseSelect.appendChild(opt);
-});
-MONTHS.forEach(m => {
-  const opt = document.createElement("option");
-  opt.value = m;
-  opt.textContent = m[0].toUpperCase() + m.slice(1);
-  monthSelect.appendChild(opt);
-});
-monthSelect.value = "july";
+function detectMJOPhase(rmm1, rmm2) {
+  if (Math.abs(rmm1) < 1 || Math.abs(rmm2) < 1) return null;
+  if (rmm1 >= 0 && rmm2 >= 0) return rmm1 >= rmm2 ? "phase1" : "phase8";
+  if (rmm1 >= 0 && rmm2 < 0) return "phase2";
+  if (rmm1 < 0 && rmm2 < 0) return "phase3";
+  return rmm2 >= Math.abs(rmm1) ? "phase4" : "phase5";
+}
+
+async function init() {
+  PHASES.forEach(([key, label]) => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = label;
+    phaseSelect.appendChild(opt);
+  });
+  MONTHS.forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = m[0].toUpperCase() + m.slice(1);
+    monthSelect.appendChild(opt);
+  });
+  const now = new Date();
+  const currentMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"][now.getMonth()];
+  monthSelect.value = MONTHS.includes(currentMonth) ? currentMonth : "july";
+  try {
+    const res = await fetch("https://www.bom.gov.au/jtwc/mjo/bamford-rmm-1-2.json");
+    const data = await res.json();
+    const latest = data.data[data.data.length - 1];
+    const rmm1 = parseFloat(latest["RMM1 (OLR)"]);
+    const rmm2 = parseFloat(latest["RMM2 (OLR)"]);
+    const phase = detectMJOPhase(rmm1, rmm2);
+    if (phase) {
+      phaseSelect.value = phase;
+      mjoStatus.innerHTML = `Current MJO phase: <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
+    } else {
+      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (inside unit circle)`;
+    }
+    mjoStatus.hidden = false;
+  } catch {
+    phaseSelect.value = "phase1";
+  }
+  update();
+}
+
+init();
 
 function update() {
   const phase = phaseSelect.value;
@@ -573,8 +615,6 @@ document.addEventListener("keydown", (e) => {
     update();
   }
 });
-
-update();
 
 // Each Map Key group has one shared detail panel below its row of chips.
 // Clicking a chip fills that panel with the chip's own explanation and

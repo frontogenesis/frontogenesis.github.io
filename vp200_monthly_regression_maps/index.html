@@ -451,7 +451,9 @@ MONTHS.forEach(m => {
   opt.textContent = m[0].toUpperCase() + m.slice(1);
   monthSelect.appendChild(opt);
 });
-monthSelect.value = "july";
+const now = new Date();
+const currentMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"][now.getMonth()];
+monthSelect.value = MONTHS.includes(currentMonth) ? currentMonth : "july";
 
 function update() {
   const phase = phaseSelect.value;
