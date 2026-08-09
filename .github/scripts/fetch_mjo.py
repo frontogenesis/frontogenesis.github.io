@@ -1,50 +1,53 @@
 #!/usr/bin/env python3
-# Fetches the BOM MJO RMM index server-side. BOM's endpoint sits behind an
-# Akamai WAF that 403s direct/cross-origin browser requests, so this can't
-# be fetched client-side from vp200_regression_maps/index.html. This script
-# runs from a scheduled GitHub Action instead, and the result is committed
-# as a same-origin static file the page fetches directly.
+# Fetches the near-real-time OMI (ROMI) MJO index from NOAA PSL and writes
+# the latest PC1/PC2/amplitude as JSON next to the VP200 tool's static
+# assets, for vp200_regression_maps/index.html to read same-origin.
+#
+# The original source, BOM's RMM feed, explicitly blocks all automated
+# access -- its 403 page states "The Bureau of Meteorology website does
+# not support web scraping: if you are trying to access Bureau data
+# through automated means, you should stop." ROMI is NOAA's openly served
+# near-real-time OMI index, built by Kiladis et al. (2014) to reproduce
+# the same 8-phase convention as BOM's RMM index, with no such policy.
 import json
 import sys
 import urllib.request
 from pathlib import Path
 
-URL = "https://www.bom.gov.au/jtwc/mjo/bamford-rmm-1-2.json"
+URL = "https://psl.noaa.gov/mjo/mjoindex/romi.cpcolr.1x.txt"
 OUTPUT = Path(__file__).resolve().parent.parent.parent / "vp200_regression_maps" / "mjo-rmm.json"
-
-# Deliberately NOT a spoofed browser User-Agent: a UA string claiming to be
-# Chrome/Firefox but sent over curl/urllib's actual TLS handshake trips
-# Akamai's bot detection into a silent connection hold (15s+ with no
-# response) rather than a fast reject. A plain/identifying UA gets a fast
-# 403 instead, which is what we want in CI.
-HEADERS = {
-    "User-Agent": "vp200-mjo-fetch/1.0 (+https://weatherprogrammer.com)",
-    "Referer": "https://www.bom.gov.au/jtwc/mjo/",
-    "Accept": "application/json, text/plain, */*",
-}
 
 
 def main() -> None:
-    req = urllib.request.Request(URL, headers=HEADERS)
+    req = urllib.request.Request(URL, headers={"User-Agent": "vp200-mjo-fetch/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
-            body = resp.read()
+            body = resp.read().decode("utf-8")
     except Exception as exc:
         print(f"fetch failed: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    try:
-        data = json.loads(body)
-    except json.JSONDecodeError as exc:
-        print(f"response was not valid JSON: {exc}", file=sys.stderr)
+    lines = [ln for ln in body.strip().splitlines() if ln.strip()]
+    if not lines:
+        print("response was empty", file=sys.stderr)
         sys.exit(1)
 
-    if not isinstance(data.get("data"), list) or not data["data"]:
-        print("response JSON missing expected 'data' array", file=sys.stderr)
+    fields = lines[-1].split()
+    if len(fields) < 7:
+        print(f"unexpected line format: {lines[-1]!r}", file=sys.stderr)
         sys.exit(1)
 
-    OUTPUT.write_text(json.dumps(data, indent=2) + "\n")
-    print(f"wrote {OUTPUT} ({len(data['data'])} records)")
+    year, month, day, _hour, pc1, pc2, amplitude = fields[:7]
+    out = {
+        "source": "NOAA PSL ROMI (near-real-time OMI, CPC blended OLR)",
+        "date": f"{int(year):04d}-{int(month):02d}-{int(day):02d}",
+        "pc1": float(pc1),
+        "pc2": float(pc2),
+        "amplitude": float(amplitude),
+    }
+
+    OUTPUT.write_text(json.dumps(out, indent=2) + "\n")
+    print(f"wrote {OUTPUT}: {out}")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
-name: Fetch MJO RMM index
+name: Fetch MJO index
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 12 * * *"
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch MJO RMM index from BOM
+      - name: Fetch MJO (ROMI) index from NOAA PSL
         run: python3 .github/scripts/fetch_mjo.py
 
       - name: Commit if changed
@@ -28,7 +28,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet -- vp200_regression_maps/mjo-rmm.json; then
             git add vp200_regression_maps/mjo-rmm.json
-            git commit -m "chore: update MJO RMM index"
+            git commit -m "chore: update MJO index"
             git push
           else
             echo "no change"

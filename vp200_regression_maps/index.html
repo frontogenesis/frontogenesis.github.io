@@ -544,22 +544,22 @@ async function init() {
   const currentMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"][now.getMonth()];
   monthSelect.value = MONTHS.includes(currentMonth) ? currentMonth : "july";
   try {
-    // BOM's endpoint sits behind an Akamai WAF that 403s direct/cross-origin
-    // requests, so it can't be fetched client-side. A scheduled GitHub Action
-    // (.github/workflows/fetch-mjo.yml) fetches it server-side instead and
-    // commits it here as a same-origin file.
+    // BOM's own RMM feed explicitly blocks all automated access (its 403
+    // page tells scrapers to stop), so this reads NOAA PSL's ROMI index
+    // instead: a near-real-time OMI index built to the same 8-phase
+    // convention, fetched server-side and committed here as a same-origin
+    // file by the scheduled Action in .github/workflows/fetch-mjo.yml.
     const res = await fetch(`mjo-rmm.json?v=${Date.now()}`);
     if (!res.ok) throw new Error(`status ${res.status}`);
     const data = await res.json();
-    const latest = data.data[data.data.length - 1];
-    const rmm1 = parseFloat(latest["RMM1 (OLR)"]);
-    const rmm2 = parseFloat(latest["RMM2 (OLR)"]);
+    const rmm1 = data.pc1;
+    const rmm2 = data.pc2;
     const phase = detectMJOPhase(rmm1, rmm2);
     if (phase) {
       phaseSelect.value = phase;
-      mjoStatus.innerHTML = `Current MJO phase: <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
+      mjoStatus.innerHTML = `Current MJO phase (NOAA ROMI, ${data.date}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
     } else {
-      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (inside unit circle)`;
+      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (inside unit circle, NOAA ROMI ${data.date})`;
     }
     mjoStatus.hidden = false;
   } catch {
