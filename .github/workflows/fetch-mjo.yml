@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: fetch-mjo
@@ -23,6 +24,7 @@ jobs:
         run: python3 .github/scripts/fetch_mjo.py
 
       - name: Commit if changed
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -30,6 +32,16 @@ jobs:
             git add vp200_regression_maps/mjo-rmm.json
             git commit -m "chore: update MJO index"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "no change"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # Pushes with GITHUB_TOKEN do not trigger other workflows (GitHub security
+      # rule). Explicitly dispatch deploy so the Pages site picks up the JSON.
+      - name: Trigger site deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --ref main
