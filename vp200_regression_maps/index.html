@@ -544,7 +544,12 @@ async function init() {
   const currentMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"][now.getMonth()];
   monthSelect.value = MONTHS.includes(currentMonth) ? currentMonth : "july";
   try {
-    const res = await fetch("https://www.bom.gov.au/jtwc/mjo/bamford-rmm-1-2.json");
+    // BOM's endpoint sits behind an Akamai WAF that 403s direct/cross-origin
+    // requests, so it can't be fetched client-side. A scheduled GitHub Action
+    // (.github/workflows/fetch-mjo.yml) fetches it server-side instead and
+    // commits it here as a same-origin file.
+    const res = await fetch(`mjo-rmm.json?v=${Date.now()}`);
+    if (!res.ok) throw new Error(`status ${res.status}`);
     const data = await res.json();
     const latest = data.data[data.data.length - 1];
     const rmm1 = parseFloat(latest["RMM1 (OLR)"]);

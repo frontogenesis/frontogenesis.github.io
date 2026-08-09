@@ -1,0 +1,35 @@
+name: Fetch MJO RMM index
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-mjo
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch MJO RMM index from BOM
+        run: python3 .github/scripts/fetch_mjo.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- vp200_regression_maps/mjo-rmm.json; then
+            git add vp200_regression_maps/mjo-rmm.json
+            git commit -m "chore: update MJO RMM index"
+            git push
+          else
+            echo "no change"
+          fi
