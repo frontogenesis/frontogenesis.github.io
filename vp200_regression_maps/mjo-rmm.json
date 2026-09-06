@@ -1,7 +1,7 @@
 {
   "source": "NOAA PSL ROMI (near-real-time OMI, CPC blended OLR)",
-  "date": "2026-09-01",
-  "pc1": -0.78057,
-  "pc2": -0.80851,
-  "amplitude": 1.12382
+  "date": "2026-09-02",
+  "pc1": -0.58831,
+  "pc2": -0.79793,
+  "amplitude": 0.99136
 }
