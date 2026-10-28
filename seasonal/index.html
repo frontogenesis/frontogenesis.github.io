@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seasonal Forecast</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --border: #e3ddd0;
+    --text: #21262f;
+    --text-muted: #6b6f7a;
+    --accent: #a8701f;
+    --accent-dim: rgba(168, 112, 31, 0.10);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .page { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .eyebrow a { color: var(--accent); }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 4px;
+    max-width: 46rem;
+  }
+  .status {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 12px 0 0;
+    padding: 8px 14px;
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  a { color: var(--accent); }
+  .controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 20px 0 16px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .control { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .control-label {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .seg {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .seg button {
+    appearance: none;
+    border: 0;
+    border-right: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .seg button:hover { background: var(--accent-dim); }
+  .seg button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+    min-height: 280px;
+  }
+  .frame img { width: 100%; display: block; }
+  .frame.is-empty img { display: none; }
+  .empty {
+    display: none;
+    padding: 72px 28px;
+    text-align: center;
+    line-height: 1.55;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .frame.is-empty .empty { display: block; }
+  .empty strong { color: var(--text); font-weight: 650; }
+  .hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .key {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .key h2 { font-size: 15px; margin: 0 0 10px; }
+  .key p {
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .key p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="eyebrow"><a href="/">Weather Programmer</a> / seasonal</p>
+    <h1>Seasonal Forecast</h1>
+    <p class="lede">
+      ECMWF SEAS5 monthly outlook for the next six months. The polar vortex
+      chart is the zonal-mean 10 hPa wind at 60°N. Temperature, precipitation,
+      solar radiation, and wind are point forecasts from the same initialization
+      once those graphics are published.
+    </p>
+    <p class="status" id="status">Loading latest init…</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control-label">Product</span>
+        <div class="seg" role="group" aria-label="Forecast product">
+          <button type="button" data-product="polar_vortex" aria-pressed="true">Polar vortex</button>
+          <button type="button" data-product="temp" aria-pressed="false">Temperature</button>
+          <button type="button" data-product="precip" aria-pressed="false">Precipitation</button>
+          <button type="button" data-product="radiation" aria-pressed="false">Radiation</button>
+          <button type="button" data-product="wind" aria-pressed="false">Wind</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame" id="frame">
+      <img id="chart" alt="SEAS5 polar vortex forecast" src="forecast_polar_vortex.png">
+      <p class="empty" id="empty"></p>
+    </div>
+    <p class="hint" id="hint"></p>
+
+    <div class="key">
+      <h2>How to read this chart</h2>
+      <div id="key"></div>
+    </div>
+  </div>
+  <script>
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const PRODUCTS = {
+      polar_vortex: {
+        file: "forecast_polar_vortex.png",
+        label: "Polar vortex",
+        alt: "SEAS5 zonal-mean 10 hPa zonal wind at 60°N",
+        hint: "Ensemble mean against the lead-time-matched model climate. Blue is above the climate mean; red is below.",
+        paragraphs: [
+          "This is the strength of the Northern Hemisphere stratospheric polar vortex: the zonal-mean zonal wind at 10 hPa along 60°N, in metres per second. A higher value is a stronger westerly vortex.",
+          "The blue line is the SEAS5 ensemble mean for each lead month. The black line is the model-climate mean for that same lead, from the hindcast years used when the figure was made (2006–2025 by default). The gray bands are that climate’s interquartile range (P25–P75) and P10–P90.",
+          "Shading between the two lines is the anomaly: blue where the forecast is stronger than the climate mean, red where it is weaker. The seasonal product only provides lead months 1 through 6, so the curve is monthly, covering the initialization month and the five months after it."
+        ]
+      },
+      temp: {
+        file: "forecast_temp.png",
+        label: "Temperature",
+        alt: "SEAS5 2 m temperature forecast and anomaly",
+        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        paragraphs: [
+          "Monthly-mean 2 m temperature at the published point, from the SEAS5 ensemble.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. Warm anomalies are red and cold anomalies are blue.",
+          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+        ]
+      },
+      precip: {
+        file: "forecast_precip.png",
+        label: "Precipitation",
+        alt: "SEAS5 precipitation forecast and anomaly",
+        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        paragraphs: [
+          "Monthly-mean total precipitation at the published point, from the SEAS5 ensemble.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. Wetter than the climate mean is green; drier is brown.",
+          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+        ]
+      },
+      radiation: {
+        file: "forecast_radiation.png",
+        label: "Radiation",
+        alt: "SEAS5 surface solar radiation forecast and anomaly",
+        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        paragraphs: [
+          "Monthly-mean downward surface solar radiation at the published point, from the SEAS5 ensemble.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. More radiation than the climate mean is orange; less is gray.",
+          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+        ]
+      },
+      wind: {
+        file: "forecast_wind.png",
+        label: "Wind",
+        alt: "SEAS5 10 m wind speed forecast and anomaly",
+        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        paragraphs: [
+          "Monthly-mean 10 m wind speed at the published point, from the SEAS5 ensemble. Speed is computed from the zonal and meridional components.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference.",
+          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+        ]
+      }
+    };
+
+    const state = { product: "polar_vortex", init: null, files: null };
+
+    function formatInit(init) {
+      if (!init) return "";
+      const [year, month] = init.split("-").map(Number);
+      if (!year || !month) return init;
+      return `${MONTHS[month - 1]} ${year}`;
+    }
+
+    function published(product) {
+      if (!state.files) return true;
+      return state.files.indexOf(product.file) !== -1;
+    }
+
+    function render() {
+      const product = PRODUCTS[state.product];
+      const frame = document.getElementById("frame");
+      const img = document.getElementById("chart");
+      const available = published(product);
+      frame.classList.toggle("is-empty", !available);
+      img.alt = product.alt;
+      if (available) img.src = product.file;
+      document.getElementById("empty").innerHTML =
+        `<strong>${product.label}</strong> has not been published for this initialization yet.`;
+      document.getElementById("hint").textContent = available ? product.hint : "";
+      document.getElementById("key").innerHTML = product.paragraphs
+        .map((text) => `<p>${text}</p>`)
+        .join("");
+      const when = formatInit(state.init);
+      document.getElementById("status").textContent = when
+        ? `SEAS5 initialization ${when}`
+        : "Latest published graphics";
+    }
+
+    document.querySelectorAll("[data-product]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.product = btn.getAttribute("data-product");
+        document.querySelectorAll("[data-product]").forEach((other) => {
+          other.setAttribute("aria-pressed", other === btn ? "true" : "false");
+        });
+        render();
+      });
+    });
+
+    fetch("meta.json")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((meta) => {
+        if (meta) {
+          state.init = meta.init || null;
+          state.files = Array.isArray(meta.files) ? meta.files : null;
+        }
+        render();
+      })
+      .catch(() => render());
+    render();
+  </script>
+</body>
+</html>
