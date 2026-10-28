@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3-6 Temperature Forecast</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --panel-2: #f6f3ec;
+    --border: #e3ddd0;
+    --text: #21262f;
+    --text-muted: #6b6f7a;
+    --accent: #a8701f;
+    --accent-dim: rgba(168, 112, 31, 0.10);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .page { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .eyebrow a { color: var(--accent); }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 4px;
+    max-width: 46rem;
+  }
+  .status {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 12px 0 0;
+    padding: 8px 14px;
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  a { color: var(--accent); }
+  .controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 20px 0 16px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .control { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .control-label {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .seg {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .seg button {
+    appearance: none;
+    border: 0;
+    border-right: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .seg button:hover { background: var(--accent-dim); }
+  .seg button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+  .valid {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .frame img { width: 100%; display: block; }
+  .hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .key {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .key h2 { font-size: 15px; margin: 0 0 10px; }
+  .key p {
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .key p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="eyebrow"><a href="/">Weather Programmer</a> / subseasonal</p>
+    <h1>Week 3-6 Temperature Forecast</h1>
+    <p class="lede">
+      Chance that the week-mean temperature falls in each climatological fifth
+      (Q1 coldest 20% through Q5 warmest 80%), from the ECMWF extended-range
+      ensemble after probabilistic bias correction (PBC).
+    </p>
+    <p class="status" id="status">Loading latest init…</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control-label">Domain</span>
+        <div class="seg" role="group" aria-label="Domain">
+          <button type="button" data-domain="us" aria-pressed="true">United States</button>
+          <button type="button" data-domain="europe" aria-pressed="false">Europe</button>
+        </div>
+      </div>
+      <div class="control">
+        <span class="control-label">Week</span>
+        <div class="seg" role="group" aria-label="Forecast week">
+          <button type="button" data-week="3" aria-pressed="true">3</button>
+          <button type="button" data-week="4" aria-pressed="false">4</button>
+          <button type="button" data-week="5" aria-pressed="false">5</button>
+          <button type="button" data-week="6" aria-pressed="false">6</button>
+        </div>
+      </div>
+      <p class="valid" id="valid"></p>
+    </div>
+
+    <div class="frame">
+      <img id="map" alt="Week 3 United States 2 m temperature quintile probabilities" src="us_t2m_week3.png">
+    </div>
+    <p class="hint">Grays are less likely than climatology (~20%). Colour is more likely: blue cold, purple middle, red warm. Open the PNG for the full figure, including the raw-ensemble lean inset.</p>
+
+    <div class="key">
+      <h2>How to read the maps</h2>
+      <p>Each figure is five panels for one region and one forecast week. Week 3 is the third week after the forecast is issued, week 4 the fourth, and so on through week 6. The dates for the week you have selected are shown above the map.</p>
+      <p>The raw ECMWF ensemble is already turned into quintile probabilities against its own hindcast climate. <strong>Probabilistic bias correction (PBC)</strong> then averages two adjustments: Debias++, which removes typical probability errors at this lead and time of year, and Persistence++, which nudges those probabilities using the latest observed week. That blend is from Guan, Mouatadid et al. (2026) in <a href="https://www.nature.com/articles/s41586-026-11126-x">Nature</a>; <a href="https://www.microsoft.com/en-us/research/story/new-ai-framework-bridges-a-critical-gap-in-mid-range-weather-forecasts/">Microsoft Research</a> has a short account of the method.</p>
+    </div>
+  </div>
+  <script>
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const NAMES = { us: "United States", europe: "Europe" };
+    const state = { domain: "us", week: 3, init: null };
+
+    function addDays(iso, days) {
+      const [y, m, d] = iso.split("-").map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d + days));
+      return dt;
+    }
+    function fmt(dt) {
+      return `${dt.getUTCDate()} ${MONTHS[dt.getUTCMonth()]} ${dt.getUTCFullYear()}`;
+    }
+    function weekRange(init, week) {
+      const first = addDays(init, 7 * (week - 1));
+      const last = addDays(init, 7 * week - 1);
+      return `${fmt(first)} – ${fmt(last)}`;
+    }
+    function render() {
+      const file = `${state.domain}_t2m_week${state.week}.png`;
+      const img = document.getElementById("map");
+      img.src = file;
+      img.alt = `Week ${state.week} ${NAMES[state.domain]} 2 m temperature quintile probabilities`;
+      document.getElementById("valid").textContent = state.init
+        ? `Valid ${weekRange(state.init, state.week)}`
+        : "";
+      document.getElementById("status").textContent = state.init
+        ? `Init 00 UTC ${fmt(addDays(state.init, 0))}`
+        : "Latest published maps";
+    }
+    function press(attr, value) {
+      document.querySelectorAll(`[${attr}]`).forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute(attr) === String(value) ? "true" : "false");
+      });
+    }
+    document.querySelectorAll("[data-domain]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.domain = btn.getAttribute("data-domain");
+        press("data-domain", state.domain);
+        render();
+      });
+    });
+    document.querySelectorAll("[data-week]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.week = Number(btn.getAttribute("data-week"));
+        press("data-week", state.week);
+        render();
+      });
+    });
+    fetch("meta.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((meta) => {
+        if (meta) {
+          state.init = meta.init || null;
+        }
+        render();
+      })
+      .catch(() => render());
+    render();
+  </script>
+</body>
+</html>

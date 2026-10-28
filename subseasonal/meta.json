@@ -1,0 +1,15 @@
+{
+  "init": "2026-10-27",
+  "source": "openmeteo",
+  "updated_utc": "2026-10-28T16:39:25Z",
+  "files": [
+    "us_t2m_week3.png",
+    "us_t2m_week4.png",
+    "us_t2m_week5.png",
+    "us_t2m_week6.png",
+    "europe_t2m_week3.png",
+    "europe_t2m_week4.png",
+    "europe_t2m_week5.png",
+    "europe_t2m_week6.png"
+  ]
+}
