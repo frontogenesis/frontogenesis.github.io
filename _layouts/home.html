@@ -153,19 +153,168 @@ layout: default
         <div class="tool-card-label">Weeks 3-6</div>
       </a>
       <a class="tool-card" href="{{ '/seasonal/' | relative_url }}">
-        <svg class="tool-card-image tool-card-image--forecast" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="400" height="180" fill="#e8edf2"></rect>
-          <polygon points="48,128 96,96 144,78 192,118 248,132 312,136 352,142 352,148 48,148" fill="#a8701f" opacity="0.16"></polygon>
-          <polyline points="48,124 96,100 144,86 192,88 248,104 312,118 352,138" fill="none" stroke="#21262f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline>
-          <polyline points="48,128 96,96 144,78 192,118 248,132 312,136 352,142" fill="none" stroke="#2f6fad" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
-          <g fill="#2f6fad">
-            <circle cx="48" cy="128" r="4"></circle>
-            <circle cx="96" cy="96" r="4"></circle>
-            <circle cx="144" cy="78" r="4"></circle>
-            <circle cx="192" cy="118" r="4"></circle>
-            <circle cx="248" cy="132" r="4"></circle>
-            <circle cx="312" cy="136" r="4"></circle>
-            <circle cx="352" cy="142" r="4"></circle>
+        <svg class="tool-card-image tool-card-image--forecast" viewBox="0 0 400 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="season-h-spring" gradientUnits="userSpaceOnUse" x1="184" y1="0" x2="216" y2="0">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+              <stop offset="1" stop-color="#fff"></stop>
+            </linearGradient>
+            <linearGradient id="season-v-fall" gradientUnits="userSpaceOnUse" x1="0" y1="80" x2="0" y2="100">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+              <stop offset="1" stop-color="#fff"></stop>
+            </linearGradient>
+            <linearGradient id="season-h-summer" gradientUnits="userSpaceOnUse" x1="184" y1="90" x2="216" y2="90">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+              <stop offset="1" stop-color="#fff"></stop>
+            </linearGradient>
+            <linearGradient id="season-v-summer" gradientUnits="userSpaceOnUse" x1="200" y1="80" x2="200" y2="100">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+              <stop offset="1" stop-color="#fff"></stop>
+            </linearGradient>
+            <clipPath id="season-clip-winter"><rect x="0" y="0" width="216" height="100"></rect></clipPath>
+            <clipPath id="season-clip-spring"><rect x="184" y="0" width="216" height="100"></rect></clipPath>
+            <clipPath id="season-clip-fall"><rect x="0" y="80" width="216" height="100"></rect></clipPath>
+            <clipPath id="season-clip-summer"><rect x="184" y="80" width="216" height="100"></rect></clipPath>
+            <mask id="season-mask-spring" maskUnits="userSpaceOnUse" x="184" y="0" width="216" height="100">
+              <rect x="184" y="0" width="216" height="100" fill="url(#season-h-spring)"></rect>
+            </mask>
+            <mask id="season-mask-fall" maskUnits="userSpaceOnUse" x="0" y="80" width="216" height="100">
+              <rect x="0" y="80" width="216" height="100" fill="url(#season-v-fall)"></rect>
+            </mask>
+            <mask id="season-h-mask-summer" maskUnits="userSpaceOnUse" x="184" y="80" width="216" height="100">
+              <rect x="184" y="80" width="216" height="100" fill="url(#season-h-summer)"></rect>
+            </mask>
+            <mask id="season-mask-summer" maskUnits="userSpaceOnUse" x="184" y="80" width="216" height="100">
+              <rect x="184" y="80" width="216" height="100" fill="url(#season-v-summer)" mask="url(#season-h-mask-summer)"></rect>
+            </mask>
+          </defs>
+          <rect width="400" height="180" fill="#f4f1eb"></rect>
+          <g clip-path="url(#season-clip-winter)">
+            <rect x="0" y="0" width="216" height="100" fill="#d4e6f6"></rect>
+            <g transform="translate(100,40)" fill="none" stroke-linecap="round">
+              <g stroke="#3f6f96" stroke-width="4.6">
+                <line y1="-22" y2="22"></line>
+                <line y1="-22" y2="22" transform="rotate(60)"></line>
+                <line y1="-22" y2="22" transform="rotate(120)"></line>
+              </g>
+              <g stroke="#f7fbff" stroke-width="2.2">
+                <line y1="-22" y2="22"></line>
+                <line y1="-22" y2="22" transform="rotate(60)"></line>
+                <line y1="-22" y2="22" transform="rotate(120)"></line>
+              </g>
+              <g stroke="#f7fbff" stroke-width="1.4">
+                <g>
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+                <g transform="rotate(60)">
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+                <g transform="rotate(120)">
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+                <g transform="rotate(180)">
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+                <g transform="rotate(240)">
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+                <g transform="rotate(300)">
+                  <line x1="0" y1="-10" x2="5" y2="-15"></line>
+                  <line x1="0" y1="-10" x2="-5" y2="-15"></line>
+                </g>
+              </g>
+              <circle r="2.4" fill="#f7fbff" stroke="none"></circle>
+            </g>
+            <g fill="#fff">
+              <circle cx="42" cy="16" r="1.2"></circle>
+              <circle cx="118" cy="18" r="1"></circle>
+              <circle cx="34" cy="52" r="0.9"></circle>
+              <circle cx="124" cy="48" r="1.1"></circle>
+            </g>
+          </g>
+          <g clip-path="url(#season-clip-spring)" mask="url(#season-mask-spring)">
+            <rect x="184" y="0" width="216" height="100" fill="#e3f3d4"></rect>
+            <g transform="translate(300,42)" stroke-linecap="round">
+              <path d="M-14,0 C-12,8 -6,12 -2,16" fill="none" stroke="#6ea354" stroke-width="1.4"></path>
+              <path d="M0,-4 C1,6 2,12 1,16" fill="none" stroke="#5f9448" stroke-width="1.5"></path>
+              <path d="M14,0 C12,8 7,12 4,16" fill="none" stroke="#6ea354" stroke-width="1.3"></path>
+              <ellipse cx="-9" cy="9" rx="5.5" ry="2.2" fill="#8fbf62" transform="rotate(-36 -9 9)"></ellipse>
+              <ellipse cx="10" cy="10" rx="5" ry="2" fill="#74a84e" transform="rotate(34 10 10)"></ellipse>
+              <g transform="translate(-14,-6) scale(0.82)">
+                <g fill="#fff8fb">
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(72)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(144)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(216)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(288)"></ellipse>
+                </g>
+                <circle r="2.2" fill="#f3b7cc"></circle>
+              </g>
+              <g transform="translate(1,-10)">
+                <g fill="#f39ab8">
+                  <ellipse cx="0" cy="-8" rx="3.2" ry="5.8"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="3.2" ry="5.8" transform="rotate(72)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="3.2" ry="5.8" transform="rotate(144)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="3.2" ry="5.8" transform="rotate(216)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="3.2" ry="5.8" transform="rotate(288)"></ellipse>
+                </g>
+                <circle r="2.6" fill="#f6d056"></circle>
+              </g>
+              <g transform="translate(15,-2) scale(0.78)">
+                <g fill="#e989aa">
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(72)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(144)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(216)"></ellipse>
+                  <ellipse cx="0" cy="-8" rx="2.8" ry="5.2" transform="rotate(288)"></ellipse>
+                </g>
+                <circle r="2.2" fill="#f6d056"></circle>
+              </g>
+            </g>
+          </g>
+          <g clip-path="url(#season-clip-fall)" mask="url(#season-mask-fall)">
+            <rect x="0" y="80" width="216" height="100" fill="#f6d3ae"></rect>
+            <g transform="translate(100,142)" stroke-linecap="round">
+              <g transform="translate(-16,-2) rotate(-22) scale(0.82)">
+                <path fill="#d3542c" d="M0,-20 L3,-11 L11,-14 L8,-6 L16,-7 L9,0 L14,7 L6,5 L5,14 L0,7 L-5,14 L-6,5 L-14,7 L-9,0 L-16,-7 L-8,-6 L-11,-14 L-3,-11 Z"></path>
+                <path d="M0,4 L0,16" fill="none" stroke="#7a3418" stroke-width="1.1"></path>
+              </g>
+              <g transform="translate(14,2) rotate(26) scale(0.7)">
+                <path fill="#e39b34" d="M0,-20 L3,-11 L11,-14 L8,-6 L16,-7 L9,0 L14,7 L6,5 L5,14 L0,7 L-5,14 L-6,5 L-14,7 L-9,0 L-16,-7 L-8,-6 L-11,-14 L-3,-11 Z"></path>
+                <path d="M0,4 L0,16" fill="none" stroke="#8a4e16" stroke-width="1.1"></path>
+              </g>
+              <g transform="translate(-1,8) rotate(8) scale(0.58)">
+                <path fill="#a33b28" d="M0,-20 L3,-11 L11,-14 L8,-6 L16,-7 L9,0 L14,7 L6,5 L5,14 L0,7 L-5,14 L-6,5 L-14,7 L-9,0 L-16,-7 L-8,-6 L-11,-14 L-3,-11 Z"></path>
+                <path d="M0,4 L0,16" fill="none" stroke="#6d2918" stroke-width="1.1"></path>
+              </g>
+            </g>
+          </g>
+          <g clip-path="url(#season-clip-summer)" mask="url(#season-mask-summer)">
+            <rect x="184" y="80" width="216" height="100" fill="#ffe3a6"></rect>
+            <g transform="translate(300,142)" stroke-linecap="round">
+              <g fill="none" stroke="#e07a16" stroke-width="2.6">
+                <line y1="-12" y2="-22"></line>
+                <line y1="-11" y2="-19" transform="rotate(30)"></line>
+                <line y1="-12" y2="-22" transform="rotate(60)"></line>
+                <line y1="-11" y2="-19" transform="rotate(90)"></line>
+                <line y1="-12" y2="-22" transform="rotate(120)"></line>
+                <line y1="-11" y2="-19" transform="rotate(150)"></line>
+                <line y1="-12" y2="-22" transform="rotate(180)"></line>
+                <line y1="-11" y2="-19" transform="rotate(210)"></line>
+                <line y1="-12" y2="-22" transform="rotate(240)"></line>
+                <line y1="-11" y2="-19" transform="rotate(270)"></line>
+                <line y1="-12" y2="-22" transform="rotate(300)"></line>
+                <line y1="-11" y2="-19" transform="rotate(330)"></line>
+              </g>
+              <circle r="11" fill="#f0a31f"></circle>
+              <circle r="7.5" fill="#ffd15c"></circle>
+              <circle r="4" fill="#fff6cc"></circle>
+            </g>
           </g>
         </svg>
         <div class="tool-card-label">Seasonal</div>
