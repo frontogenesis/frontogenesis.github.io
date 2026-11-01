@@ -1,8 +1,8 @@
 {
   "init": "2026-10-30",
-  "updated_utc": "2026-11-01T20:02:12Z",
+  "updated_utc": "2026-11-01T22:21:50Z",
   "files": [
-    "chi200_ecmwf.png",
+    "vp200_ecmwf_extended.png",
     "card.png"
   ],
   "era5_through": "2026-10-26",
