@@ -98,20 +98,20 @@
     <p class="eyebrow"><a href="/">Weather Programmer</a> / tropical forcing</p>
     <h1>Tropical Forcing</h1>
     <p class="lede">
-      200 hPa velocity-potential anomaly from 5°S to 5°N. Green is upper-level
+      200 mb velocity potential anomaly from 5°S to 5°N. Green is upper-level
       divergence (rising air). Brown is upper-level convergence (sinking air).
       The forecast is the ECMWF extended-range ensemble mean.
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
     <div class="frame">
-      <img id="chart" alt="CHI200 Hovmöller of 200 hPa velocity-potential anomalies from ERA5 and ECMWF weeklies" src="chi200_ecmwf.png">
+      <img id="chart" alt="200 mb velocity potential anomaly from 5°S to 5°N, ERA5 and ECMWF weeklies" src="chi200_ecmwf.png">
     </div>
     <p class="hint">Time increases downward. Solid contours are negative (rising air); dashed contours are positive (sinking air). Interval 3×10<sup>6</sup> m<sup>2</sup> s<sup>−1</sup>.</p>
 
     <div class="key">
       <h2>How to read this chart</h2>
-      <p>The shading is the unfiltered CHI200 anomaly. Contours are the filtered Kelvin (blue), equatorial Rossby (red), MJO (black), and low-frequency (purple) pieces. The method is Wheeler and Weickmann (2001), with the forecast appended to the observations instead of climatology.</p>
+      <p>The shading is the unfiltered 200 mb velocity potential anomaly. Contours are the filtered Kelvin (blue), equatorial Rossby (red), MJO (black), and low-frequency (purple) pieces. The method is Wheeler and Weickmann (2001), with the forecast appended to the observations instead of climatology.</p>
       <p>ERA5 carries the analysis. The ECMWF weeklies are published about two days after they run, so the forecast can start ahead of the latest ERA5 day. Those intervening days are each run’s own ensemble-mean analysis (lead 0). The climate is NCEP/NCAR Reanalysis 1, 1991–2020.</p>
     </div>
   </div>
@@ -131,7 +131,7 @@
       if (init) {
         status.textContent = `ECMWF weeklies init 00 UTC ${init}`;
       } else {
-        status.textContent = "Latest published CHI200 Hovmöller";
+        status.textContent = "Latest published 200 mb velocity potential anomaly";
       }
     }
 
