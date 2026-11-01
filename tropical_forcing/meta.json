@@ -1,0 +1,10 @@
+{
+  "init": "2026-10-30",
+  "updated_utc": "2026-11-01T18:04:58Z",
+  "files": [
+    "chi200_ecmwf.png",
+    "card.png"
+  ],
+  "era5_through": "2026-10-26",
+  "forecast_start": "2026-10-31"
+}

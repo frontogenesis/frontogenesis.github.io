@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tropical Forcing</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --border: #e3ddd0;
+    --text: #21262f;
+    --text-muted: #6b6f7a;
+    --accent: #a8701f;
+    --accent-dim: rgba(168, 112, 31, 0.10);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .page { max-width: 920px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .eyebrow a { color: var(--accent); }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 4px;
+    max-width: 46rem;
+  }
+  .status {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 12px 0 0;
+    padding: 8px 14px;
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  a { color: var(--accent); }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+    margin: 20px 0 10px;
+  }
+  .frame img { width: 100%; display: block; }
+  .hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .key {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .key h2 { font-size: 15px; margin: 0 0 10px; }
+  .key p {
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .key p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="eyebrow"><a href="/">Weather Programmer</a> / tropical forcing</p>
+    <h1>Tropical Forcing</h1>
+    <p class="lede">
+      200 hPa velocity-potential anomaly from 5°S to 5°N. Green is upper-level
+      divergence (rising air). Brown is upper-level convergence (sinking air).
+      The forecast is the ECMWF extended-range ensemble mean.
+    </p>
+    <p class="status" id="status">Loading latest init…</p>
+
+    <div class="frame">
+      <img id="chart" alt="CHI200 Hovmöller of 200 hPa velocity-potential anomalies from ERA5 and ECMWF weeklies" src="chi200_ecmwf.png">
+    </div>
+    <p class="hint">Time increases downward. Solid contours are negative (rising air); dashed contours are positive (sinking air). Interval 3×10<sup>6</sup> m<sup>2</sup> s<sup>−1</sup>.</p>
+
+    <div class="key">
+      <h2>How to read this chart</h2>
+      <p>The shading is the unfiltered CHI200 anomaly. Contours are the filtered Kelvin (blue), equatorial Rossby (red), MJO (black), and low-frequency (purple) pieces. The method is Wheeler and Weickmann (2001), with the forecast appended to the observations instead of climatology.</p>
+      <p>ERA5 carries the analysis. The ECMWF weeklies are published about two days after they run, so the forecast can start ahead of the latest ERA5 day. Those intervening days are each run’s own ensemble-mean analysis (lead 0). The climate is NCEP/NCAR Reanalysis 1, 1991–2020.</p>
+    </div>
+  </div>
+  <script>
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    function fmt(iso) {
+      if (!iso) return "";
+      const [year, month, day] = iso.split("-").map(Number);
+      if (!year || !month || !day) return iso;
+      return `${day} ${MONTHS[month - 1]} ${year}`;
+    }
+
+    function render(meta) {
+      const init = meta && meta.init ? fmt(meta.init) : "";
+      const status = document.getElementById("status");
+      if (init) {
+        status.textContent = `ECMWF weeklies init 00 UTC ${init}`;
+      } else {
+        status.textContent = "Latest published CHI200 Hovmöller";
+      }
+    }
+
+    fetch("meta.json")
+      .then((response) => (response.ok ? response.json() : null))
+      .then(render)
+      .catch(() => render(null));
+  </script>
+</body>
+</html>
