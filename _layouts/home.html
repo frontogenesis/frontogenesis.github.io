@@ -48,6 +48,9 @@ layout: default
     .tool-card-image--tropical {
       background: #f6f3ec url("{{ '/tropical_forcing/card.png' | relative_url }}") center / cover no-repeat;
     }
+    .tool-card-image--polar {
+      background: #f6f3ec url("{{ '/polar_vortex/polar_cap_descent.png' | relative_url }}") center / cover no-repeat;
+    }
     .tool-card-label {
       padding: 14px 16px;
       font-weight: 600;
@@ -58,6 +61,10 @@ layout: default
   <div class="interactive-tools">
     <h2 class="post-list-heading">Diagnostics and Analogs</h2>
     <div class="tool-card-grid">
+      <a class="tool-card" href="{{ '/polar_vortex/' | relative_url }}">
+        <div class="tool-card-image tool-card-image--polar" role="img" aria-label="Polar-cap height descent diagnostic"></div>
+        <div class="tool-card-label">Polar Vortex Diagnostics</div>
+      </a>
       <a class="tool-card" href="{{ '/tropical_forcing/' | relative_url }}">
         <div class="tool-card-image tool-card-image--tropical" role="img" aria-label="200 hPa velocity potential anomalies"></div>
         <div class="tool-card-label">Tropical Forcing</div>
