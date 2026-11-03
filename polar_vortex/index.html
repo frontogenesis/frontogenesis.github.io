@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polar Vortex Diagnostics</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f4;
+    --panel: #ffffff;
+    --border: #e3ddd0;
+    --text: #21262f;
+    --text-muted: #6b6f7a;
+    --accent: #a8701f;
+    --accent-dim: rgba(168, 112, 31, 0.10);
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .page { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+  .eyebrow a { color: var(--accent); }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 4px;
+    max-width: 46rem;
+  }
+  .status {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 12px 0 0;
+    padding: 8px 14px;
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  a { color: var(--accent); }
+  .frame {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+    margin: 20px 0 10px;
+  }
+  .frame img { width: 100%; display: block; }
+  .hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .key {
+    margin-top: 26px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
+  }
+  .key h2 { font-size: 15px; margin: 0 0 10px; }
+  .key p {
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  .key p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="eyebrow"><a href="/">Weather Programmer</a> / polar vortex</p>
+    <h1>Polar Vortex Diagnostics</h1>
+    <p class="lede">
+      Standardized geopotential-height anomaly over the polar cap (65–90°N),
+      from the surface to 10 mb. Red is a high polar cap (weak vortex).
+      The bars are the share of ECMWF extended-range members with 100 mb
+      height at least +1σ — the lower-stratosphere descent test.
+    </p>
+    <p class="status" id="status">Loading latest init…</p>
+
+    <div class="frame">
+      <img id="chart" alt="Polar-cap geopotential-height anomaly and 100 mb descent probability" src="polar_cap_descent.png">
+    </div>
+    <p class="hint">Left of the vertical line is ERA5 analysis. Right is the ECMWF extended-range ensemble mean (101 members), drift-corrected with ~100 S2S control reforecasts. Climate is NCEP/NCAR Reanalysis 1, 1991–2020.</p>
+
+    <div class="key">
+      <h2>How to read this chart</h2>
+      <p>A sudden stratospheric warming shows up here as a deep red column in the upper stratosphere. Whether it matters for surface weather depends on whether that anomaly descends. The usual test is a lower-stratosphere polar-cap height of at least +1 standard deviation. This ensemble does not archive 150 mb, so the test uses 100 mb.</p>
+      <p>The top panel is the ensemble-mean standardized anomaly. The bottom panel is the member-by-member probability of clearing that +1σ threshold at 100 mb. High bars with little red below ~300 mb mean the ensemble still has a high polar cap aloft that has not yet coupled strongly into the troposphere.</p>
+      <p>Drift correction subtracts the model’s average lead-dependent bias, measured from about 100 S2S control reforecasts (5 nearby model dates × 20 hindcast years). Without it, the 500 mb polar cap can run about half a standard deviation high by week 3 — as large as a typical coupling threshold.</p>
+      <p>ERA5 lags the open-data weeklies by a day or two. The forecast starts at the initialization; analysis stops the day before. Diagnostics are experimental.</p>
+    </div>
+  </div>
+  <script>
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    function fmt(iso) {
+      if (!iso) return "";
+      const [year, month, day] = iso.split("-").map(Number);
+      if (!year || !month || !day) return iso;
+      return `${day} ${MONTHS[month - 1]} ${year}`;
+    }
+
+    function render(meta) {
+      const init = meta && meta.init ? fmt(meta.init) : "";
+      const status = document.getElementById("status");
+      if (init) {
+        status.textContent = `ECMWF weeklies init 00 UTC ${init}`;
+      } else {
+        status.textContent = "Latest published polar vortex diagnostic";
+      }
+    }
+
+    fetch("meta.json")
+      .then((response) => (response.ok ? response.json() : null))
+      .then(render)
+      .catch(() => render(null));
+  </script>
+</body>
+</html>
