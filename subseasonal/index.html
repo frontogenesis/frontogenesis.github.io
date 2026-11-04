@@ -130,6 +130,13 @@
     font-size: 12px;
     margin-top: 10px;
   }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 28px 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .section-lede { margin-bottom: 12px; }
   .key {
     margin-top: 26px;
     background: var(--panel);
@@ -184,9 +191,18 @@
     </div>
     <p class="hint">Grays are less likely than climatology (~20%). Colour is more likely: blue cold, purple middle, red warm. Open the PNG for the full figure, including the raw-ensemble lean inset.</p>
 
+    <h2 class="section-title">Tail Tilt</h2>
+    <p class="lede section-lede">
+      P(warmest 20%) minus P(coldest 20%). Blue where the cold tail is favored, red where the warm tail is; near white when the two are similar.
+    </p>
+    <div class="frame">
+      <img id="tilt" alt="Week 3 United States Tail Tilt" src="us_t2m_week3_tilt.png">
+    </div>
+    <p class="hint">One number per place: which extreme side wins. Near zero can mean both tails near climatology, or both elevated by similar amounts.</p>
+
     <div class="key">
       <h2>How to read the maps</h2>
-      <p>Each figure is five panels for one region and one forecast week. Week 3 is the third week after the forecast is issued, week 4 the fourth, and so on through week 6. The dates for the week you have selected are shown above the map.</p>
+      <p>Each quintile figure is five panels for one region and one forecast week. Week 3 is the third week after the forecast is issued, week 4 the fourth, and so on through week 6. The dates for the week you have selected are shown above the map. Tail Tilt compresses the same probabilities into P(Q5) − P(Q1) so the favored extreme stands out on one map.</p>
       <p>The raw ECMWF ensemble is already turned into quintile probabilities against its own hindcast climate. <strong>Probabilistic bias correction (PBC)</strong> then averages two adjustments: Debias++, which removes typical probability errors at this lead and time of year, and Persistence++, which nudges those probabilities using the latest observed week. That blend is from Guan, Mouatadid et al. (2026) in <a href="https://www.nature.com/articles/s41586-026-11126-x">Nature</a>; <a href="https://www.microsoft.com/en-us/research/story/new-ai-framework-bridges-a-critical-gap-in-mid-range-weather-forecasts/">Microsoft Research</a> has a short account of the method.</p>
     </div>
   </div>
@@ -210,9 +226,13 @@
     }
     function render() {
       const file = `${state.domain}_t2m_week${state.week}.png`;
+      const tilt = `${state.domain}_t2m_week${state.week}_tilt.png`;
       const img = document.getElementById("map");
+      const tiltImg = document.getElementById("tilt");
       img.src = file;
       img.alt = `Week ${state.week} ${NAMES[state.domain]} 2 m temperature quintile probabilities`;
+      tiltImg.src = tilt;
+      tiltImg.alt = `Week ${state.week} ${NAMES[state.domain]} Tail Tilt`;
       document.getElementById("valid").textContent = state.init
         ? `Valid ${weekRange(state.init, state.week)}`
         : "";
