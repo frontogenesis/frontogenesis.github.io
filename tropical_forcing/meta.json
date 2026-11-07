@@ -1,10 +1,10 @@
 {
-  "init": "2026-11-04",
-  "updated_utc": "2026-11-06T09:14:36Z",
+  "init": "2026-11-05",
+  "updated_utc": "2026-11-07T08:39:27Z",
   "files": [
     "vp200_ecmwf_extended.png",
     "card.png"
   ],
-  "era5_through": "2026-10-30",
-  "forecast_start": "2026-11-05"
+  "era5_through": "2026-10-31",
+  "forecast_start": "2026-11-06"
 }
