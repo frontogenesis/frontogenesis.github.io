@@ -3,168 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/tool-chrome.css">
 <title>Low Frequency Forcing: VP200 -> 500 mb Height Monthly Correlation Maps</title>
 <style>
-  :root {
-    color-scheme: light;
-    --bg: #faf8f4;
-    --panel: #ffffff;
-    --panel-2: #f6f3ec;
-    --border: #e3ddd0;
-    --text: #21262f;
-    --text-muted: #6b6f7a;
-    --accent: #a8701f;
-    --accent-dim: rgba(168, 112, 31, 0.10);
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
-  }
-  * { box-sizing: border-box; }
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 28px;
-  }
-  .page {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-  .page-header {
-    margin-bottom: 18px;
-  }
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin: 0 0 10px;
-  }
-  .eyebrow a {
-    color: var(--accent);
-  }
-  h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin: 0 0 4px;
-    text-wrap: balance;
-  }
-  .h1-sub {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin: 0 0 6px;
-    text-wrap: balance;
-  }
-  .subtitle {
-    font-size: 13.5px;
-    color: var(--text-muted);
-    margin: 0;
-  }
-  a {
-    color: var(--accent);
-  }
-  .controls {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    flex-wrap: wrap;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin: 20px 0 16px;
-    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
-  }
-  .control {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    max-width: 100%;
-  }
-  label {
-    font-weight: 600;
-    font-size: 12.5px;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  select {
-    padding: 6px 10px;
-    font-size: 14px;
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    max-width: 100%;
-    min-width: 0;
-  }
-  button:focus-visible,
-  select:focus-visible,
-  input:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-  .frame {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    line-height: 0;
-    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
-  }
-  img {
-    width: 100%;
-    display: block;
-  }
-  .hint {
-    color: var(--text-muted);
-    font-size: 12px;
-    margin-top: 10px;
-  }
-
-  .key {
-    margin-top: 26px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px 20px;
-    box-shadow: 0 1px 3px rgba(33, 26, 10, 0.05);
-  }
-  .key h2 {
-    font-size: 15px;
-    margin: 0 0 18px;
-    color: var(--text);
-    text-wrap: balance;
-  }
-  .key-group {
+.key-group {
     margin-bottom: 22px;
   }
-  .key-group:last-child {
+.key-group:last-child {
     margin-bottom: 0;
   }
-  .key-group-label {
+.key-group-label {
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-cool);
     margin: 0 0 10px;
   }
-  .key-grid {
+.key-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     gap: 10px;
   }
-  /* Compact, uniform-height chips: clicking one never resizes the chip
+/* Compact, uniform-height chips: clicking one never resizes the chip
      itself, it only reveals the shared .key-detail panel below the whole
      row. This avoids CSS grid's row-stretch behavior (every item in a row
      growing to match the tallest one) leaving empty-looking gaps under
      still-collapsed neighbors when one entry's explanation is long. */
-  .key-chip {
+.key-chip {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -182,14 +51,14 @@
     text-align: left;
     appearance: none;
   }
-  .key-chip:hover {
-    border-color: var(--accent);
+.key-chip:hover {
+    border-color: var(--accent-cool);
   }
-  .key-chip[aria-expanded="true"] {
-    border-color: var(--accent);
+.key-chip[aria-expanded="true"] {
+    border-color: var(--accent-cool);
     background: var(--accent-dim);
   }
-  .key-chip::after {
+.key-chip::after {
     content: "+";
     order: 3;
     margin-left: auto;
@@ -197,28 +66,28 @@
     font-family: var(--mono);
     font-size: 15px;
   }
-  .key-chip[aria-expanded="true"]::after {
+.key-chip[aria-expanded="true"]::after {
     content: "\2212";
-    color: var(--accent);
+    color: var(--accent-cool);
   }
-  .key-chip:focus-visible {
+.key-chip:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
-  .key-term {
+.key-term {
     order: 2;
     font-weight: 600;
     font-size: 13px;
     color: var(--text);
     flex: none;
   }
-  .key-hint {
+.key-hint {
     order: 4;
     flex-basis: 100%;
     font-size: 12px;
     color: var(--text-muted);
   }
-  .key-detail {
+.key-detail {
     margin-top: 12px;
     padding: 12px 14px;
     background: var(--bg);
@@ -228,53 +97,52 @@
     line-height: 1.6;
     color: var(--text-muted);
   }
-  /* Subtle highlight tying the panel back to whichever chip opened it,
+/* Subtle highlight tying the panel back to whichever chip opened it,
      matching that chip's own accent-colored border/background treatment. */
-  .key-detail:not([hidden]) {
-    border-color: var(--accent);
+.key-detail:not([hidden]) {
+    border-color: var(--accent-cool);
     box-shadow: 0 0 0 1px var(--accent-dim);
   }
-  .key-detail p {
+.key-detail p {
     margin: 0;
   }
-
-  .swatch {
+.swatch {
     width: 34px;
     height: 14px;
     border-radius: 3px;
     flex: none;
     display: inline-block;
   }
-  .swatch-gradient {
+.swatch-gradient {
     background: linear-gradient(to right, #3573a8 0%, #e9ecef 50%, #b8503c 100%);
   }
-  .swatch-box {
+.swatch-box {
     height: 16px;
     border: 2px solid var(--text);
     background: rgba(0, 0, 0, 0.10);
     border-radius: 2px;
   }
-  .swatch-dots {
+.swatch-dots {
     height: 16px;
     background-image: radial-gradient(circle, var(--text) 1.1px, transparent 1.3px);
     background-size: 6px 6px;
     border-radius: 3px;
   }
-  .swatch-dashed {
+.swatch-dashed {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
     gap: 3px;
     height: 16px;
   }
-  .swatch-dashed span {
+.swatch-dashed span {
     display: block;
     height: 0;
     border-top: 2px dashed;
   }
-  .swatch-dashed .g { border-color: #4caf6b; }
-  .swatch-dashed .o { border-color: #d98a3d; }
-  .swatch-star {
+.swatch-dashed .g { border-color: #4caf6b; }
+.swatch-dashed .o { border-color: #d98a3d; }
+.swatch-star {
     width: 20px;
     height: 16px;
     display: inline-flex;
@@ -284,24 +152,24 @@
     color: #111;
     text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
   }
-  .chip {
+.chip {
     flex: none;
     font-family: var(--mono);
     font-size: 10.5px;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--accent-cool);
     background: var(--accent-dim);
     border-radius: 4px;
     padding: 3px 6px;
     letter-spacing: 0.02em;
   }
-  .step-num {
+.step-num {
     flex: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-cool);
     font-family: var(--mono);
     font-size: 12px;
     font-weight: 700;
@@ -312,7 +180,19 @@
 </style>
 </head>
 <body>
-<div class="page">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="wordmark" href="/">
+        <span class="wordmark__mark" aria-hidden="true"></span>
+        Weather Programmer
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
   <div class="page-header">
     <p class="eyebrow"><a href="/">Weather Programmer</a> / low frequency forcing / <a href="/vp200_regression_maps/">subseasonal forcing</a></p>
     <h1>Low Frequency Forcing</h1>
@@ -420,8 +300,14 @@
     </div>
   </div>
 </div>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div><strong>Weather Programmer</strong> · Ray Hawthorne</div>
+      <div>© 2026</div>
+    </div>
+  </footer>
 
-<script>
+  <script>
 const PHASES = [
   ["phase1", "Phase 1: South America / Atlantic / Africa"],
   ["phase2", "Phase 2: Horn of Africa / W. Indian Ocean"],

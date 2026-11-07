@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tool chrome mockup — Weather Programmer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0c1524;
+      --ink-soft: #1a2740;
+      --muted: #5c6b7e;
+      --bg: #eef1f5;
+      --panel: #ffffff;
+      --border: #d5dde8;
+      --accent: #b86a1a;
+      --accent-cool: #2a6f97;
+      --accent-dim: rgba(42, 111, 151, 0.10);
+      --sans: "IBM Plex Sans", system-ui, sans-serif;
+      --display: "Sora", "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --radius: 12px;
+      --shadow: 0 1px 2px rgba(12, 21, 36, 0.04), 0 8px 24px rgba(12, 21, 36, 0.06);
+      --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-cool); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+    .mock-banner {
+      background: #1a2740;
+      color: #d7e0ec;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 8px 16px;
+    }
+    .mock-banner a { color: #9ec9e8; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      backdrop-filter: blur(14px);
+      background: rgba(238, 241, 245, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-header__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .wordmark {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .wordmark:hover { text-decoration: none; }
+    .wordmark__mark {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background:
+        radial-gradient(circle at 35% 35%, #7eb6d9 0%, transparent 55%),
+        radial-gradient(circle at 70% 65%, #c47a22 0%, transparent 50%),
+        #122033;
+    }
+    .site-nav { display: flex; gap: 4px; }
+    .site-nav a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 7px 11px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .site-nav a:hover {
+      color: var(--ink);
+      background: rgba(12, 21, 36, 0.04);
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 36px 24px 64px;
+    }
+    .crumb {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+    .crumb a { color: var(--accent-cool); text-decoration: none; }
+    .crumb a:hover { text-decoration: underline; }
+
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(1.7rem, 3vw, 2.1rem);
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+      text-wrap: balance;
+    }
+    .lede {
+      font-size: 15.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 4px;
+      max-width: 42rem;
+    }
+    .status {
+      font-size: 14.5px;
+      font-weight: 600;
+      margin: 16px 0 0;
+      padding: 8px 14px;
+      background: var(--accent-dim);
+      border-left: 3px solid var(--accent-cool);
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .controls {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 24px 0 16px;
+      box-shadow: var(--shadow);
+    }
+    .control { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .control-label {
+      font-weight: 600;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f7f9fb;
+    }
+    .seg button {
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .seg button.is-active {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .frame {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      line-height: 0;
+      box-shadow: var(--shadow);
+    }
+    .frame img { width: 100%; display: block; }
+    .hint {
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-top: 12px;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: #e7ebf1;
+      padding: 28px 24px 40px;
+    }
+    .site-footer__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px 24px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .site-footer strong {
+      color: var(--ink-soft);
+      font-family: var(--display);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="mock-banner">
+    Tool-page chrome mockup — same shell as the homepage.
+    <a href="home-redesign.html">← Back to homepage mockup</a>
+  </div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="wordmark" href="home-redesign.html">
+        <span class="wordmark__mark" aria-hidden="true"></span>
+        Weather Programmer
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="home-redesign.html#diagnostics">Diagnostics</a>
+        <a href="home-redesign.html#forecasts">Forecasts</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <p class="crumb"><a href="home-redesign.html">Home</a> / Forecasts / Weeks 3–6</p>
+    <h1>Week 3–6 Temperature Forecast</h1>
+    <p class="lede">Subseasonal temperature anomaly outlooks for the United States and Europe, drawn from the latest available guidance.</p>
+    <p class="status">Updated mock · illustrative chrome only</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control-label">Region</span>
+        <div class="seg" role="group" aria-label="Region">
+          <button type="button" class="is-active">U.S.</button>
+          <button type="button">Europe</button>
+        </div>
+      </div>
+      <div class="control">
+        <span class="control-label">Week</span>
+        <div class="seg" role="group" aria-label="Week">
+          <button type="button" class="is-active">3</button>
+          <button type="button">4</button>
+          <button type="button">5</button>
+          <button type="button">6</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame">
+      <img src="../subseasonal/us_t2m_week3.png" alt="U.S. week 3 temperature anomaly forecast">
+    </div>
+    <p class="hint">Same header, tokens, type, panels, and status treatment as the redesigned homepage — tools no longer feel like a separate site.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div><strong>Weather Programmer</strong> · Ray Hawthorne</div>
+      <div>© 2026 · Mockup for review</div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll(".seg").forEach((group) => {
+      group.addEventListener("click", (event) => {
+        const btn = event.target.closest("button");
+        if (!btn) return;
+        group.querySelectorAll("button").forEach((b) => b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+      });
+    });
+  </script>
+</body>
+</html>

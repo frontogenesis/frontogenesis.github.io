@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather Programmer — Redesign Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0c1524;
+      --ink-soft: #1a2740;
+      --muted: #5c6b7e;
+      --bg: #eef1f5;
+      --panel: #ffffff;
+      --border: #d5dde8;
+      --accent: #b86a1a;
+      --accent-cool: #2a6f97;
+      --hero-veil: linear-gradient(
+        105deg,
+        rgba(7, 13, 24, 0.88) 0%,
+        rgba(7, 13, 24, 0.62) 28%,
+        rgba(7, 13, 24, 0.18) 55%,
+        rgba(7, 13, 24, 0.04) 100%
+      );
+      --sans: "IBM Plex Sans", system-ui, sans-serif;
+      --display: "Sora", "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(12, 21, 36, 0.04), 0 8px 24px rgba(12, 21, 36, 0.06);
+      --shadow-hover: 0 2px 4px rgba(12, 21, 36, 0.06), 0 16px 36px rgba(12, 21, 36, 0.12);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .mock-banner {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1a2740;
+      color: #d7e0ec;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 8px 16px;
+    }
+    .mock-banner a { color: #9ec9e8; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* —— Header —— */
+    .site-header {
+      position: sticky;
+      top: 33px;
+      z-index: 90;
+      backdrop-filter: blur(14px);
+      background: rgba(238, 241, 245, 0.86);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .site-header.is-scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(238, 241, 245, 0.94);
+    }
+    .site-header__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .wordmark {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wordmark__mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background:
+        radial-gradient(circle at 35% 35%, #7eb6d9 0%, transparent 55%),
+        radial-gradient(circle at 70% 65%, #c47a22 0%, transparent 50%),
+        #122033;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .site-nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+    .site-nav a:hover {
+      color: var(--ink);
+      background: rgba(12, 21, 36, 0.04);
+    }
+
+    /* —— Hero —— */
+    .hero {
+      position: relative;
+      min-height: min(78vh, 640px);
+      display: flex;
+      align-items: center;
+      color: #f4f7fb;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        #070d18
+        url("hero-earth-airflow.jpg")
+        72% center / cover no-repeat;
+    }
+    .hero__veil {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--hero-veil);
+      pointer-events: none;
+    }
+    .hero__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 72px 24px 64px;
+      width: 100%;
+    }
+    .hero__brand {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(2.6rem, 6vw, 4.25rem);
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      margin: 0 0 18px;
+      max-width: 12ch;
+      color: #f4f7fb;
+      text-shadow: 0 2px 28px rgba(7, 13, 24, 0.45);
+      animation: rise 0.7s ease both;
+    }
+    .hero__lede {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: rgba(244, 247, 251, 0.86);
+      max-width: 34rem;
+      margin: 0 0 28px;
+      line-height: 1.55;
+      text-shadow: 0 1px 18px rgba(7, 13, 24, 0.4);
+      animation: rise 0.7s ease 0.08s both;
+    }
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      animation: rise 0.7s ease 0.16s both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn--primary {
+      background: #f4f7fb;
+      color: var(--ink);
+    }
+    .btn--primary:hover { background: #fff; }
+    .btn--ghost {
+      background: transparent;
+      color: #f4f7fb;
+      border-color: rgba(244, 247, 251, 0.35);
+    }
+    .btn--ghost:hover {
+      border-color: rgba(244, 247, 251, 0.7);
+      background: rgba(244, 247, 251, 0.06);
+    }
+
+    /* —— Sections —— */
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 64px 24px 24px;
+    }
+    .section__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px 24px;
+      margin-bottom: 22px;
+    }
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cool);
+      margin: 0 0 8px;
+    }
+    .section__title {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3vw, 1.85rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+    .section__note {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 28rem;
+      margin: 0;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    @media (max-width: 720px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .site-nav { display: none; }
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: #c4cedb;
+    }
+    .tool-card__media {
+      aspect-ratio: 16 / 9;
+      background: #d9e1ea center / cover no-repeat;
+      border-bottom: 1px solid var(--border);
+    }
+    .tool-card__body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .tool-card__title {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .tool-card__blurb {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    /* —— Footer —— */
+    .site-footer {
+      margin-top: 72px;
+      border-top: 1px solid var(--border);
+      background: #e7ebf1;
+    }
+    .site-footer__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 36px 24px 48px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 720px) {
+      .site-footer__inner { grid-template-columns: 1fr; }
+    }
+    .footer-brand {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 15px;
+      margin: 0 0 8px;
+    }
+    .footer-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 28rem;
+    }
+    .footer-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+    .footer-links a:hover { color: var(--accent-cool); }
+    .footer-legal {
+      grid-column: 1 / -1;
+      padding-top: 8px;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="mock-banner">
+    Design mockup — not live.
+    <a href="tool-chrome.html">Also view tool-page chrome →</a>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a class="wordmark" href="#top">
+        <span class="wordmark__mark" aria-hidden="true"></span>
+        Weather Programmer
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#diagnostics">Diagnostics</a>
+        <a href="#forecasts">Forecasts</a>
+        <a href="tool-chrome.html">Tool chrome</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="top" aria-label="Introduction">
+    <div class="hero__media" role="img" aria-label="Earth with atmospheric airflow"></div>
+    <div class="hero__veil"></div>
+    <div class="hero__inner">
+      <h1 class="hero__brand">Weather Programmer</h1>
+      <p class="hero__lede">
+        Operational meteorology tools at the intersection of forecast science and applied data analysis.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#forecasts">View Weeks 3–6</a>
+        <a class="btn btn--ghost" href="#diagnostics">Browse diagnostics</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="diagnostics">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">Diagnostics &amp; analogs</p>
+        <h2 class="section__title">Understand the drivers</h2>
+      </div>
+      <p class="section__note">Interactive views of tropical forcing, polar vortex state, and teleconnection analogs.</p>
+    </div>
+    <div class="card-grid">
+      <a class="tool-card" href="../polar_vortex/">
+        <div class="tool-card__media" style="background-image:url('polar-vortex-split-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Polar Vortex Diagnostics</h3>
+          <p class="tool-card__blurb">Arctic polar-cap structure, vortex strength, and recent sudden stratospheric warming context.</p>
+        </div>
+      </a>
+      <a class="tool-card" href="../tropical_forcing/">
+        <div class="tool-card__media" style="background-image:url('tropical-forcing-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Tropical Forcing</h3>
+          <p class="tool-card__blurb">200 hPa velocity potential anomalies and the tropical convective footprint driving midlatitude response.</p>
+        </div>
+      </a>
+      <a class="tool-card" href="../vp200_regression_maps/">
+        <div class="tool-card__media" style="background-image:url('subseasonal-forcing-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Subseasonal Forcing</h3>
+          <p class="tool-card__blurb">Lead-dependent Z500 regressions onto tropical divergence phases for subseasonal guidance.</p>
+        </div>
+      </a>
+      <a class="tool-card" href="../vp200_monthly_regression_maps/">
+        <div class="tool-card__media" style="background-image:url('lowfreq-forcing-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Low Frequency Forcing</h3>
+          <p class="tool-card__blurb">Monthly-scale teleconnection patterns tied to tropical convective phases and climatological context.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="forecasts" style="padding-bottom: 40px;">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">Forecasts</p>
+        <h2 class="section__title">Look ahead</h2>
+      </div>
+      <p class="section__note">Temperature outlooks for weeks 3–6 and the seasonal horizon.</p>
+    </div>
+    <div class="card-grid">
+      <a class="tool-card" href="../subseasonal/">
+        <div class="tool-card__media" style="background-image:url('weeks36-calendar-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Weeks 3–6</h3>
+          <p class="tool-card__blurb">Subseasonal temperature anomaly forecasts for the U.S. and Europe, updated with the latest guidance.</p>
+        </div>
+      </a>
+      <a class="tool-card" href="../seasonal/">
+        <div class="tool-card__media" style="background-image:url('seasonal-contrast-card.jpg'); background-position: center;"></div>
+        <div class="tool-card__body">
+          <h3 class="tool-card__title">Seasonal</h3>
+          <p class="tool-card__blurb">Longer-range outlooks with polar vortex and large-scale pattern context for the season ahead.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        <p class="footer-brand">Weather Programmer</p>
+        <p class="footer-copy">Exploring the intersection of meteorology and applied data science in an operational setting.</p>
+      </div>
+      <div>
+        <p class="footer-label">Explore</p>
+        <ul class="footer-links">
+          <li><a href="#diagnostics">Diagnostics</a></li>
+          <li><a href="#forecasts">Forecasts</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-label">Connect</p>
+        <ul class="footer-links">
+          <li><a href="https://www.linkedin.com/in/ray-hawthorne-413a96334/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://x.com/ray_hawthorne" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://github.com/frontogenesis" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+      <p class="footer-legal">© 2026 Ray Hawthorne · Mockup for review</p>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById("site-header");
+    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  </script>
+</body>
+</html>
