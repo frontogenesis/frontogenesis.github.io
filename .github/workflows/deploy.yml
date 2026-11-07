@@ -47,15 +47,26 @@ jobs:
     needs: build
     steps:
       # deploy-pages hard-caps timeout at 600000 ms (10 min), matching the
-      # GitHub Pages platform limit. A hung syncing_files status still dies
-      # there — retries start a fresh deployment, which usually finishes in
-      # seconds when the platform is healthy (~9s on recent green runs).
+      # GitHub Pages platform limit. Hung syncing_files cannot be waited out.
+      # Cancel any leftover Pages deployment for this SHA before each retry —
+      # a timed-out cancel can leave an in-progress lock that blocks the next
+      # create (empty status polls until the same 10-minute cap).
       - name: Deploy to GitHub Pages (attempt 1)
         id: d1
         continue-on-error: true
         uses: actions/deploy-pages@v4
         with:
           timeout: 600000
+
+      - name: Clear stuck Pages deployment before retry 2
+        if: steps.d1.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --silent -X POST \
+            "repos/${{ github.repository }}/pages/deployments/${{ github.sha }}/cancel" \
+            || true
+          sleep 120
 
       - name: Deploy to GitHub Pages (attempt 2)
         id: d2
@@ -64,6 +75,16 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           timeout: 600000
+
+      - name: Clear stuck Pages deployment before retry 3
+        if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --silent -X POST \
+            "repos/${{ github.repository }}/pages/deployments/${{ github.sha }}/cancel" \
+            || true
+          sleep 120
 
       - name: Deploy to GitHub Pages (attempt 3)
         id: d3
@@ -74,6 +95,7 @@ jobs:
 
       - name: Record page URL
         id: final
+        if: always()
         run: |
           url="${{ steps.d3.outputs.page_url || steps.d2.outputs.page_url || steps.d1.outputs.page_url }}"
           echo "page_url=$url" >> "$GITHUB_OUTPUT"
