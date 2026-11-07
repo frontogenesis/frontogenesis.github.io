@@ -1,7 +1,7 @@
 {
-  "init": "2026-11-05",
+  "init": "2026-11-06",
   "source": "openmeteo",
-  "updated_utc": "2026-11-06T01:54:35Z",
+  "updated_utc": "2026-11-07T01:15:38Z",
   "files": [
     "us_t2m_week3.png",
     "us_t2m_week3_tilt.png",
