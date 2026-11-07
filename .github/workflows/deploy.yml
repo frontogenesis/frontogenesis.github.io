@@ -42,14 +42,46 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.final.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      # deploy-pages hard-caps timeout at 600000 ms (10 min), matching the
+      # GitHub Pages platform limit. A hung syncing_files status still dies
+      # there — retries start a fresh deployment, which usually finishes in
+      # seconds when the platform is healthy (~9s on recent green runs).
+      - name: Deploy to GitHub Pages (attempt 1)
+        id: d1
+        continue-on-error: true
         uses: actions/deploy-pages@v4
         with:
-          # Default is 10 minutes. A slow "syncing files" step used to hit that
-          # and the action then canceled a deploy that was still in progress.
-          timeout: 1800000
+          timeout: 600000
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: d2
+        if: steps.d1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000
+
+      - name: Deploy to GitHub Pages (attempt 3)
+        id: d3
+        if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000
+
+      - name: Record page URL
+        id: final
+        run: |
+          url="${{ steps.d3.outputs.page_url || steps.d2.outputs.page_url || steps.d1.outputs.page_url }}"
+          echo "page_url=$url" >> "$GITHUB_OUTPUT"
+          if [ "${{ steps.d1.outcome }}" = "success" ] || \
+             [ "${{ steps.d2.outcome }}" = "success" ] || \
+             [ "${{ steps.d3.outcome }}" = "success" ]; then
+            echo "Deploy succeeded (url=${url:-unknown})"
+          else
+            echo "::error::All three Pages deploy attempts failed"
+            exit 1
+          fi
