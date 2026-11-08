@@ -31,9 +31,9 @@
     <h1>Seasonal Forecast</h1>
     <p class="lede">
       ECMWF SEAS5 monthly outlook for the next six months. The polar vortex
-      chart is the zonal-mean 10 hPa wind at 60°N. Temperature, precipitation,
-      solar radiation, and wind are point forecasts from the same initialization
-      once those graphics are published.
+      chart is the zonal-mean 10 hPa wind at 60°N. Temperature and precipitation
+      are population-weighted across major ERCOT cities; wind and solar radiation
+      are weighted toward Texas production regions.
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
@@ -85,45 +85,45 @@
       temp: {
         file: "forecast_temp.png",
         label: "Temperature",
-        alt: "SEAS5 2 m temperature forecast and anomaly",
-        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        alt: "SEAS5 Texas ERCOT population-weighted 2 m temperature forecast and anomaly",
+        hint: "Top: monthly means as flat steps. Bottom: forecast minus the lead-time-matched climate.",
         paragraphs: [
-          "Monthly-mean 2 m temperature at the published point, from the SEAS5 ensemble.",
-          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. Warm anomalies are red and cold anomalies are blue.",
-          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+          "Monthly-mean 2 m temperature from the SEAS5 ensemble, population-weighted across Houston, Dallas–Fort Worth, San Antonio, and Austin.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. Each month is drawn as a flat step so the value is for the whole month, not a transition after the first day. The lower panel is their difference: warm anomalies are red and cold anomalies are blue.",
+          "Lead months run from 1 through 6."
         ]
       },
       precip: {
         file: "forecast_precip.png",
         label: "Precipitation",
-        alt: "SEAS5 precipitation forecast and anomaly",
-        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        alt: "SEAS5 Texas ERCOT population-weighted precipitation forecast and anomaly",
+        hint: "Top: monthly means as flat steps. Bottom: forecast minus the lead-time-matched climate.",
         paragraphs: [
-          "Monthly-mean total precipitation at the published point, from the SEAS5 ensemble.",
-          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. Wetter than the climate mean is green; drier is brown.",
-          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+          "Monthly-mean total precipitation from the SEAS5 ensemble, population-weighted across Houston, Dallas–Fort Worth, San Antonio, and Austin.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean, drawn as flat monthly steps. The lower panel is their difference: wetter than the climate mean is green; drier is brown.",
+          "Lead months run from 1 through 6."
         ]
       },
       radiation: {
         file: "forecast_radiation.png",
         label: "Radiation",
-        alt: "SEAS5 surface solar radiation forecast and anomaly",
-        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        alt: "SEAS5 Texas solar-region surface solar radiation forecast and anomaly",
+        hint: "Top: monthly means as flat steps. Bottom: forecast minus the lead-time-matched climate.",
         paragraphs: [
-          "Monthly-mean downward surface solar radiation at the published point, from the SEAS5 ensemble.",
-          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference. More radiation than the climate mean is orange; less is gray.",
-          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+          "Monthly-mean downward surface solar radiation from the SEAS5 ensemble, weighted across Brady, Midland, Pecos, and San Angelo.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean, drawn as flat monthly steps. The lower panel is their difference: more radiation than the climate mean is orange; less is gray.",
+          "Lead months run from 1 through 6."
         ]
       },
       wind: {
         file: "forecast_wind.png",
         label: "Wind",
-        alt: "SEAS5 10 m wind speed forecast and anomaly",
-        hint: "Top: ensemble mean and model climate. Bottom: forecast minus the lead-time-matched climate.",
+        alt: "SEAS5 Texas wind-region 10 m wind speed forecast and anomaly",
+        hint: "Top: monthly means as flat steps. Bottom: forecast minus the lead-time-matched climate.",
         paragraphs: [
-          "Monthly-mean 10 m wind speed at the published point, from the SEAS5 ensemble. Speed is computed from the zonal and meridional components.",
-          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean. The lower panel is their difference.",
-          "Each figure is one location, the latitude and longitude used for the latest plot. Lead months run from 1 through 6."
+          "Monthly-mean 10 m wind speed from the SEAS5 ensemble, weighted across Abilene, Midland, Amarillo, and Corpus Christi. Speed is computed from the zonal and meridional components.",
+          "The upper panel is the ensemble mean and the lead-time-matched model-climate mean, drawn as flat monthly steps. The lower panel is their difference.",
+          "Lead months run from 1 through 6."
         ]
       }
     };

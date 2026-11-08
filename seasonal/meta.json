@@ -1,7 +1,11 @@
 {
   "init": "2026-11",
-  "updated_utc": "2026-11-06T20:15:14Z",
+  "updated_utc": "2026-11-08T19:20:58Z",
   "files": [
-    "forecast_polar_vortex.png"
+    "forecast_polar_vortex.png",
+    "forecast_temp.png",
+    "forecast_precip.png",
+    "forecast_radiation.png",
+    "forecast_wind.png"
   ]
 }
