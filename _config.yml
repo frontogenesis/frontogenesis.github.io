@@ -1,5 +1,4 @@
 title: Weather Programmer
-author: Ray Hawthorne
 description: >-
   Exploring the intersection of meteorology and applied data science
   in an operational setting.
@@ -44,5 +43,3 @@ defaults:
       permalink: /:year/:month/:day/:name/
 
 github_username: frontogenesis
-linkedin_username: ray-hawthorne-413a96334
-twitter_username: ray_hawthorne

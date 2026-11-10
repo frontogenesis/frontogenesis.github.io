@@ -298,13 +298,14 @@ layout: null
     .site-footer__inner {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 36px 24px 48px;
+      padding: 36px 24px 40px;
       display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 28px;
+      grid-template-columns: 1.6fr auto;
+      gap: 28px 48px;
+      align-items: start;
     }
     @media (max-width: 720px) {
-      .site-footer__inner { grid-template-columns: 1fr; }
+      .site-footer__inner { grid-template-columns: 1fr; gap: 24px; }
     }
     .footer-brand {
       font-family: var(--display);
@@ -316,7 +317,7 @@ layout: null
       margin: 0;
       color: var(--muted);
       font-size: 14px;
-      max-width: 28rem;
+      max-width: 32rem;
     }
     .footer-label {
       font-family: var(--mono);
@@ -341,7 +342,9 @@ layout: null
     .footer-links a:hover { color: var(--accent-cool); }
     .footer-legal {
       grid-column: 1 / -1;
-      padding-top: 8px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(12, 21, 36, 0.08);
+      margin-top: 4px;
       font-size: 12.5px;
       color: var(--muted);
     }
@@ -453,23 +456,12 @@ layout: null
         <ul class="footer-links">
           <li><a href="#diagnostics">Diagnostics</a></li>
           <li><a href="#forecasts">Forecasts</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-label">Connect</p>
-        <ul class="footer-links">
-          {%- if site.linkedin_username %}
-          <li><a href="https://www.linkedin.com/in/{{ site.linkedin_username }}/" target="_blank" rel="noopener">LinkedIn</a></li>
-          {%- endif %}
-          {%- if site.twitter_username %}
-          <li><a href="https://x.com/{{ site.twitter_username }}" target="_blank" rel="noopener">X / Twitter</a></li>
-          {%- endif %}
           {%- if site.github_username %}
           <li><a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">GitHub</a></li>
           {%- endif %}
         </ul>
       </div>
-      <p class="footer-legal">© {{ 'now' | date: '%Y' }} {{ site.author | escape }}</p>
+      <p class="footer-legal">© {{ 'now' | date: '%Y' }} {{ site.title | escape }}</p>
     </div>
   </footer>
 
