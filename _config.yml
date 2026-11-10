@@ -41,5 +41,3 @@ defaults:
     values:
       layout: post
       permalink: /:year/:month/:day/:name/
-
-github_username: frontogenesis
