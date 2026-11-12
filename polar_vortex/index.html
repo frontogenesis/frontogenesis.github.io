@@ -29,23 +29,33 @@
     <p class="lede">
       Standardized geopotential-height anomaly over the polar cap (65-90°N),
       from the surface to 10 mb. Red is a high polar cap (weak vortex).
-      The bars are the share of ECMWF extended-range members that forecast
-      downwelling into the lower stratosphere, not the troposphere.
+      The bars are the share of extended-range members that forecast
+      downwelling into the lower stratosphere.
     </p>
     <p class="status" id="status">Loading latest init…</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control-label">Ensemble</span>
+        <div class="seg" role="group" aria-label="Ensemble">
+          <button type="button" data-model="ecmwf" aria-pressed="true">ECMWF Extended</button>
+          <button type="button" data-model="gefs" aria-pressed="false">GEFS Extended</button>
+        </div>
+      </div>
+    </div>
 
     <div class="frame">
       <img id="chart" alt="Polar-cap geopotential-height anomaly and 100 mb descent probability" src="polar_cap_descent.png">
     </div>
-    <p class="hint">Left of the vertical line is ERA5 analysis. Right is the ECMWF extended-range ensemble mean. Climate is NCEP/NCAR Reanalysis 1, 1991-2020.</p>
+    <p class="hint" id="hint">Left of the vertical line is ERA5 analysis. Right is the ensemble-mean forecast. Climate is NCEP/NCAR Reanalysis 1, 1991-2020.</p>
 
     <div class="key">
       <h2>How to read this chart</h2>
       <p>A sudden stratospheric warming shows up here as a deep red column in the upper stratosphere. Whether it matters for surface weather depends on whether that anomaly descends.</p>
       <p>The top panel is the ensemble-mean standardized anomaly. The bottom panel is the member-by-member probability of clearing that +1σ threshold at 100 mb. High bars with little red below ~300 mb mean the ensemble still has a high polar cap aloft that has not yet coupled strongly into the troposphere.</p>
-      <p>Bias correction subtracts the model's average lead-dependent bias, measured from about 100 IFS control reforecasts (5 nearby model dates × 20 hindcast years).</p>
+      <p id="drift-note">ECMWF Extended anomalies are drift-corrected using about 100 IFS control reforecasts (5 nearby model dates × 20 hindcast years). GEFS Extended is shown without drift correction for now.</p>
       <p>Upward arrows at 100 mb mark days when the 45-75°N eddy heat flux (a proxy for upward wave activity into the stratosphere) exceeds its day-of-year 90th percentile.</p>
-      <p>ERA5 lags the open-data weeklies by a day or two. The forecast starts at the initialization; analysis stops the day before.</p>
+      <p>ERA5 can lag the open forecast archives by a day or two. Missing analysis days are bridged with that day’s lead-0 ensemble mean.</p>
     </div>
   </div>
   <footer class="site-footer">
@@ -57,6 +67,15 @@
 
   <script>
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const FILES = {
+      ecmwf: "polar_cap_descent.png",
+      gefs: "polar_cap_descent_gefs.png",
+    };
+    const LABELS = {
+      ecmwf: "ECMWF weeklies",
+      gefs: "GEFS 35-day",
+    };
+    const state = { model: "ecmwf", meta: null };
 
     function fmt(iso) {
       if (!iso) return "";
@@ -65,20 +84,66 @@
       return `${day} ${MONTHS[month - 1]} ${year}`;
     }
 
-    function render(meta) {
-      const init = meta && meta.init ? fmt(meta.init) : "";
-      const status = document.getElementById("status");
-      if (init) {
-        status.textContent = `ECMWF weeklies init 00 UTC ${init}`;
-      } else {
-        status.textContent = "Latest published polar vortex diagnostic";
+    function modelMeta(meta, model) {
+      if (!meta) return null;
+      if (meta[model] && meta[model].init) return meta[model];
+      if (model === "ecmwf" && meta.init) {
+        return {
+          init: meta.init,
+          era5_through: meta.era5_through,
+          forecast_start: meta.forecast_start,
+        };
       }
+      return null;
     }
+
+    function render() {
+      const block = modelMeta(state.meta, state.model);
+      const img = document.getElementById("chart");
+      img.src = FILES[state.model];
+      img.alt = `${LABELS[state.model]} polar-cap height anomaly and 100 mb descent probability`;
+      const status = document.getElementById("status");
+      const hint = document.getElementById("hint");
+      if (block && block.init) {
+        status.textContent = `${LABELS[state.model]} init 00 UTC ${fmt(block.init)}`;
+      } else if (state.meta && state.meta.init && state.model === "ecmwf") {
+        status.textContent = `${LABELS.ecmwf} init 00 UTC ${fmt(state.meta.init)}`;
+      } else {
+        status.textContent = `${LABELS[state.model]} chart not published yet`;
+      }
+      const right =
+        state.model === "ecmwf"
+          ? "ECMWF extended-range ensemble mean (drift-corrected)"
+          : "GEFS extended-range ensemble mean (no drift correction yet)";
+      hint.textContent =
+        `Left of the vertical line is ERA5 analysis. Right is the ${right}. Climate is NCEP/NCAR Reanalysis 1, 1991-2020.`;
+    }
+
+    function press(model) {
+      document.querySelectorAll("[data-model]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-model") === model ? "true" : "false");
+      });
+    }
+
+    document.querySelectorAll("[data-model]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.model = btn.getAttribute("data-model");
+        press(state.model);
+        render();
+      });
+    });
 
     fetch("meta.json")
       .then((response) => (response.ok ? response.json() : null))
-      .then(render)
-      .catch(() => render(null));
+      .then((meta) => {
+        state.meta = meta;
+        if (meta && meta.gefs && meta.gefs.init && !(meta.ecmwf && meta.ecmwf.init) && !meta.init) {
+          state.model = "gefs";
+          press("gefs");
+        }
+        render();
+      })
+      .catch(() => render());
   </script>
 </body>
 </html>

@@ -1,9 +1,23 @@
 {
-  "init": "2026-11-05",
-  "updated_utc": "2026-11-07T08:11:59Z",
+  "updated_utc": "2026-11-12T02:06:45Z",
   "files": [
-    "polar_cap_descent.png"
+    "polar_cap_descent.png",
+    "polar_cap_descent_gefs.png"
   ],
-  "era5_through": "2026-10-31",
-  "forecast_start": "2026-11-05"
+  "init": "2026-11-09",
+  "ecmwf": {
+    "init": "2026-11-09",
+    "era5_through": "2026-11-05",
+    "forecast_start": "2026-11-09",
+    "members": "101"
+  },
+  "gefs": {
+    "init": "2026-11-10",
+    "era5_through": "2026-11-05",
+    "forecast_start": "2026-11-10",
+    "model_label": "GEFS extended-range",
+    "members": "31"
+  },
+  "era5_through": "2026-11-05",
+  "forecast_start": "2026-11-09"
 }
