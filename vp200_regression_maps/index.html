@@ -362,12 +362,19 @@ const img = document.getElementById("mapImg");
 
 let playTimer = null;
 
-function detectMJOPhase(rmm1, rmm2) {
-  if (Math.abs(rmm1) < 1 || Math.abs(rmm2) < 1) return null;
-  if (rmm1 >= 0 && rmm2 >= 0) return rmm1 >= rmm2 ? "phase1" : "phase8";
-  if (rmm1 >= 0 && rmm2 < 0) return "phase2";
-  if (rmm1 < 0 && rmm2 < 0) return "phase3";
-  return rmm2 >= Math.abs(rmm1) ? "phase4" : "phase5";
+// Map NOAA ROMI (OMI-style) PC1/PC2 to the Wheeler-Hendon 8-phase diagram.
+// NOAA PSL (psl.noaa.gov/mjo/mjoindex) gives the equivalence RMM1 = PC2 and
+// RMM2 = -PC1. The MJO is active when the amplitude sqrt(RMM1^2 + RMM2^2)
+// is at least 1 (outside the unit circle); the phase is then the 45-degree
+// sector of the angle atan2(RMM2, RMM1), with phase 1 starting at 180
+// degrees and phases advancing counterclockwise. Returns null when weak.
+function detectMJOPhase(pc1, pc2) {
+  const rmm1 = pc2;
+  const rmm2 = -pc1;
+  if (Math.hypot(rmm1, rmm2) < 1) return null;
+  const angleDeg = (Math.atan2(rmm2, rmm1) * 180 / Math.PI + 360) % 360;
+  const phase = Math.floor(((angleDeg - 180 + 360) % 360) / 45) + 1;
+  return `phase${phase}`;
 }
 
 async function init() {
@@ -395,14 +402,13 @@ async function init() {
     const res = await fetch(`mjo-rmm.json?v=${Date.now()}`);
     if (!res.ok) throw new Error(`status ${res.status}`);
     const data = await res.json();
-    const rmm1 = data.pc1;
-    const rmm2 = data.pc2;
-    const phase = detectMJOPhase(rmm1, rmm2);
+    const amplitude = Math.hypot(data.pc1, data.pc2);
+    const phase = detectMJOPhase(data.pc1, data.pc2);
     if (phase) {
       phaseSelect.value = phase;
-      mjoStatus.innerHTML = `Current MJO phase (NOAA ROMI, ${data.date}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
+      mjoStatus.innerHTML = `Current MJO phase (NOAA ROMI, ${data.date}, amplitude ${amplitude.toFixed(2)}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
     } else {
-      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (inside unit circle, NOAA ROMI ${data.date})`;
+      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (amplitude ${amplitude.toFixed(2)}, inside unit circle, NOAA ROMI ${data.date})`;
     }
     mjoStatus.hidden = false;
   } catch {
