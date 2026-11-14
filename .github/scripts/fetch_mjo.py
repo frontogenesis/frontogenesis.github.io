@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
-# Fetches the near-real-time OMI (ROMI) MJO index from NOAA PSL and writes
-# the latest PC1/PC2/amplitude as JSON next to the VP200 tool's static
-# assets, for vp200_regression_maps/index.html to read same-origin.
+# Fetches NOAA PSL's near-real-time CORe VPM (Velocity Potential MJO) index
+# and writes the latest PC1/PC2/amplitude as JSON next to the VP200 tool's
+# static assets, for vp200_regression_maps/index.html to read same-origin.
 #
-# The original source, BOM's RMM feed, explicitly blocks all automated
-# access -- its 403 page states "The Bureau of Meteorology website does
-# not support web scraping: if you are trying to access Bureau data
-# through automated means, you should stop." ROMI is NOAA's openly served
-# near-real-time OMI index, built by Kiladis et al. (2014) to reproduce
-# the same 8-phase convention as BOM's RMM index, with no such policy.
+# BOM's RMM feed blocks automated access. ROMI (OLR-only) is openly served
+# but can disagree with velocity-potential diagnostics. VPM is built like
+# Wheeler-Hendon RMM, replacing OLR with 200 hPa velocity potential plus
+# U200 and U850 (Ventrice et al. 2013), from the CORe reanalysis — a better
+# match for the VP200 correlation maps on this page.
 import json
 import sys
 import urllib.request
 from pathlib import Path
 
-URL = "https://psl.noaa.gov/mjo/mjoindex/romi.cpcolr.1x.txt"
+URL = "https://www.psl.noaa.gov/mjo/mjoindex/vpm.1x.CORe.txt"
 OUTPUT = Path(__file__).resolve().parent.parent.parent / "vp200_regression_maps" / "mjo-rmm.json"
 
 
 def main() -> None:
-    req = urllib.request.Request(URL, headers={"User-Agent": "vp200-mjo-fetch/1.0"})
+    req = urllib.request.Request(URL, headers={"User-Agent": "vp200-mjo-fetch/1.1"})
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             body = resp.read().decode("utf-8")
@@ -39,7 +38,7 @@ def main() -> None:
 
     year, month, day, _hour, pc1, pc2, amplitude = fields[:7]
     out = {
-        "source": "NOAA PSL ROMI (near-real-time OMI, CPC blended OLR)",
+        "source": "NOAA PSL CORe VPM (velocity potential MJO index)",
         "date": f"{int(year):04d}-{int(month):02d}-{int(day):02d}",
         "pc1": float(pc1),
         "pc2": float(pc2),

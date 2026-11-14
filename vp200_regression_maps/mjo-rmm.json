@@ -1,7 +1,7 @@
 {
-  "source": "NOAA PSL ROMI (near-real-time OMI, CPC blended OLR)",
-  "date": "2026-11-09",
-  "pc1": 0.49369,
-  "pc2": 0.64525,
-  "amplitude": 0.81245
+  "source": "NOAA PSL CORe VPM (velocity potential MJO index)",
+  "date": "2026-11-10",
+  "pc1": 0.12272,
+  "pc2": -3.27807,
+  "amplitude": 3.28036
 }

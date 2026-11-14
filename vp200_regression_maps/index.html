@@ -362,15 +362,14 @@ const img = document.getElementById("mapImg");
 
 let playTimer = null;
 
-// Map NOAA ROMI (OMI-style) PC1/PC2 to the Wheeler-Hendon 8-phase diagram.
-// NOAA PSL (psl.noaa.gov/mjo/mjoindex) gives the equivalence RMM1 = PC2 and
-// RMM2 = -PC1. The MJO is active when the amplitude sqrt(RMM1^2 + RMM2^2)
-// is at least 1 (outside the unit circle); the phase is then the 45-degree
-// sector of the angle atan2(RMM2, RMM1), with phase 1 starting at 180
-// degrees and phases advancing counterclockwise. Returns null when weak.
+// Map NOAA PSL CORe VPM PC1/PC2 to the Wheeler-Hendon 8-phase diagram.
+// VPM signs are adjusted to match RMM (PSL), so PC1/PC2 are used as
+// RMM1/RMM2. Active when amplitude >= 1; phase is the 45-degree sector of
+// atan2(RMM2, RMM1), with phase 1 starting at 180 degrees, advancing
+// counterclockwise. Returns null when weak.
 function detectMJOPhase(pc1, pc2) {
-  const rmm1 = pc2;
-  const rmm2 = -pc1;
+  const rmm1 = pc1;
+  const rmm2 = pc2;
   if (Math.hypot(rmm1, rmm2) < 1) return null;
   const angleDeg = (Math.atan2(rmm2, rmm1) * 180 / Math.PI + 360) % 360;
   const phase = Math.floor(((angleDeg - 180 + 360) % 360) / 45) + 1;
@@ -394,21 +393,22 @@ async function init() {
   const currentMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"][now.getMonth()];
   monthSelect.value = MONTHS.includes(currentMonth) ? currentMonth : "july";
   try {
-    // BOM's own RMM feed explicitly blocks all automated access (its 403
-    // page tells scrapers to stop), so this reads NOAA PSL's ROMI index
-    // instead: a near-real-time OMI index built to the same 8-phase
-    // convention, fetched server-side and committed here as a same-origin
-    // file by the scheduled Action in .github/workflows/fetch-mjo.yml.
+    // BOM's RMM feed blocks automated access. This page uses NOAA PSL's
+    // CORe VPM (velocity-potential MJO index), fetched server-side into
+    // mjo-rmm.json by .github/workflows/fetch-mjo.yml.
     const res = await fetch(`mjo-rmm.json?v=${Date.now()}`);
     if (!res.ok) throw new Error(`status ${res.status}`);
     const data = await res.json();
-    const amplitude = Math.hypot(data.pc1, data.pc2);
+    const amplitude = Number.isFinite(data.amplitude)
+      ? data.amplitude
+      : Math.hypot(data.pc1, data.pc2);
     const phase = detectMJOPhase(data.pc1, data.pc2);
+    const sourceLabel = "NOAA CORe VPM";
     if (phase) {
       phaseSelect.value = phase;
-      mjoStatus.innerHTML = `Current MJO phase (NOAA ROMI, ${data.date}, amplitude ${amplitude.toFixed(2)}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
+      mjoStatus.innerHTML = `Current MJO phase (${sourceLabel}, ${data.date}, amplitude ${amplitude.toFixed(2)}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
     } else {
-      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (amplitude ${amplitude.toFixed(2)}, inside unit circle, NOAA ROMI ${data.date})`;
+      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (amplitude ${amplitude.toFixed(2)}, inside unit circle, ${sourceLabel} ${data.date})`;
     }
     mjoStatus.hidden = false;
   } catch {

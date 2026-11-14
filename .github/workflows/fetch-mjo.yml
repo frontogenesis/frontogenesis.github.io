@@ -1,8 +1,8 @@
 name: Fetch MJO index
 
-# NOAA PSL typically refreshes romi.cpcolr.1x.txt after ~15:00 UTC
-# (today: last-modified 15:20 UTC). A single 12:00 UTC run often sees
-# yesterday's row and exits with "no change". Run later, a few times.
+# NOAA PSL CORe VPM (vpm.1x.CORe.txt) usually updates after mid-day UTC.
+# A single early run can still see yesterday's row and exit with "no
+# change". Run later, a few times.
 #
 # Pages deploy happens in this same workflow when the JSON changes.
 # Commits made with GITHUB_TOKEN do not trigger deploy.yml on push.
@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch MJO (ROMI) index from NOAA PSL
+      - name: Fetch MJO (CORe VPM) index from NOAA PSL
         run: python3 .github/scripts/fetch_mjo.py
 
       - name: Commit if changed
@@ -41,7 +41,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet -- vp200_regression_maps/mjo-rmm.json; then
             git add vp200_regression_maps/mjo-rmm.json
-            git commit -m "chore: update MJO index"
+            git commit -m "chore: update MJO index (CORe VPM)"
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Updated mjo-rmm.json:"
