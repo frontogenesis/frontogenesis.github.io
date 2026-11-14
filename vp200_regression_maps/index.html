@@ -399,16 +399,13 @@ async function init() {
     const res = await fetch(`mjo-rmm.json?v=${Date.now()}`);
     if (!res.ok) throw new Error(`status ${res.status}`);
     const data = await res.json();
-    const amplitude = Number.isFinite(data.amplitude)
-      ? data.amplitude
-      : Math.hypot(data.pc1, data.pc2);
     const phase = detectMJOPhase(data.pc1, data.pc2);
     const sourceLabel = "NOAA CORe VPM";
     if (phase) {
       phaseSelect.value = phase;
-      mjoStatus.innerHTML = `Current MJO phase (${sourceLabel}, ${data.date}, amplitude ${amplitude.toFixed(2)}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
+      mjoStatus.innerHTML = `Current MJO phase (${sourceLabel}, ${data.date}): <strong>${phaseSelect.options[phaseSelect.selectedIndex].textContent}</strong>`;
     } else {
-      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (amplitude ${amplitude.toFixed(2)}, inside unit circle, ${sourceLabel} ${data.date})`;
+      mjoStatus.innerHTML = `Current MJO signal is <strong>weak</strong> (inside unit circle, ${sourceLabel} ${data.date})`;
     }
     mjoStatus.hidden = false;
   } catch {
