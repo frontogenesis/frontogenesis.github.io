@@ -1,7 +1,7 @@
 {
   "source": "NOAA PSL CORe VPM (velocity potential MJO index)",
-  "date": "2026-11-11",
-  "pc1": 0.03091,
-  "pc2": -2.86948,
-  "amplitude": 2.86965
+  "date": "2026-11-12",
+  "pc1": -0.11678,
+  "pc2": -2.3117,
+  "amplitude": 2.31464
 }
