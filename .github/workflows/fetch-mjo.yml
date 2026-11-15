@@ -6,6 +6,7 @@ name: Fetch MJO index
 #
 # Pages deploy happens in this same workflow when the JSON changes.
 # Commits made with GITHUB_TOKEN do not trigger deploy.yml on push.
+# Live weatherprogrammer.com is S3/CloudFront — also sync the JSON there.
 on:
   schedule:
     - cron: "0 16 * * *"
@@ -51,6 +52,34 @@ jobs:
             cat vp200_regression_maps/mjo-rmm.json
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Configure AWS credentials
+        if: steps.commit.outputs.changed == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Sync mjo-rmm.json to S3 / CloudFront
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          WEATHERPROGRAMMER_S3_BUCKET: weatherprogrammer.com
+          WEATHERPROGRAMMER_CLOUDFRONT_ID: ${{ secrets.WEATHERPROGRAMMER_CLOUDFRONT_ID }}
+        run: |
+          set -euo pipefail
+          aws s3 cp vp200_regression_maps/mjo-rmm.json \
+            "s3://${WEATHERPROGRAMMER_S3_BUCKET}/vp200_regression_maps/mjo-rmm.json" \
+            --cache-control "public, max-age=60, must-revalidate" \
+            --content-type "application/json"
+          if [[ -z "${WEATHERPROGRAMMER_CLOUDFRONT_ID:-}" ]]; then
+            echo "WEATHERPROGRAMMER_CLOUDFRONT_ID unset; skipping invalidation"
+            exit 0
+          fi
+          REF="mjo-${GITHUB_RUN_ID}-$(date -u +%Y%m%d%H%M%S)"
+          aws cloudfront create-invalidation \
+            --distribution-id "$WEATHERPROGRAMMER_CLOUDFRONT_ID" \
+            --invalidation-batch "{\"Paths\":{\"Quantity\":1,\"Items\":[\"/vp200_regression_maps/mjo-rmm.json\"]},\"CallerReference\":\"${REF}\"}"
 
   build:
     needs: update
