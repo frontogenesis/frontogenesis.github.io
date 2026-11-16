@@ -6,7 +6,73 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#122033">
 <link rel="stylesheet" href="../assets/tool-chrome.css">
+<style>
+  .metric-badge {
+    margin: 8px 0 14px;
+    font-size: 15px;
+  }
+  .metric-badge strong {
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-cool);
+  }
+  .model-dock {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    z-index: 100;
+    transform: translateX(-50%) translateY(120%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px 8px 14px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(12, 21, 36, 0.08), 0 12px 28px rgba(12, 21, 36, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+  .model-dock.is-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .model-dock__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .model-dock .seg {
+    border-radius: 999px;
+  }
+  .model-dock .seg button {
+    padding: 6px 12px;
+    font-size: 12.5px;
+  }
+  @media (max-width: 520px) {
+    .model-dock {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      transform: translateX(0) translateY(120%);
+      justify-content: space-between;
+      border-radius: 14px;
+    }
+    .model-dock.is-visible {
+      transform: translateX(0) translateY(0);
+    }
+    .model-dock__label { display: none; }
+  }
+</style>
 <title>Polar Vortex Diagnostics</title>
 </head>
 <body>
@@ -34,7 +100,7 @@
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
-    <div class="controls">
+    <div class="controls" id="ensemble-controls">
       <div class="control">
         <span class="control-label">Ensemble</span>
         <div class="seg" role="group" aria-label="Ensemble">
@@ -44,17 +110,29 @@
       </div>
     </div>
 
+    <h2 class="section-title">Polar Vortex</h2>
+    <p class="status metric-badge" id="coupling-prob">Loading tropospheric coupling probability…</p>
     <div class="frame">
       <img id="chart" alt="Polar-cap geopotential-height anomaly and 100 mb descent probability" src="polar_cap_descent.png">
     </div>
-    <p class="hint" id="hint">Left of the vertical line is ERA5 analysis. Right is the ensemble-mean forecast. Climate is NCEP/NCAR Reanalysis 1, 1991-2020.</p>
+
+    <h2 class="section-title">Wave Reflection</h2>
+    <p class="status metric-badge" id="reflection-event-prob">Loading reflection event probability…</p>
+    <div class="frame">
+      <img id="reflection" alt="Stratospheric wave reflection index from ERA5 and ECMWF Extended" src="wave_reflection.png">
+    </div>
+    <div class="frame">
+      <img id="reflection-event" alt="Wave reflection event probabilities from ECMWF Extended" src="wave_reflection_event_prob.png">
+    </div>
 
     <div class="key">
-      <h2>How to read this chart</h2>
+      <h2>How to read these charts</h2>
       <p>A sudden stratospheric warming shows up here as a deep red column in the upper stratosphere. Whether it matters for surface weather depends on whether that anomaly descends.</p>
       <p>The top panel is the ensemble-mean standardized anomaly. The bottom panel is the member-by-member probability of clearing that +1σ threshold at 100 mb. High bars with little red below ~300 mb mean the ensemble still has a high polar cap aloft that has not yet coupled strongly into the troposphere.</p>
       <p id="drift-note">ECMWF Extended anomalies are drift-corrected using about 100 IFS control reforecasts (5 nearby model dates × 20 hindcast years). GEFS Extended is shown without drift correction for now.</p>
       <p>Upward arrows at 100 mb mark days when the 45-75°N eddy heat flux (a proxy for upward wave activity into the stratosphere) exceeds its day-of-year 90th percentile.</p>
+      <p>Tropospheric coupling probability is the share of members with at least one day when polar-cap height is at least +1σ at 50, 100, 200, 300, and 500 mb together, excluding days with those upward arrows. That flags a weak-vortex column that reaches the troposphere without counting active upward-wave forcing.</p>
+      <p>The reflection index (Messori et al. 2022, after Matthias and Kretschmer 2020) compares how unusually strong the northward wave-driven heat flux is at 100 mb over Siberia (45–75°N, 140–200°E) versus Canada (45–75°N, 230–280°E). Positive values mean Siberia is anomalously strong relative to Canada. A reflection event is defined as RI &gt; 1 for at least 10 consecutive days; those events typically favor ridging over Alaska or western North America and cold-air potential in the Mid-Continent.</p>
       <p>ERA5 can lag the open forecast archives by a day or two. Missing analysis days are bridged with that day’s lead-0 ensemble mean.</p>
     </div>
   </div>
@@ -65,11 +143,27 @@
     </div>
   </footer>
 
+  <div class="model-dock" id="model-dock" aria-hidden="true">
+    <span class="model-dock__label">Ensemble</span>
+    <div class="seg" role="group" aria-label="Ensemble">
+      <button type="button" data-model="ecmwf" aria-pressed="true">ECMWF Extended</button>
+      <button type="button" data-model="gefs" aria-pressed="false">GEFS Extended</button>
+    </div>
+  </div>
+
   <script>
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const FILES = {
       ecmwf: "polar_cap_descent.png",
       gefs: "polar_cap_descent_gefs.png",
+    };
+    const REFLECTION_FILES = {
+      ecmwf: "wave_reflection.png",
+      gefs: "wave_reflection_gefs.png",
+    };
+    const REFLECTION_EVENT_FILES = {
+      ecmwf: "wave_reflection_event_prob.png",
+      gefs: "wave_reflection_event_prob_gefs.png",
     };
     const LABELS = {
       ecmwf: "ECMWF weeklies",
@@ -102,8 +196,16 @@
       const img = document.getElementById("chart");
       img.src = FILES[state.model];
       img.alt = `${LABELS[state.model]} polar-cap height anomaly and 100 mb descent probability`;
+      const reflection = document.getElementById("reflection");
+      const reflectionEvent = document.getElementById("reflection-event");
+      const reflectionLabel = state.model === "ecmwf" ? "ECMWF Extended" : "GEFS Extended";
+      reflection.src = REFLECTION_FILES[state.model];
+      reflection.alt = `Stratospheric wave reflection index from ERA5 and ${reflectionLabel}`;
+      reflectionEvent.src = REFLECTION_EVENT_FILES[state.model];
+      reflectionEvent.alt = `Wave reflection event probabilities from ${reflectionLabel}`;
       const status = document.getElementById("status");
-      const hint = document.getElementById("hint");
+      const couplingProb = document.getElementById("coupling-prob");
+      const eventProb = document.getElementById("reflection-event-prob");
       if (block && block.init) {
         status.textContent = `${LABELS[state.model]} init 00 UTC ${fmt(block.init)}`;
       } else if (state.meta && state.meta.init && state.model === "ecmwf") {
@@ -111,12 +213,37 @@
       } else {
         status.textContent = `${LABELS[state.model]} chart not published yet`;
       }
-      const right =
-        state.model === "ecmwf"
-          ? "ECMWF extended-range ensemble mean (drift-corrected)"
-          : "GEFS extended-range ensemble mean (no drift correction yet)";
-      hint.textContent =
-        `Left of the vertical line is ERA5 analysis. Right is the ${right}. Climate is NCEP/NCAR Reanalysis 1, 1991-2020.`;
+      const rawCoupling = block && block.coupling_prob != null ? block.coupling_prob : null;
+      if (rawCoupling != null && rawCoupling !== "" && Number.isFinite(Number(rawCoupling))) {
+        const pct = Math.round(Number(rawCoupling) * 100);
+        const levels =
+          block.coupling_levels_hpa != null && block.coupling_levels_hpa !== ""
+            ? String(block.coupling_levels_hpa).split("-").join("/")
+            : "50/100/200/300/500";
+        couplingProb.innerHTML =
+          `Tropospheric coupling probability: <strong>${pct}%</strong>`;
+        couplingProb.title =
+          `Share of members with ≥1 day of Z* ≥ +1σ at ${levels} mb and not an upward-wave day`;
+      } else {
+        couplingProb.textContent = "Tropospheric coupling probability not published yet.";
+        couplingProb.removeAttribute("title");
+      }
+      const reflectionMeta = state.meta && state.meta.reflection ? state.meta.reflection : null;
+      const probKey = state.model === "ecmwf" ? "ecmwf_event_prob" : "gefs_event_prob";
+      const rawProb = reflectionMeta ? reflectionMeta[probKey] : null;
+      const persist =
+        reflectionMeta && reflectionMeta.event_persist_days
+          ? reflectionMeta.event_persist_days
+          : "10";
+      if (rawProb != null && rawProb !== "" && Number.isFinite(Number(rawProb))) {
+        const pct = Math.round(Number(rawProb) * 100);
+        eventProb.innerHTML =
+          `Reflection event probability next 35–45 days: <strong>${pct}%</strong>`;
+        eventProb.title = `Share of members with RI > 1 for at least ${persist} consecutive days`;
+      } else {
+        eventProb.textContent = "Reflection event probability not published yet.";
+        eventProb.removeAttribute("title");
+      }
     }
 
     function press(model) {
@@ -132,6 +259,20 @@
         render();
       });
     });
+
+    const controls = document.getElementById("ensemble-controls");
+    const dock = document.getElementById("model-dock");
+    if (controls && dock && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          const show = !entry.isIntersecting;
+          dock.classList.toggle("is-visible", show);
+          dock.setAttribute("aria-hidden", show ? "false" : "true");
+        },
+        { threshold: 0, rootMargin: "-8px 0px 0px 0px" }
+      );
+      observer.observe(controls);
+    }
 
     fetch("meta.json")
       .then((response) => (response.ok ? response.json() : null))
