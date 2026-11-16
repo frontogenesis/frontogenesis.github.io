@@ -11,9 +11,6 @@
 <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#122033">
-<link rel="icon" href="/favicon.ico?v=2" sizes="any">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
-<meta name="theme-color" content="#122033">
 <link rel="stylesheet" href="../assets/tool-chrome.css">
 <title>Tropical Forcing</title>
 <style>
@@ -40,20 +37,32 @@
     <p class="lede">
       200 mb velocity potential anomaly from 5°S to 5°N. Green is upper-level
       divergence (rising air). Brown is upper-level convergence (sinking air).
-      The forecast is the ECMWF extended-range ensemble mean.
+      The forecast is an ensemble mean from ECMWF weeklies, GEFS, or AIFS ENS
+      (15 days).
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
-    <div class="frame">
-      <img id="chart" alt="200 mb velocity potential anomaly from 5°S to 5°N, ERA5 and ECMWF weeklies" src="vp200_ecmwf_extended.png">
+    <div class="controls">
+      <div class="control">
+        <span class="control-label">Ensemble</span>
+        <div class="seg" role="group" aria-label="Ensemble">
+          <button type="button" data-model="ecmwf" aria-pressed="true">ECMWF Extended</button>
+          <button type="button" data-model="gefs" aria-pressed="false">GEFS Extended</button>
+          <button type="button" data-model="aifs" aria-pressed="false">AIFS Ensemble</button>
+        </div>
+      </div>
     </div>
-    <p class="hint">Time increases downward. The map under the Hovmöller is the 5°S–5°N field on the first forecast day, drawn across 15°S–15°N so the landmasses show where that anomaly sits.</p>
+
+    <div class="frame">
+      <img id="chart" alt="200 mb velocity potential anomaly from 5°S to 5°N" src="vp200_ecmwf_extended.png">
+    </div>
+    <p class="hint" id="hint">Time increases downward. The map under the Hovmöller is the 5°S–5°N field on the first forecast day, drawn across 15°S–15°N so the landmasses show where that anomaly sits.</p>
 
     <div class="key">
       <h2>How to read this chart</h2>
       <p>The shading is the unfiltered 200 mb velocity potential anomaly. Contours are the filtered Kelvin (blue), equatorial Rossby (red), MJO (black), and low-frequency (purple) pieces. Solid contours are negative (rising air); dashed contours are positive (sinking air). The contour interval is 3×10<sup>6</sup> m<sup>2</sup> s<sup>−1</sup> for Kelvin and low frequency, 2×10<sup>6</sup> for equatorial Rossby, and for the MJO 1.5×10<sup>6</sup> on rising (negative) and 2×10<sup>6</sup> on sinking (positive). The method is Wheeler and Weickmann (2001), with the forecast appended to the observations instead of climatology.</p>
       <p>The equatorial map is that same 5°S–5°N anomaly at the start of the forecast, the current state of the velocity potential field, spread across 15°S–15°N only so the coastlines can place it. It is not a separate latitude-by-latitude calculation.</p>
-      <p>ERA5 carries the analysis. The ECMWF weeklies are published about two days after they run, so the forecast can start ahead of the latest ERA5 day. Those intervening days are each run’s own ensemble-mean analysis (lead 0). The climate is NCEP/NCAR Reanalysis 1, 1991–2020.</p>
+      <p id="source-note">ERA5 carries the analysis. ECMWF weeklies are published about two days after they run; GEFS and AIFS ENS update more often (AIFS stops at day 15). The forecast can therefore start ahead of the latest ERA5 day. Those intervening days are each run’s own ensemble-mean analysis (lead 0). None of the forecasts are hindcast-drift-corrected. The climate is NCEP/NCAR Reanalysis 1, 1991–2020.</p>
     </div>
   </div>
   <footer class="site-footer">
@@ -65,6 +74,17 @@
 
   <script>
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const FILES = {
+      ecmwf: "vp200_ecmwf_extended.png",
+      gefs: "vp200_gefs_extended.png",
+      aifs: "vp200_aifs_ensemble.png",
+    };
+    const LABELS = {
+      ecmwf: "ECMWF weeklies",
+      gefs: "GEFS 35-day",
+      aifs: "AIFS Ensemble",
+    };
+    const state = { model: "ecmwf", meta: null };
 
     function fmt(iso) {
       if (!iso) return "";
@@ -73,20 +93,64 @@
       return `${day} ${MONTHS[month - 1]} ${year}`;
     }
 
-    function render(meta) {
-      const init = meta && meta.init ? fmt(meta.init) : "";
+    function modelMeta(meta, model) {
+      if (!meta) return null;
+      if (meta[model] && meta[model].init) return meta[model];
+      if (model === "ecmwf" && meta.init) {
+        return {
+          init: meta.init,
+          era5_through: meta.era5_through,
+          forecast_start: meta.forecast_start,
+        };
+      }
+      return null;
+    }
+
+    function render() {
+      const block = modelMeta(state.meta, state.model);
+      const img = document.getElementById("chart");
+      img.src = FILES[state.model];
+      img.alt = `${LABELS[state.model]} 200 mb velocity potential anomaly from 5°S to 5°N`;
       const status = document.getElementById("status");
-      if (init) {
-        status.textContent = `ECMWF weeklies init 00 UTC ${init}`;
+      if (block && block.init) {
+        status.textContent = `${LABELS[state.model]} init 00 UTC ${fmt(block.init)}`;
+      } else if (state.meta && state.meta.init && state.model === "ecmwf") {
+        status.textContent = `${LABELS.ecmwf} init 00 UTC ${fmt(state.meta.init)}`;
       } else {
-        status.textContent = "Latest published 200 mb velocity potential anomaly";
+        status.textContent = `${LABELS[state.model]} chart not published yet`;
       }
     }
 
+    function press(model) {
+      document.querySelectorAll("[data-model]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-model") === model ? "true" : "false");
+      });
+    }
+
+    document.querySelectorAll("[data-model]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.model = btn.getAttribute("data-model");
+        press(state.model);
+        render();
+      });
+    });
+
     fetch("meta.json")
       .then((response) => (response.ok ? response.json() : null))
-      .then(render)
-      .catch(() => render(null));
+      .then((meta) => {
+        state.meta = meta;
+        if (meta && !(meta.ecmwf && meta.ecmwf.init) && !meta.init) {
+          if (meta.gefs && meta.gefs.init) {
+            state.model = "gefs";
+            press("gefs");
+          } else if (meta.aifs && meta.aifs.init) {
+            state.model = "aifs";
+            press("aifs");
+          }
+        }
+        render();
+      })
+      .catch(() => render());
   </script>
 </body>
 </html>
