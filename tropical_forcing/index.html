@@ -15,6 +15,58 @@
 <title>Tropical Forcing</title>
 <style>
 .page { max-width: 920px; }
+.model-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 100;
+  transform: translateX(-50%) translateY(120%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 14px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(12, 21, 36, 0.08), 0 12px 28px rgba(12, 21, 36, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.model-dock.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.model-dock__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.model-dock .seg {
+  border-radius: 999px;
+}
+.model-dock .seg button {
+  padding: 6px 12px;
+  font-size: 12.5px;
+}
+@media (max-width: 520px) {
+  .model-dock {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    transform: translateX(0) translateY(120%);
+    justify-content: space-between;
+    border-radius: 14px;
+  }
+  .model-dock.is-visible {
+    transform: translateX(0) translateY(0);
+  }
+  .model-dock__label { display: none; }
+}
 </style>
 </head>
 <body>
@@ -42,7 +94,7 @@
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
-    <div class="controls">
+    <div class="controls" id="ensemble-controls">
       <div class="control">
         <span class="control-label">Ensemble</span>
         <div class="seg" role="group" aria-label="Ensemble">
@@ -71,6 +123,15 @@
       <div>© 2026</div>
     </div>
   </footer>
+
+  <div class="model-dock" id="model-dock" aria-hidden="true">
+    <span class="model-dock__label">Ensemble</span>
+    <div class="seg" role="group" aria-label="Ensemble">
+      <button type="button" data-model="ecmwf" aria-pressed="true">ECMWF Extended</button>
+      <button type="button" data-model="gefs" aria-pressed="false">GEFS Extended</button>
+      <button type="button" data-model="aifs" aria-pressed="false">AIFS Ensemble</button>
+    </div>
+  </div>
 
   <script>
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -134,6 +195,20 @@
         render();
       });
     });
+
+    const controls = document.getElementById("ensemble-controls");
+    const dock = document.getElementById("model-dock");
+    if (controls && dock && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          const show = !entry.isIntersecting;
+          dock.classList.toggle("is-visible", show);
+          dock.setAttribute("aria-hidden", show ? "false" : "true");
+        },
+        { threshold: 0, rootMargin: "-8px 0px 0px 0px" }
+      );
+      observer.observe(controls);
+    }
 
     fetch("meta.json")
       .then((response) => (response.ok ? response.json() : null))
