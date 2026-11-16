@@ -1,0 +1,10 @@
+---
+description: Product forecast folders on weatherprogrammer.com are S3-owned by misc — do not overwrite via Pages seed
+alwaysApply: true
+---
+
+# Product S3 ownership
+
+Live site is S3/CloudFront. Folders `tropical_forcing/`, `polar_vortex/`, `subseasonal/`, and `seasonal/` are published from the **misc** repo (`misc/<product>/site/index.html` + Action outputs).
+
+Never full-seed or `aws s3 sync` those prefixes from this repo. `misc/site_publish/seed_site.sh` excludes them — keep that. For product HTML/toggle/controls changes, edit misc and publish with `--s3`.
