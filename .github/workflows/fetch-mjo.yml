@@ -53,8 +53,9 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # Always sync (not only on git change) so a re-run heals S3 after a
+      # partial failure where the commit succeeded but upload did not.
       - name: Configure AWS credentials
-        if: steps.commit.outputs.changed == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -62,7 +63,6 @@ jobs:
           aws-region: us-east-1
 
       - name: Sync mjo-rmm.json to S3 / CloudFront
-        if: steps.commit.outputs.changed == 'true'
         env:
           WEATHERPROGRAMMER_S3_BUCKET: weatherprogrammer.com
           WEATHERPROGRAMMER_CLOUDFRONT_ID: ${{ secrets.WEATHERPROGRAMMER_CLOUDFRONT_ID }}
