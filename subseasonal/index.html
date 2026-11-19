@@ -24,7 +24,8 @@
     transform: translateX(-50%) translateY(120%);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    max-width: calc(100vw - 24px);
     padding: 8px 10px 8px 14px;
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(14px);
@@ -34,7 +35,11 @@
     opacity: 0;
     pointer-events: none;
     transition: transform 180ms ease, opacity 180ms ease;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .view-dock::-webkit-scrollbar { display: none; }
   .view-dock.is-visible {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
@@ -43,7 +48,8 @@
   .view-dock__group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    flex: 0 0 auto;
   }
   .view-dock__label {
     font-size: 12px;
@@ -53,11 +59,24 @@
     white-space: nowrap;
   }
   .view-dock .seg {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
     border-radius: 999px;
   }
   .view-dock .seg button {
-    padding: 6px 12px;
+    padding: 6px 10px;
     font-size: 12.5px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  /* Labels eat width once Variable is in the dock; drop them before segs wrap. */
+  @media (max-width: 900px) {
+    .view-dock {
+      padding-left: 10px;
+      gap: 8px;
+    }
+    .view-dock__label { display: none; }
   }
   @media (max-width: 640px) {
     .view-dock {
@@ -65,18 +84,16 @@
       right: 12px;
       bottom: 12px;
       transform: translateX(0) translateY(120%);
-      justify-content: space-between;
+      justify-content: flex-start;
       border-radius: 14px;
       gap: 8px;
-      flex-wrap: wrap;
     }
     .view-dock.is-visible {
       transform: translateX(0) translateY(0);
     }
-    .view-dock__label { display: none; }
   }
 </style>
-<title>Week 3-6 Temperature Forecast</title>
+<title>Week 3–6 Forecast</title>
 </head>
 <body>
   <header class="site-header">
@@ -94,20 +111,28 @@
 
   <div class="page">
     <p class="eyebrow"><a href="/">Weather Programmer</a> / subseasonal</p>
-    <h1>Week 3-6 Temperature Forecast</h1>
-    <p class="lede">
-      Chance that the week-mean temperature falls in each climatological fifth
-      (Q1 coldest 20% through Q5 warmest 80%), from the ECMWF extended-range
-      ensemble after probabilistic bias correction (PBC).
+    <h1 id="page-title">Week 3–6 Forecast</h1>
+    <p class="lede" id="lede">
+      Chance that the week-mean field falls in each climatological fifth, from the
+      ECMWF extended-range ensemble after probabilistic bias correction (PBC).
     </p>
     <p class="status" id="status">Loading latest init…</p>
 
     <div class="controls" id="view-controls">
       <div class="control">
+        <span class="control-label">Variable</span>
+        <div class="seg" role="group" aria-label="Variable">
+          <button type="button" data-var="t2m" aria-pressed="true">Temperature</button>
+          <button type="button" data-var="ws10" aria-pressed="false">Wind</button>
+          <button type="button" data-var="tp" aria-pressed="false">Precip</button>
+        </div>
+      </div>
+      <div class="control">
         <span class="control-label">Domain</span>
         <div class="seg" role="group" aria-label="Domain">
           <button type="button" data-domain="us" aria-pressed="true">United States</button>
           <button type="button" data-domain="europe" aria-pressed="false">Europe</button>
+          <button type="button" data-domain="brazil" aria-pressed="false">Brazil</button>
         </div>
       </div>
       <div class="control">
@@ -125,11 +150,11 @@
     <div class="frame">
       <img id="map" alt="Week 3 United States 2 m temperature quintile probabilities" src="us_t2m_week3.png">
     </div>
-    <p class="hint">Grays are less likely than climatology (~20%). Colour is more likely: blue cold, purple middle, red warm. Open the PNG for the full figure, including the raw-ensemble lean inset.</p>
+    <p class="hint" id="map-hint">Grays are less likely than climatology (~20%). Colour is more likely. Open the PNG for the full figure, including the raw-ensemble lean inset.</p>
 
     <h2 class="section-title">Tail Tilt</h2>
-    <p class="lede section-lede">
-      P(warmest 20%) minus P(coldest 20%). Blue where the cold tail is favored, red where the warm tail is; near white when the two are similar.
+    <p class="lede section-lede" id="tilt-lede">
+      P(Q5) minus P(Q1). Near white when the two tails are similar.
     </p>
     <div class="frame">
       <img id="tilt" alt="Week 3 United States Tail Tilt" src="us_t2m_week3_tilt.png">
@@ -151,10 +176,19 @@
 
   <div class="view-dock" id="view-dock" aria-hidden="true">
     <div class="view-dock__group">
+      <span class="view-dock__label">Variable</span>
+      <div class="seg" role="group" aria-label="Variable">
+        <button type="button" data-var="t2m" aria-pressed="true">Temp</button>
+        <button type="button" data-var="ws10" aria-pressed="false">Wind</button>
+        <button type="button" data-var="tp" aria-pressed="false">Precip</button>
+      </div>
+    </div>
+    <div class="view-dock__group">
       <span class="view-dock__label">Domain</span>
       <div class="seg" role="group" aria-label="Domain">
-        <button type="button" data-domain="us" aria-pressed="true">United States</button>
+        <button type="button" data-domain="us" aria-pressed="true">US</button>
         <button type="button" data-domain="europe" aria-pressed="false">Europe</button>
+        <button type="button" data-domain="brazil" aria-pressed="false">Brazil</button>
       </div>
     </div>
     <div class="view-dock__group">
@@ -170,8 +204,36 @@
 
   <script>
     const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const NAMES = { us: "United States", europe: "Europe" };
-    const state = { domain: "us", week: 3, init: null };
+    const NAMES = { us: "United States", europe: "Europe", brazil: "Brazil" };
+    const DOMAINS_BY_VAR = {
+      t2m: ["us", "europe"],
+      ws10: ["us", "europe"],
+      tp: ["brazil"],
+    };
+    const VARS = {
+      t2m: {
+        title: "Week 3–6 Temperature Forecast",
+        label: "2 m temperature",
+        lede: "Chance that the week-mean temperature falls in each climatological fifth (Q1 coldest 20% through Q5 warmest 80%), from the ECMWF extended-range ensemble after probabilistic bias correction (PBC).",
+        hint: "Grays are less likely than climatology (~20%). Colour is more likely: blue cold, purple middle, red warm. Open the PNG for the full figure, including the raw-ensemble lean inset.",
+        tilt: "P(warmest 20%) minus P(coldest 20%). Blue where the cold tail is favored, red where the warm tail is; near white when the two are similar.",
+      },
+      ws10: {
+        title: "Week 3–6 Wind Forecast",
+        label: "10 m wind speed",
+        lede: "Chance that the week-mean 10 m wind speed falls in each climatological fifth (Q1 weakest 20% through Q5 windiest 80%), from the ECMWF extended-range ensemble after probabilistic bias correction (PBC).",
+        hint: "Grays are less likely than climatology (~20%). Colour is more likely: orange weaker, purple middle, blue stronger. Open the PNG for the full figure, including the raw-ensemble lean inset.",
+        tilt: "P(windiest 20%) minus P(weakest 20%). Orange where weaker wind is favored, blue where stronger wind is; near white when the two are similar.",
+      },
+      tp: {
+        title: "Week 3–6 Precipitation Forecast",
+        label: "precipitation",
+        lede: "Chance that the week-mean precipitation falls in each climatological fifth (Q1 driest 20% through Q5 wettest 80%), from the ECMWF extended-range ensemble after probabilistic bias correction (PBC).",
+        hint: "Grays are less likely than climatology (~20%). Colour is more likely: brown drier, purple middle, green wetter. Open the PNG for the full figure, including the raw-ensemble lean inset.",
+        tilt: "P(wettest 20%) minus P(driest 20%). Brown where the dry tail is favored, green where the wet tail is; near white when the two are similar.",
+      },
+    };
+    const state = { domain: "us", week: 3, var: "t2m", init: null, available: ["t2m", "ws10", "tp"] };
 
     function addDays(iso, days) {
       const [y, m, d] = iso.split("-").map(Number);
@@ -187,26 +249,55 @@
       return `${fmt(first)} – ${fmt(last)}`;
     }
     function render() {
-      const file = `${state.domain}_t2m_week${state.week}.png`;
-      const tilt = `${state.domain}_t2m_week${state.week}_tilt.png`;
+      const meta = VARS[state.var];
+      const file = `${state.domain}_${state.var}_week${state.week}.png`;
+      const tilt = `${state.domain}_${state.var}_week${state.week}_tilt.png`;
       const img = document.getElementById("map");
       const tiltImg = document.getElementById("tilt");
       img.src = file;
-      img.alt = `Week ${state.week} ${NAMES[state.domain]} 2 m temperature quintile probabilities`;
+      img.alt = `Week ${state.week} ${NAMES[state.domain]} ${meta.label} quintile probabilities`;
       tiltImg.src = tilt;
       tiltImg.alt = `Week ${state.week} ${NAMES[state.domain]} Tail Tilt`;
+      document.title = meta.title;
+      document.getElementById("page-title").textContent = meta.title;
+      document.getElementById("lede").textContent = meta.lede;
+      document.getElementById("map-hint").textContent = meta.hint;
+      document.getElementById("tilt-lede").textContent = meta.tilt;
       document.getElementById("valid").textContent = state.init
         ? `Valid ${weekRange(state.init, state.week)}`
         : "";
       document.getElementById("status").textContent = state.init
         ? `Init 00 UTC ${fmt(addDays(state.init, 0))}`
         : "Latest published maps";
+      const domains = DOMAINS_BY_VAR[state.var] || ["us"];
+      if (!domains.includes(state.domain)) {
+        state.domain = domains[0];
+        press("data-domain", state.domain);
+      }
+      document.querySelectorAll("[data-var]").forEach((btn) => {
+        const v = btn.getAttribute("data-var");
+        btn.disabled = !state.available.includes(v);
+        btn.hidden = btn.disabled;
+      });
+      document.querySelectorAll("[data-domain]").forEach((btn) => {
+        const d = btn.getAttribute("data-domain");
+        const show = domains.includes(d);
+        btn.disabled = !show;
+        btn.hidden = !show;
+      });
     }
     function press(attr, value) {
       document.querySelectorAll(`[${attr}]`).forEach((btn) => {
         btn.setAttribute("aria-pressed", btn.getAttribute(attr) === String(value) ? "true" : "false");
       });
     }
+    document.querySelectorAll("[data-var]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        state.var = btn.getAttribute("data-var");
+        press("data-var", state.var);
+        render();
+      });
+    });
     document.querySelectorAll("[data-domain]").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.domain = btn.getAttribute("data-domain");
@@ -241,6 +332,13 @@
       .then((meta) => {
         if (meta) {
           state.init = meta.init || null;
+          if (Array.isArray(meta.variables) && meta.variables.length) {
+            state.available = meta.variables;
+            if (!state.available.includes(state.var)) {
+              state.var = state.available[0];
+              press("data-var", state.var);
+            }
+          }
         }
         render();
       })
