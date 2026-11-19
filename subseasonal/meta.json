@@ -1,8 +1,28 @@
 {
-  "init": "2026-11-06",
+  "init": "2026-11-18",
   "source": "openmeteo",
-  "updated_utc": "2026-11-07T01:15:38Z",
+  "variables": [
+    "t2m",
+    "tp"
+  ],
+  "updated_utc": "2026-11-19T05:07:08Z",
   "files": [
+    "brazil_tp_week3.png",
+    "brazil_tp_week3_tilt.png",
+    "brazil_tp_week4.png",
+    "brazil_tp_week4_tilt.png",
+    "brazil_tp_week5.png",
+    "brazil_tp_week5_tilt.png",
+    "brazil_tp_week6.png",
+    "brazil_tp_week6_tilt.png",
+    "europe_t2m_week3.png",
+    "europe_t2m_week3_tilt.png",
+    "europe_t2m_week4.png",
+    "europe_t2m_week4_tilt.png",
+    "europe_t2m_week5.png",
+    "europe_t2m_week5_tilt.png",
+    "europe_t2m_week6.png",
+    "europe_t2m_week6_tilt.png",
     "us_t2m_week3.png",
     "us_t2m_week3_tilt.png",
     "us_t2m_week4.png",
@@ -11,13 +31,6 @@
     "us_t2m_week5_tilt.png",
     "us_t2m_week6.png",
     "us_t2m_week6_tilt.png",
-    "europe_t2m_week3.png",
-    "europe_t2m_week3_tilt.png",
-    "europe_t2m_week4.png",
-    "europe_t2m_week4_tilt.png",
-    "europe_t2m_week5.png",
-    "europe_t2m_week5_tilt.png",
-    "europe_t2m_week6.png",
-    "europe_t2m_week6_tilt.png"
+    "index.html"
   ]
 }
