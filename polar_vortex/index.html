@@ -6,14 +6,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#122033">
-<link rel="icon" href="/favicon.ico?v=2" sizes="any">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
-<meta name="theme-color" content="#122033">
 <link rel="stylesheet" href="../assets/tool-chrome.css">
 <style>
   .metric-badge {
@@ -62,6 +54,14 @@
     padding: 6px 12px;
     font-size: 12.5px;
   }
+  .key h3 {
+    font-family: var(--display);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 16px 0 6px;
+    color: var(--ink);
+  }
+  .key h3:first-of-type { margin-top: 2px; }
   @media (max-width: 520px) {
     .model-dock {
       left: 12px;
@@ -120,6 +120,11 @@
       <img id="chart" alt="Polar-cap geopotential-height anomaly and 100 mb descent probability" src="polar_cap_descent.png">
     </div>
 
+    <h2 class="section-title">Upward Wave Activity</h2>
+    <div class="frame">
+      <img id="waf" alt="100 mb upward wave activity flux from ECMWF Extended" src="ecmwf_wafz_100mb.png">
+    </div>
+
     <h2 class="section-title">Wave Reflection</h2>
     <p class="status metric-badge" id="reflection-event-prob">Loading reflection event probability…</p>
     <div class="frame">
@@ -131,12 +136,16 @@
 
     <div class="key">
       <h2>How to read these charts</h2>
+      <h3>Polar vortex</h3>
       <p>A sudden stratospheric warming shows up here as a deep red column in the upper stratosphere. Whether it matters for surface weather depends on whether that anomaly descends.</p>
       <p>The top panel is the ensemble-mean standardized anomaly. The bottom panel is the member-by-member probability of clearing that +1σ threshold at 100 mb. High bars with little red below ~300 mb mean the ensemble still has a high polar cap aloft that has not yet coupled strongly into the troposphere.</p>
-      <p id="drift-note">ECMWF Extended anomalies are drift-corrected using about 100 IFS control reforecasts (5 nearby model dates × 20 hindcast years). GEFS Extended is shown without drift correction for now.</p>
-      <p>Upward arrows at 100 mb mark days when the 45-75°N eddy heat flux (a proxy for upward wave activity into the stratosphere) exceeds its day-of-year 90th percentile.</p>
+      <p>Upward arrows at 100 mb mark days when northward heat carried by waves into the stratosphere, averaged over 45–75°N, exceeds its day-of-year 75th percentile.</p>
       <p>Tropospheric coupling probability is the share of members with at least one day when polar-cap height is at least +1σ at 50, 100, 200, 300, and 500 mb together, excluding days with those upward arrows. That flags a weak-vortex column that reaches the troposphere without counting active upward-wave forcing.</p>
-      <p>The reflection index (Messori et al. 2022, after Matthias and Kretschmer 2020) compares how unusually strong the northward wave-driven heat flux is at 100 mb over Siberia (45–75°N, 140–200°E) versus Canada (45–75°N, 230–280°E). Positive values mean Siberia is anomalously strong relative to Canada. A reflection event is defined as RI &gt; 1 for at least 10 consecutive days; those events typically favor ridging over Alaska or western North America and cold-air potential in the Mid-Continent.</p>
+      <p id="drift-note">ECMWF Extended anomalies are drift-corrected using about 100 IFS control reforecasts (5 nearby model dates × 20 hindcast years). GEFS Extended is shown without drift correction for now.</p>
+      <h3>Upward wave activity</h3>
+      <p>These maps show how strongly waves are carrying heat upward into the stratosphere at 100 mb, averaged across the ensemble. Each day is compared with the usual value for that calendar day in the NCEP/NCAR record (1991–2020) at that location, in units of the local standard deviation. Each panel is a five-day average of those departures. Day 1 is the initialization date. Red is unusually strong upward wave activity. GEFS runs through day 35. ECMWF Extended also includes days 36–40 and 41–45.</p>
+      <h3>Wave reflection</h3>
+      <p>The reflection index (Messori et al. 2022, after Matthias and Kretschmer 2020) compares how unusually strong the northward heat carried by waves is at 100 mb over Siberia (45–75°N, 140–200°E) versus Canada (45–75°N, 230–280°E). Positive values mean Siberia is anomalously strong relative to Canada. A reflection event is defined as RI &gt; 1 for at least 10 consecutive days; those events typically favor ridging over Alaska or western North America and cold-air potential in the Mid-Continent.</p>
       <p>ERA5 can lag the open forecast archives by a day or two. Missing analysis days are bridged with that day’s lead-0 ensemble mean.</p>
     </div>
   </div>
@@ -168,6 +177,10 @@
     const REFLECTION_EVENT_FILES = {
       ecmwf: "wave_reflection_event_prob.png",
       gefs: "wave_reflection_event_prob_gefs.png",
+    };
+    const WAF_FILES = {
+      ecmwf: "ecmwf_wafz_100mb.png",
+      gefs: "gefs_wafz_100mb.png",
     };
     const LABELS = {
       ecmwf: "ECMWF weeklies",
@@ -202,7 +215,10 @@
       img.alt = `${LABELS[state.model]} polar-cap height anomaly and 100 mb descent probability`;
       const reflection = document.getElementById("reflection");
       const reflectionEvent = document.getElementById("reflection-event");
+      const waf = document.getElementById("waf");
       const reflectionLabel = state.model === "ecmwf" ? "ECMWF Extended" : "GEFS Extended";
+      waf.src = WAF_FILES[state.model];
+      waf.alt = `100 mb upward wave activity flux from ${reflectionLabel}`;
       reflection.src = REFLECTION_FILES[state.model];
       reflection.alt = `Stratospheric wave reflection index from ERA5 and ${reflectionLabel}`;
       reflectionEvent.src = REFLECTION_EVENT_FILES[state.model];
