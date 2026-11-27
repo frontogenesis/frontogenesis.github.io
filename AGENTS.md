@@ -12,7 +12,7 @@ Live **weatherprogrammer.com** is **S3 + CloudFront**, not GitHub Pages alone.
 | What | Edit where | Publish how |
 |------|------------|-------------|
 | Homepage, layouts, assets, static tools | this repo (`github_pages`) | Jekyll Pages deploy and/or `misc/site_publish/seed_site.sh` |
-| `tropical_forcing/`, `polar_vortex/`, `subseasonal/`, `seasonal/` | **`misc/<product>/site/`** (HTML) + Action outputs (PNGs/meta) | `python -m <product>.publish_pages --s3` from **misc** |
+| `tropical_forcing/`, `polar_vortex/`, `subseasonal/`, `seasonal/`, `fog/` | **`misc/<product>/site/`** (HTML) + Action outputs (PNGs/meta) | `python -m <product>.publish_pages --s3` from **misc** |
 | `vp200_regression_maps/mjo-rmm.json` | `misc/site_publish/fetch_mjo.py` | Hetzner timer at 1:00 PM America/Chicago → S3 |
 
 ## Hard rules

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/tool-chrome.css">
+<style>
+  .section-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 22px 0 8px;
+  }
+  .section-row .section-title { margin: 0; }
+  .metric-badge { margin: 8px 0 14px; font-size: 15px; }
+  .metric-badge strong {
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-cool);
+  }
+  .site-select {
+    appearance: none;
+    border: none;
+    border-bottom: 1px dashed var(--accent-cool);
+    background: transparent;
+    font: inherit;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 0 14px 0 0;
+    margin: 0;
+    max-width: 16em;
+    background-image: linear-gradient(45deg, transparent 50%, var(--accent-cool) 50%),
+      linear-gradient(135deg, var(--accent-cool) 50%, transparent 50%);
+    background-position: calc(100% - 8px) 55%, calc(100% - 3px) 55%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .site-select:hover { color: var(--accent-cool); }
+  .readout {
+    overflow: auto;
+    max-height: 440px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+  table.windows {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.windows th,
+  table.windows td {
+    padding: 8px 12px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  table.windows th:first-child,
+  table.windows td:first-child { text-align: left; }
+  table.windows th {
+    position: sticky;
+    top: 0;
+    background: var(--panel-2);
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  table.windows tbody tr:hover td { background: var(--panel-2); }
+  table.windows tr.peak td { background: var(--accent-dim); }
+  .frame--live {
+    line-height: normal;
+    overflow: visible;
+    padding: 8px 4px 0;
+  }
+  .tip {
+    position: fixed;
+    z-index: 200;
+    max-width: 280px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    font-size: 12.5px;
+    line-height: 1.45;
+    white-space: pre-line;
+    pointer-events: none;
+  }
+  .tip[hidden] { display: none; }
+  .key h3 {
+    font-family: var(--display);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin: 16px 0 6px;
+    color: var(--ink);
+  }
+  .key h3:first-of-type { margin-top: 2px; }
+</style>
+<title>Northwest Gulf Fog Forecasts</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="wordmark" href="/">
+        <span class="wordmark__mark" aria-hidden="true"></span>
+        Weather Programmer
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/#diagnostics">Diagnostics</a>
+        <a href="/#forecasts">Forecasts</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <p class="eyebrow"><a href="/">Weather Programmer</a> / fog</p>
+    <h1>Northwest Gulf Fog Forecasts</h1>
+    <p class="lede">
+      Chance of fog or mist, with visibility at or below 1 mile and no heavy
+      or convective precipitation.
+    </p>
+    <p class="status" id="status">Loading latest init…</p>
+
+    <div class="section-row">
+      <h2 class="section-title">Calibrated chance</h2>
+      <div class="seg" role="group" aria-label="Calibrated figure">
+        <button type="button" data-view="live" aria-pressed="true">Readout</button>
+        <button type="button" data-view="image" aria-pressed="false">Chart</button>
+      </div>
+    </div>
+    <p class="status metric-badge" id="cal-badge">Loading calibrated chance…</p>
+    <div class="frame" id="cal-image">
+      <img id="primary" alt="Calibrated AIFS fog chance at four Gulf Coast points" src="aifs_calibrated_forecast.png">
+    </div>
+    <div class="frame frame--live" id="cal-live" hidden>
+      <div id="cal-plot"></div>
+    </div>
+
+    <h2 class="section-title">Member votes</h2>
+    <p class="status metric-badge" id="vote-badge">Loading member votes…</p>
+    <div class="frame">
+      <img id="votes" alt="Share of AIFS members expecting fog in each window" src="aifs_ensemble_forecast.png">
+    </div>
+
+    <h2 class="section-title">What is driving the score</h2>
+    <div class="frame">
+      <img id="drivers" alt="What is pushing the AIFS fog score up or down" src="aifs_drivers.png">
+    </div>
+
+    <h2 class="section-title">Window chances</h2>
+    <div class="readout">
+      <table class="windows" id="windows">
+        <thead><tr><th>Window (Central)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="key">
+      <h2>How to read this</h2>
+      <h3>Calibrated chance</h3>
+      <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” On the readout, the band around the line is where 8 of every 10 forecasts fall: a high chance with a wide band is a less settled forecast than the same chance with a narrow one. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
+      <h3>Share of members</h3>
+      <p>Each of the 51 forecasts is asked a yes-or-no question: does fog show up anywhere in this six-hour window? The model is built to catch fog, not to avoid false alarms. It is set so that it finds about 9 of every 10 foggy windows, and it will flag some quiet windows along the way to do that. The bars count how many forecasts said yes. 25 of 51 means half of them expect fog. That is a head count, not the chance that fog occurs.</p>
+      <h3>What is driving the score</h3>
+      <p>The colored bands are what the model is weighing. Color above the zero line is pushing toward fog. Color below it is pushing against. The black line is the balance of the two. It shows what this model used, not a list of causes.</p>
+      <p>The run time at the top is UTC. The figures, the badges, and the table are in Central time. On the chance and member-vote charts, the vertical gray bands are night, 6pm to 6am Central. From April through September the calibrated chances are outside the months the correction was fitted on, so treat them as a rough guide.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div><strong>Weather Programmer</strong></div>
+      <div>© 2026</div>
+    </div>
+  </footer>
+
+  <div class="tip" id="tip" hidden></div>
+
+  <script>
+    const COLORS = {
+      SABINE_ONSHORE: "#c1440e",
+      SABINE_OFFSHORE: "#2e7d5b",
+      KBPT: "#1f4e79",
+      KGLS: "#7a5195",
+    };
+    const state = { drop: null, site: "SABINE_ONSHORE", view: "live", plotReady: false };
+
+    function aifs() {
+      return state.drop && state.drop.aifs ? state.drop.aifs : null;
+    }
+
+    function points() {
+      const block = aifs();
+      return block ? block.points : [];
+    }
+
+    function pointById(id) {
+      return points().find((point) => point.id === id) || null;
+    }
+
+    function partsIn(iso, timeZone, options) {
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return null;
+      const parts = new Intl.DateTimeFormat("en-GB", { timeZone, ...options }).formatToParts(date);
+      const out = {};
+      parts.forEach((part) => { out[part.type] = part.value; });
+      return out;
+    }
+
+    function fmtInit(iso) {
+      const part = partsIn(iso, "UTC", {
+        day: "numeric", month: "short", year: "numeric",
+        hour: "2-digit", hourCycle: "h23",
+      });
+      if (!part) return iso;
+      return `${part.hour} UTC ${part.day} ${part.month} ${part.year}`;
+    }
+
+    function fmtWindow(iso) {
+      const date = new Date(iso);
+      if (Number.isNaN(date.getTime())) return iso;
+      const part = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Chicago",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hourCycle: "h12",
+      }).formatToParts(date);
+      const get = (type) => part.find((item) => item.type === type).value;
+      const ampm = get("dayPeriod").replace(/\./g, "").toLowerCase();
+      return `${get("month")} ${get("day")} ${get("hour")}:${get("minute")}${ampm} CT`;
+    }
+
+    function fmtTable(iso) {
+      const part = partsIn(iso, "America/Chicago", {
+        weekday: "short", day: "numeric", month: "short",
+        hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+      });
+      if (!part) return iso;
+      return `${part.weekday} ${part.day} ${part.month} ${part.hour}:${part.minute}`;
+    }
+
+    function plusHours(iso, hours) {
+      return new Date(new Date(iso).getTime() + hours * 3600000).toISOString();
+    }
+
+    function centralStamp(iso) {
+      const part = partsIn(iso, "America/Chicago", {
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+      });
+      if (!part) return iso;
+      return `${part.year}-${part.month}-${part.day} ${part.hour}:${part.minute}`;
+    }
+
+    function nightBands(startIso, endIso) {
+      const startMs = new Date(startIso).getTime();
+      const endMs = new Date(endIso).getTime();
+      const hourOf = (ms) => {
+        const part = partsIn(new Date(ms).toISOString(), "America/Chicago", {
+          hour: "2-digit", hourCycle: "h23",
+        });
+        return part ? Number(part.hour) : null;
+      };
+      let probe = startMs;
+      for (let step = 0; step < 30 && hourOf(probe) !== 18; step += 1) probe -= 3600000;
+      const bands = [];
+      while (probe < endMs) {
+        let nightEnd = probe;
+        for (let step = 0; step < 20 && !(step > 0 && hourOf(nightEnd) === 6); step += 1) {
+          nightEnd += 3600000;
+        }
+        const lo = Math.max(probe, startMs);
+        const hi = Math.min(nightEnd, endMs);
+        if (hi > lo) {
+          bands.push([
+            centralStamp(new Date(lo).toISOString()),
+            centralStamp(new Date(hi).toISOString()),
+          ]);
+        }
+        const next = probe + 20 * 3600000;
+        probe = next;
+        for (let step = 0; step < 30 && hourOf(probe) !== 18; step += 1) probe += 3600000;
+      }
+      return bands;
+    }
+
+    function centralMonth(iso) {
+      const part = partsIn(iso, "America/Chicago", { month: "numeric" });
+      return part ? String(Number(part.month)) : null;
+    }
+
+    function peakOf(point, kind) {
+      if (!point) return null;
+      let best = null;
+      let bestValue = -1;
+      point.windows.forEach((window) => {
+        const value = kind === "votes"
+          ? (window.members ? window.votes / window.members : null)
+          : window.calibrated_mean;
+        if (value == null || !Number.isFinite(value)) return;
+        if (!best || value > bestValue) {
+          best = window;
+          bestValue = value;
+        }
+      });
+      return best;
+    }
+
+    function siteOptions(id) {
+      const options = points().map((point) => (
+        `<option value="${point.id}"${point.id === state.site ? " selected" : ""}>${point.name}</option>`
+      )).join("");
+      return `<select class="site-select" data-site-for="${id}" aria-label="Site">${options}</select>`;
+    }
+
+    function bindSites(root) {
+      root.querySelectorAll(".site-select").forEach((select) => {
+        select.addEventListener("change", () => {
+          state.site = select.value;
+          renderBadges();
+          renderTable();
+        });
+      });
+    }
+
+    function renderStatus() {
+      const status = document.getElementById("status");
+      const block = aifs();
+      if (!block) {
+        status.textContent = "AIFS Ensemble chart not published yet";
+        return;
+      }
+      status.textContent = block.init_time_utc
+        ? `AIFS Ensemble init ${fmtInit(block.init_time_utc)}`
+        : "AIFS Ensemble";
+    }
+
+    function renderBadges() {
+      const vote = document.getElementById("vote-badge");
+      const cal = document.getElementById("cal-badge");
+      const point = pointById(state.site);
+      if (!point) {
+        vote.textContent = "Member votes not published yet.";
+        cal.textContent = "Calibrated chance not published yet.";
+        return;
+      }
+      const votePeak = peakOf(point, "votes");
+      const calPeak = peakOf(point, "calibrated");
+      const voteSelect = siteOptions("votes");
+      const calSelect = siteOptions("calibrated");
+      if (!votePeak || votePeak.votes <= 0) {
+        vote.innerHTML = `No AIFS member puts fog at ${voteSelect} in this run.`;
+      } else {
+        const pct = Math.round((votePeak.votes / votePeak.members) * 100);
+        vote.innerHTML =
+          `${voteSelect} peaks at <strong>${pct}%</strong> ` +
+          `(${votePeak.votes} of ${votePeak.members} members) in the 6 hours starting at ${fmtWindow(votePeak.start_utc)}.`;
+      }
+      if (!calPeak || calPeak.calibrated_mean == null) {
+        cal.innerHTML = `Calibrated chance for ${calSelect} is not in this run.`;
+      } else if (calPeak.calibrated_mean <= 0) {
+        cal.innerHTML = `Calibrated chance at ${calSelect} stays at 0% in this run.`;
+      } else {
+        const pct = Math.round(calPeak.calibrated_mean * 100);
+        cal.innerHTML =
+          `${calSelect} peaks at <strong>${pct}%</strong> in the 6 hours starting at ${fmtWindow(calPeak.start_utc)}.`;
+      }
+      bindSites(vote);
+      bindSites(cal);
+    }
+
+    function renderFigures() {
+      const files = (state.drop && state.drop.figures) || {};
+      const votes = document.getElementById("votes");
+      const drivers = document.getElementById("drivers");
+      if (files.aifs_ensemble) votes.src = files.aifs_ensemble;
+      if (files.aifs_drivers) drivers.src = files.aifs_drivers;
+      if (files.aifs_calibrated) document.getElementById("primary").src = files.aifs_calibrated;
+      document.getElementById("cal-image").hidden = state.view !== "image";
+      document.getElementById("cal-live").hidden = state.view !== "live";
+      document.querySelectorAll("[data-view]").forEach((button) => {
+        button.setAttribute("aria-pressed", button.getAttribute("data-view") === state.view ? "true" : "false");
+      });
+    }
+
+    function renderTable() {
+      const table = document.getElementById("windows");
+      const rows = points();
+      const head = ["<th>Window (Central)</th>"]
+        .concat(rows.map((point) => `<th>${point.name}</th>`))
+        .join("");
+      const starts = [];
+      rows.forEach((point) => {
+        point.windows.forEach((window) => {
+          if (!starts.includes(window.start_utc)) starts.push(window.start_utc);
+        });
+      });
+      starts.sort();
+      const peak = peakOf(pointById(state.site), "votes");
+      const peakStart = peak && peak.votes > 0 ? peak.start_utc : null;
+      const body = starts.map((start) => {
+        const cells = rows.map((point) => {
+          const window = point.windows.find((item) => item.start_utc === start);
+          if (!window || !window.members) return "<td>—</td>";
+          const pct = Math.round((window.votes / window.members) * 100);
+          return `<td>${pct}% · ${window.votes}/${window.members}</td>`;
+        }).join("");
+        const mark = start === peakStart ? " class=\"peak\"" : "";
+        return `<tr${mark} data-start="${start}"><td>${fmtTable(start)}</td>${cells}</tr>`;
+      }).join("");
+      table.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+    }
+
+    function hoverText(start) {
+      const end = plusHours(start, state.drop.window_hours || 6);
+      const lines = [`${fmtWindow(start)} – ${fmtWindow(end)}`];
+      points().forEach((point) => {
+        const window = point.windows.find((item) => item.start_utc === start);
+        if (!window || !window.members) {
+          lines.push(`${point.name}: —`);
+          return;
+        }
+        const pct = Math.round((window.votes / window.members) * 100);
+        lines.push(`${point.name}: ${window.votes} of ${window.members} members (${pct}%)`);
+      });
+      return lines.join("\n");
+    }
+
+    function loadPlotly() {
+      if (window.Plotly) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.plot.ly/plotly-2.35.2.min.js";
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Plotly failed to load"));
+        document.head.appendChild(script);
+      });
+    }
+
+    function drawLive() {
+      const block = aifs();
+      const plot = document.getElementById("cal-plot");
+      if (!block || !window.Plotly) return;
+      const series = points();
+      const n = series.length;
+      const gap = 0.045;
+      const span = (1 - gap * Math.max(n - 1, 0)) / Math.max(n, 1);
+      let ceiling = 0.2;
+      series.forEach((point) => {
+        point.windows.forEach((window) => {
+          const high = window.calibrated_q90 != null ? window.calibrated_q90 : window.calibrated_mean;
+          if (high != null) ceiling = Math.max(ceiling, high);
+        });
+      });
+      const top = Math.min(1, ceiling * 1.25);
+      const traces = [];
+      const readouts = [];
+      const shapes = [];
+      const layout = {
+        hovermode: "x unified",
+        hoversubplots: "axis",
+        plot_bgcolor: "#f7f7f7",
+        paper_bgcolor: "#ffffff",
+        height: 210 * n + 120,
+        margin: { l: 64, r: 16, t: 8, b: 48 },
+        showlegend: false,
+      };
+      series.forEach((point, index) => {
+        const axis = index === 0 ? "y" : `y${index + 1}`;
+        const windows = point.windows.slice().sort((a, b) => a.start_utc.localeCompare(b.start_utc));
+        if (!windows.length) return;
+        const end = plusHours(windows[windows.length - 1].start_utc, state.drop.window_hours || 6);
+        const xs = windows.map((window) => centralStamp(window.start_utc)).concat([centralStamp(end)]);
+        const step = (key) => windows.map((window) => window[key]).concat([windows[windows.length - 1][key]]);
+        const colour = COLORS[point.id] || "#4a4a4a";
+        const low = 1 - (index + 1) * span - index * gap;
+        const yref = axis === "y" ? "y domain" : `${axis} domain`;
+        nightBands(windows[0].start_utc, end).forEach(([x0, x1]) => {
+          shapes.push({
+            type: "rect", xref: "x", yref, x0, x1, y0: 0, y1: 1,
+            fillcolor: "rgba(93, 115, 144, 0.18)", line: { width: 0 }, layer: "below",
+          });
+        });
+        traces.push({
+          x: xs, y: step("calibrated_q90"), yaxis: axis, mode: "lines",
+          line: { width: 0, shape: "hv" }, hoverinfo: "skip",
+        });
+        traces.push({
+          x: xs, y: step("calibrated_q10"), yaxis: axis, mode: "lines",
+          line: { width: 0, shape: "hv" }, fill: "tonexty",
+          fillcolor: hexAlpha(colour, 0.22),
+          hoverinfo: "skip",
+        });
+        traces.push({
+          x: xs, y: step("calibrated_mean"), yaxis: axis, mode: "lines",
+          line: { color: colour, width: 2.6, shape: "hv" }, hoverinfo: "skip",
+        });
+        const monthly = (block.monthly_base_rates || {})[point.id];
+        if (monthly) {
+          const normal = windows.map((window) => {
+            const month = centralMonth(window.start_utc);
+            return month && monthly[month] != null ? monthly[month] : null;
+          });
+          traces.push({
+            x: xs, y: normal.concat([normal[normal.length - 1]]), yaxis: axis, mode: "lines",
+            line: { color: "#555", width: 1.6, dash: "dot", shape: "hv" }, hoverinfo: "skip",
+          });
+        }
+        const centres = windows.map((window) => centralStamp(plusHours(window.start_utc, 3)));
+        readouts.push({
+          x: centres,
+          y: windows.map((window) => window.calibrated_mean),
+          yaxis: axis,
+          mode: "markers",
+          marker: { size: 10, color: colour, opacity: 0 },
+          customdata: windows.map((window) => [
+            window.calibrated_q10 == null ? "" : Math.round(window.calibrated_q10 * 100),
+            window.calibrated_q90 == null ? "" : Math.round(window.calibrated_q90 * 100),
+            window.votes,
+            window.members,
+          ]),
+          hovertemplate:
+            `<b>${point.name}</b> %{y:.0%}` +
+            " <span style='color:#666'>(%{customdata[0]}–%{customdata[1]}%)" +
+            " · %{customdata[2]}/%{customdata[3]}</span><extra></extra>",
+        });
+        layout[axis === "y" ? "yaxis" : `yaxis${index + 1}`] = {
+          domain: [low, low + span],
+          range: [0, top],
+          tickformat: ".0%",
+          title: { text: `<b>${point.name}</b>`, font: { size: 11 } },
+          gridcolor: "#e2e2e2",
+          zeroline: false,
+          fixedrange: true,
+        };
+      });
+      readouts.reverse().forEach((trace) => traces.push(trace));
+      const first = series[0];
+      if (first) {
+        traces.push({
+          x: first.windows.map((window) => centralStamp(plusHours(window.start_utc, 3))),
+          y: first.windows.map(() => 0),
+          yaxis: "y",
+          mode: "markers",
+          marker: { size: 1, opacity: 0 },
+          customdata: first.windows.map((window) => {
+            const end = plusHours(window.start_utc, state.drop.window_hours || 6);
+            return `${fmtWindow(window.start_utc).replace(" CT", "")}–${fmtWindow(end)}`;
+          }),
+          hovertemplate: "%{customdata}<extra></extra>",
+        });
+      }
+      layout.xaxis = {
+        type: "date",
+        tickformat: "%a %m/%d",
+        hoverformat: "%a %b %d",
+        showgrid: true,
+        gridcolor: "#cfcfcf",
+        title: { text: "Central time", font: { size: 11, color: "#777" } },
+        anchor: n > 1 ? `y${n}` : "y",
+        spikemode: "across",
+        spikesnap: "cursor",
+        showspikes: true,
+        spikethickness: 1,
+        spikecolor: "#888",
+      };
+      layout.shapes = shapes;
+      layout.annotations = [{
+        text: "night, 6pm–6am",
+        xref: "paper",
+        yref: "y domain",
+        x: 0.01,
+        y: 0.97,
+        xanchor: "left",
+        yanchor: "top",
+        showarrow: false,
+        font: { size: 12, color: "#243140" },
+        bgcolor: "rgba(255,255,255,0.8)",
+        borderpad: 3,
+      }];
+      window.Plotly.react(plot, traces, layout, {
+        responsive: true,
+        displaylogo: false,
+        scrollZoom: false,
+        modeBarButtonsToRemove: ["select2d", "lasso2d", "autoScale2d"],
+      });
+      state.plotReady = true;
+    }
+
+    function hexAlpha(hex, alpha) {
+      const value = hex.replace("#", "");
+      const r = parseInt(value.slice(0, 2), 16);
+      const g = parseInt(value.slice(2, 4), 16);
+      const b = parseInt(value.slice(4, 6), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    function showLive() {
+      const plot = document.getElementById("cal-plot");
+      if (!window.Plotly) plot.textContent = "Loading readout…";
+      loadPlotly()
+        .then(() => {
+          plot.replaceChildren();
+          drawLive();
+        })
+        .catch(() => {
+          plot.textContent = "The readout needs a network connection to load the chart.";
+        });
+    }
+
+    function render() {
+      renderStatus();
+      renderBadges();
+      renderFigures();
+      renderTable();
+      if (state.view === "live") showLive();
+    }
+
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.view = button.getAttribute("data-view");
+        renderFigures();
+        if (state.view === "live" && !state.plotReady) showLive();
+        if (state.view === "live" && state.plotReady && window.Plotly) {
+          window.Plotly.Plots.resize(document.getElementById("cal-plot"));
+        }
+      });
+    });
+
+    const tip = document.getElementById("tip");
+    const table = document.getElementById("windows");
+    table.addEventListener("mousemove", (event) => {
+      const row = event.target.closest("tbody tr");
+      if (!row) {
+        tip.hidden = true;
+        return;
+      }
+      tip.hidden = false;
+      tip.textContent = hoverText(row.getAttribute("data-start"));
+      const width = tip.offsetWidth;
+      const left = Math.min(event.clientX + 14, window.innerWidth - width - 12);
+      tip.style.left = `${Math.max(8, left)}px`;
+      tip.style.top = `${event.clientY + 16}px`;
+    });
+    table.addEventListener("mouseleave", () => { tip.hidden = true; });
+
+    fetch("latest.json")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((drop) => {
+        state.drop = drop;
+        render();
+      })
+      .catch(() => render());
+  </script>
+</body>
+</html>

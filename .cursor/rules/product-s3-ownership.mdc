@@ -5,6 +5,6 @@ alwaysApply: true
 
 # Product S3 ownership
 
-Live site is S3/CloudFront. Folders `tropical_forcing/`, `polar_vortex/`, `subseasonal/`, and `seasonal/` are published from the **misc** repo (`misc/<product>/site/index.html` + Action outputs).
+Live site is S3/CloudFront. Folders `tropical_forcing/`, `polar_vortex/`, `subseasonal/`, `seasonal/`, and `fog/` are published from the **misc** repo (`misc/<product>/site/index.html` + Action outputs). Fog graphics come from the separate fog model repo; misc only publishes them.
 
 Never full-seed or `aws s3 sync` those prefixes from this repo. `misc/site_publish/seed_site.sh` excludes them — keep that. For product HTML/toggle/controls changes, edit misc and publish with `--s3`.

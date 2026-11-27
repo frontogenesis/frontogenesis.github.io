@@ -1,0 +1,3081 @@
+{
+  "generated_at_utc": "2026-11-27T00:28:53Z",
+  "window_hours": 6,
+  "figures": {
+    "aifs_calibrated": "aifs_calibrated_forecast.png",
+    "aifs_ensemble": "aifs_ensemble_forecast.png",
+    "aifs_drivers": "aifs_drivers.png",
+    "hres": "hres_forecast.png",
+    "hres_diagnostics": "hres_diagnostics.png"
+  },
+  "threshold": 0.64485,
+  "aifs": {
+    "model": "AIFS",
+    "read_as": "member_fraction",
+    "members": 51,
+    "points": [
+      {
+        "id": "SABINE_ONSHORE",
+        "name": "Sabine Pass, onshore",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000148,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.001629,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.003021,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.001573,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.003021,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.00154,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.006019,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.009756,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "member_fraction": 0.0196,
+            "votes": 1,
+            "members": 51,
+            "calibrated_mean": 0.016758,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.027158,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.038367,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.038436,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.027486,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.011142,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.02381,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.020273,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.051042,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.0669,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T18:00:00Z",
+            "member_fraction": 0.3137,
+            "votes": 16,
+            "members": 51,
+            "calibrated_mean": 0.059095,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T00:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.060116,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T06:00:00Z",
+            "member_fraction": 0.3137,
+            "votes": 16,
+            "members": 51,
+            "calibrated_mean": 0.096915,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T12:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.108702,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T18:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.062554,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T00:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.032428,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T06:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.032324,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.039312,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T18:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.045668,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T00:00:00Z",
+            "member_fraction": 0.1765,
+            "votes": 9,
+            "members": 51,
+            "calibrated_mean": 0.056747,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T06:00:00Z",
+            "member_fraction": 0.3529,
+            "votes": 18,
+            "members": 51,
+            "calibrated_mean": 0.089055,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.211268,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T12:00:00Z",
+            "member_fraction": 0.3922,
+            "votes": 20,
+            "members": 51,
+            "calibrated_mean": 0.1262,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T18:00:00Z",
+            "member_fraction": 0.4706,
+            "votes": 24,
+            "members": 51,
+            "calibrated_mean": 0.140251,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.406667,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T00:00:00Z",
+            "member_fraction": 0.4902,
+            "votes": 25,
+            "members": 51,
+            "calibrated_mean": 0.151658,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.385965,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T06:00:00Z",
+            "member_fraction": 0.451,
+            "votes": 23,
+            "members": 51,
+            "calibrated_mean": 0.142512,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.465385,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T12:00:00Z",
+            "member_fraction": 0.4118,
+            "votes": 21,
+            "members": 51,
+            "calibrated_mean": 0.097994,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T18:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.069835,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T00:00:00Z",
+            "member_fraction": 0.2549,
+            "votes": 13,
+            "members": 51,
+            "calibrated_mean": 0.0748,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.211268,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T06:00:00Z",
+            "member_fraction": 0.2353,
+            "votes": 12,
+            "members": 51,
+            "calibrated_mean": 0.088123,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T12:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.074617,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T18:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.050784,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.173913,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.034598,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T06:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.036779,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T12:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.037124,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T18:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.035687,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T00:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.025616,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T06:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.02724,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T12:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.031909,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T18:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.035759,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.048377,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T06:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.044089,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T12:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.046726,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T18:00:00Z",
+            "member_fraction": 0.1765,
+            "votes": 9,
+            "members": 51,
+            "calibrated_mean": 0.040441,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.026997,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T06:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.031631,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T12:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.026055,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T18:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.027447,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T00:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.025509,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T06:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.022115,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.75,
+        "longitude": -93.87
+      },
+      {
+        "id": "SABINE_OFFSHORE",
+        "name": "Sabine Pass, offshore",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000643,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.001777,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.003021,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000541,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.00382,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.006421,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.019599,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.04343,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.052264,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.038257,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.027105,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.022709,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.020616,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T06:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.042263,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.069909,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T18:00:00Z",
+            "member_fraction": 0.3725,
+            "votes": 19,
+            "members": 51,
+            "calibrated_mean": 0.083093,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T00:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.068837,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T06:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.078833,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T12:00:00Z",
+            "member_fraction": 0.3333,
+            "votes": 17,
+            "members": 51,
+            "calibrated_mean": 0.097263,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T18:00:00Z",
+            "member_fraction": 0.2549,
+            "votes": 13,
+            "members": 51,
+            "calibrated_mean": 0.070993,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T00:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.028449,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T06:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.02036,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.038425,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.088889,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T18:00:00Z",
+            "member_fraction": 0.2353,
+            "votes": 12,
+            "members": 51,
+            "calibrated_mean": 0.050994,
+            "calibrated_q10": 0.004505,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.051518,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T06:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.077587,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T12:00:00Z",
+            "member_fraction": 0.3922,
+            "votes": 20,
+            "members": 51,
+            "calibrated_mean": 0.120046,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T18:00:00Z",
+            "member_fraction": 0.5294,
+            "votes": 27,
+            "members": 51,
+            "calibrated_mean": 0.145646,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.393701,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T00:00:00Z",
+            "member_fraction": 0.4706,
+            "votes": 24,
+            "members": 51,
+            "calibrated_mean": 0.139567,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.465385,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T06:00:00Z",
+            "member_fraction": 0.4118,
+            "votes": 21,
+            "members": 51,
+            "calibrated_mean": 0.123369,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.393701,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T12:00:00Z",
+            "member_fraction": 0.3333,
+            "votes": 17,
+            "members": 51,
+            "calibrated_mean": 0.088091,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T18:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.070951,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T00:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.059396,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T06:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.06398,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.057415,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T18:00:00Z",
+            "member_fraction": 0.1765,
+            "votes": 9,
+            "members": 51,
+            "calibrated_mean": 0.044754,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T00:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.033415,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.03067,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T12:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.036716,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T18:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.039084,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T00:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.025646,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.043011,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T06:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.020157,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T12:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.023517,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T18:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.033618,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T00:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.034309,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.031506,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T12:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.030798,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T18:00:00Z",
+            "member_fraction": 0.1765,
+            "votes": 9,
+            "members": 51,
+            "calibrated_mean": 0.038929,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.173913,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.028285,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T06:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.020443,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T12:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.020774,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T18:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.022127,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.043011,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T00:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.015851,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T06:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.014945,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.035382,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.6,
+        "longitude": -93.8
+      },
+      {
+        "id": "KBPT",
+        "name": "Nederland",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000114,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000165,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000637,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.00048,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "member_fraction": 0.2353,
+            "votes": 12,
+            "members": 51,
+            "calibrated_mean": 0.054817,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "member_fraction": 0.3922,
+            "votes": 20,
+            "members": 51,
+            "calibrated_mean": 0.082832,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.000479,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.002797,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.004593,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.006421,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.035646,
+            "calibrated_q10": 0.004505,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.046833,
+            "calibrated_q10": 0.006421,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "member_fraction": 0.0392,
+            "votes": 2,
+            "members": 51,
+            "calibrated_mean": 0.006762,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.006421,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.024389,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.040724,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.03337,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "member_fraction": 0.0196,
+            "votes": 1,
+            "members": 51,
+            "calibrated_mean": 0.004854,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.003021,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.046081,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T06:00:00Z",
+            "member_fraction": 0.5294,
+            "votes": 27,
+            "members": 51,
+            "calibrated_mean": 0.159303,
+            "calibrated_q10": 0.004505,
+            "calibrated_q90": 0.467105,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T12:00:00Z",
+            "member_fraction": 0.4706,
+            "votes": 24,
+            "members": 51,
+            "calibrated_mean": 0.152306,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.465385,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T18:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.023488,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T00:00:00Z",
+            "member_fraction": 0.4314,
+            "votes": 22,
+            "members": 51,
+            "calibrated_mean": 0.094379,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T06:00:00Z",
+            "member_fraction": 0.7255,
+            "votes": 37,
+            "members": 51,
+            "calibrated_mean": 0.203078,
+            "calibrated_q10": 0.013453,
+            "calibrated_q90": 0.467105,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T12:00:00Z",
+            "member_fraction": 0.6667,
+            "votes": 34,
+            "members": 51,
+            "calibrated_mean": 0.210954,
+            "calibrated_q10": 0.013453,
+            "calibrated_q90": 0.467105,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T18:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.05129,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T00:00:00Z",
+            "member_fraction": 0.3333,
+            "votes": 17,
+            "members": 51,
+            "calibrated_mean": 0.071156,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.18543,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T06:00:00Z",
+            "member_fraction": 0.4902,
+            "votes": 25,
+            "members": 51,
+            "calibrated_mean": 0.105916,
+            "calibrated_q10": 0.009756,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T12:00:00Z",
+            "member_fraction": 0.4118,
+            "votes": 21,
+            "members": 51,
+            "calibrated_mean": 0.101497,
+            "calibrated_q10": 0.013453,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T18:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.059414,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T00:00:00Z",
+            "member_fraction": 0.4902,
+            "votes": 25,
+            "members": 51,
+            "calibrated_mean": 0.127744,
+            "calibrated_q10": 0.004505,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T06:00:00Z",
+            "member_fraction": 0.7255,
+            "votes": 37,
+            "members": 51,
+            "calibrated_mean": 0.254492,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.642157,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T12:00:00Z",
+            "member_fraction": 0.6667,
+            "votes": 34,
+            "members": 51,
+            "calibrated_mean": 0.234999,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.575758,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T18:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.05074,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.173913,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T00:00:00Z",
+            "member_fraction": 0.4706,
+            "votes": 24,
+            "members": 51,
+            "calibrated_mean": 0.17039,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.575758,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T06:00:00Z",
+            "member_fraction": 0.6275,
+            "votes": 32,
+            "members": 51,
+            "calibrated_mean": 0.237602,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.6,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T12:00:00Z",
+            "member_fraction": 0.5294,
+            "votes": 27,
+            "members": 51,
+            "calibrated_mean": 0.166719,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.393701,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T18:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.058834,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T00:00:00Z",
+            "member_fraction": 0.3333,
+            "votes": 17,
+            "members": 51,
+            "calibrated_mean": 0.093625,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T06:00:00Z",
+            "member_fraction": 0.3922,
+            "votes": 20,
+            "members": 51,
+            "calibrated_mean": 0.126948,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.406667,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T12:00:00Z",
+            "member_fraction": 0.451,
+            "votes": 23,
+            "members": 51,
+            "calibrated_mean": 0.111156,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T18:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.029155,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.0574,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T06:00:00Z",
+            "member_fraction": 0.2941,
+            "votes": 15,
+            "members": 51,
+            "calibrated_mean": 0.09052,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.07956,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.285714,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T18:00:00Z",
+            "member_fraction": 0.1765,
+            "votes": 9,
+            "members": 51,
+            "calibrated_mean": 0.050173,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T00:00:00Z",
+            "member_fraction": 0.2353,
+            "votes": 12,
+            "members": 51,
+            "calibrated_mean": 0.069733,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T06:00:00Z",
+            "member_fraction": 0.3137,
+            "votes": 16,
+            "members": 51,
+            "calibrated_mean": 0.110493,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.088523,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T18:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.044668,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T00:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.065284,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T06:00:00Z",
+            "member_fraction": 0.3529,
+            "votes": 18,
+            "members": 51,
+            "calibrated_mean": 0.112718,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T12:00:00Z",
+            "member_fraction": 0.3137,
+            "votes": 16,
+            "members": 51,
+            "calibrated_mean": 0.107697,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.382979,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T18:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.032607,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.054733,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T06:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.080024,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.069309,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T18:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.038848,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.05098,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.048075,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.9521,
+        "longitude": -94.0261
+      },
+      {
+        "id": "KGLS",
+        "name": "Galveston",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.0,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.0,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.001627,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.003021,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.008274,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.031915,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "member_fraction": 0.0196,
+            "votes": 1,
+            "members": 51,
+            "calibrated_mean": 0.007036,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.013453,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.002924,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.006421,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.007475,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.013453,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "member_fraction": 0.0196,
+            "votes": 1,
+            "members": 51,
+            "calibrated_mean": 0.01263,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.025424,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "member_fraction": 0.0,
+            "votes": 0,
+            "members": 51,
+            "calibrated_mean": 0.008286,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.031915,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.020579,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.034452,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.029136,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "member_fraction": 0.0588,
+            "votes": 3,
+            "members": 51,
+            "calibrated_mean": 0.015114,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.020182,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T06:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.058103,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.079986,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T18:00:00Z",
+            "member_fraction": 0.3137,
+            "votes": 16,
+            "members": 51,
+            "calibrated_mean": 0.069047,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T00:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.069014,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T06:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.074352,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.173913,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T12:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.080058,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-02T18:00:00Z",
+            "member_fraction": 0.2157,
+            "votes": 11,
+            "members": 51,
+            "calibrated_mean": 0.050832,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T00:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.03239,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.088889,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T06:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.033628,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.042064,
+            "calibrated_q10": 0.003021,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-03T18:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.047371,
+            "calibrated_q10": 0.002797,
+            "calibrated_q90": 0.173913,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T00:00:00Z",
+            "member_fraction": 0.2745,
+            "votes": 14,
+            "members": 51,
+            "calibrated_mean": 0.069281,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T06:00:00Z",
+            "member_fraction": 0.3725,
+            "votes": 19,
+            "members": 51,
+            "calibrated_mean": 0.112743,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.297753,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T12:00:00Z",
+            "member_fraction": 0.4118,
+            "votes": 21,
+            "members": 51,
+            "calibrated_mean": 0.123544,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.406667,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-04T18:00:00Z",
+            "member_fraction": 0.4118,
+            "votes": 21,
+            "members": 51,
+            "calibrated_mean": 0.120388,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.393701,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T00:00:00Z",
+            "member_fraction": 0.4706,
+            "votes": 24,
+            "members": 51,
+            "calibrated_mean": 0.131712,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.406667,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T06:00:00Z",
+            "member_fraction": 0.451,
+            "votes": 23,
+            "members": 51,
+            "calibrated_mean": 0.13283,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.393701,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T12:00:00Z",
+            "member_fraction": 0.3333,
+            "votes": 17,
+            "members": 51,
+            "calibrated_mean": 0.086357,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.231788,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-05T18:00:00Z",
+            "member_fraction": 0.2549,
+            "votes": 13,
+            "members": 51,
+            "calibrated_mean": 0.063215,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.201389,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T00:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.057176,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.164179,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T06:00:00Z",
+            "member_fraction": 0.2549,
+            "votes": 13,
+            "members": 51,
+            "calibrated_mean": 0.066093,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T12:00:00Z",
+            "member_fraction": 0.1961,
+            "votes": 10,
+            "members": 51,
+            "calibrated_mean": 0.056029,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-06T18:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.032792,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T00:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.028432,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.030043,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T12:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.036784,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-07T18:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.036664,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T00:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.037936,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.088889,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T06:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.034248,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T12:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.029854,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-08T18:00:00Z",
+            "member_fraction": 0.0784,
+            "votes": 4,
+            "members": 51,
+            "calibrated_mean": 0.028789,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.039373,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.042159,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T12:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.044882,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-09T18:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.041811,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T00:00:00Z",
+            "member_fraction": 0.1569,
+            "votes": 8,
+            "members": 51,
+            "calibrated_mean": 0.035996,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.14128,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.032767,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T12:00:00Z",
+            "member_fraction": 0.1176,
+            "votes": 6,
+            "members": 51,
+            "calibrated_mean": 0.02517,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.088889,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-10T18:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.023187,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T00:00:00Z",
+            "member_fraction": 0.098,
+            "votes": 5,
+            "members": 51,
+            "calibrated_mean": 0.023084,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.069337,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-11T06:00:00Z",
+            "member_fraction": 0.1373,
+            "votes": 7,
+            "members": 51,
+            "calibrated_mean": 0.025755,
+            "calibrated_q10": 0.0,
+            "calibrated_q90": 0.118721,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.27,
+        "longitude": -94.86
+      }
+    ],
+    "init_time_utc": "2026-11-26T06:00:00Z",
+    "monthly_base_rates": {
+      "KBPT": {
+        "1": 0.0989,
+        "2": 0.1597,
+        "3": 0.1024,
+        "4": 0.0351,
+        "5": 0.0347,
+        "6": 0.0271,
+        "7": 0.0189,
+        "8": 0.0237,
+        "9": 0.0334,
+        "10": 0.0783,
+        "11": 0.0951,
+        "12": 0.1477
+      },
+      "KGLS": {
+        "1": 0.1169,
+        "2": 0.2236,
+        "3": 0.1405,
+        "4": 0.0283,
+        "5": 0.0009,
+        "6": 0.0,
+        "7": 0.0008,
+        "8": 0.0,
+        "9": 0.0,
+        "10": 0.0031,
+        "11": 0.0231,
+        "12": 0.1188
+      }
+    }
+  },
+  "hres": {
+    "model": "ECMWF HRES",
+    "read_as": "fog_probability",
+    "points": [
+      {
+        "id": "SABINE_ONSHORE",
+        "name": "Sabine Pass, onshore",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T06:00:00Z",
+            "end_utc": "2026-11-26T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000426,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "end_utc": "2026-11-26T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000429,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "end_utc": "2026-11-27T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.00029,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "end_utc": "2026-11-27T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000213,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "end_utc": "2026-11-27T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000238,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "end_utc": "2026-11-27T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000188,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "end_utc": "2026-11-28T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000325,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "end_utc": "2026-11-28T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.00088,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "end_utc": "2026-11-28T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.004325,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "end_utc": "2026-11-28T18:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.024909,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "end_utc": "2026-11-29T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000897,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "end_utc": "2026-11-29T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000644,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "end_utc": "2026-11-29T12:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.021237,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "end_utc": "2026-11-29T18:00:00Z",
+            "fog_probability": 0.006421,
+            "peak_score": 0.053964,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "end_utc": "2026-11-30T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000754,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "end_utc": "2026-11-30T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000156,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "end_utc": "2026-11-30T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000159,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "end_utc": "2026-11-30T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000207,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "end_utc": "2026-12-01T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.0003,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "end_utc": "2026-12-01T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000372,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.75,
+        "longitude": -93.87
+      },
+      {
+        "id": "SABINE_OFFSHORE",
+        "name": "Sabine Pass, offshore",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T06:00:00Z",
+            "end_utc": "2026-11-26T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 7.1e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "end_utc": "2026-11-26T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 9.5e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "end_utc": "2026-11-27T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.0001,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "end_utc": "2026-11-27T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 6.3e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "end_utc": "2026-11-27T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 7.2e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "end_utc": "2026-11-27T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000283,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "end_utc": "2026-11-28T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000223,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "end_utc": "2026-11-28T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000265,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "end_utc": "2026-11-28T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000478,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "end_utc": "2026-11-28T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000925,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "end_utc": "2026-11-29T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000662,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "end_utc": "2026-11-29T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000346,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "end_utc": "2026-11-29T12:00:00Z",
+            "fog_probability": 0.002797,
+            "peak_score": 0.006271,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "end_utc": "2026-11-29T18:00:00Z",
+            "fog_probability": 0.006421,
+            "peak_score": 0.066297,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "end_utc": "2026-11-30T00:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.023056,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "end_utc": "2026-11-30T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000163,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "end_utc": "2026-11-30T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 9.5e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "end_utc": "2026-11-30T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000149,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "end_utc": "2026-12-01T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000344,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "end_utc": "2026-12-01T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000223,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.6,
+        "longitude": -93.8
+      },
+      {
+        "id": "KBPT",
+        "name": "Nederland",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T06:00:00Z",
+            "end_utc": "2026-11-26T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000192,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "end_utc": "2026-11-26T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000241,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "end_utc": "2026-11-27T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000238,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "end_utc": "2026-11-27T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000138,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "end_utc": "2026-11-27T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000274,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "end_utc": "2026-11-27T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000387,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "end_utc": "2026-11-28T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000309,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "end_utc": "2026-11-28T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000809,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "end_utc": "2026-11-28T12:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.019804,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "end_utc": "2026-11-28T18:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.021801,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "end_utc": "2026-11-29T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.00105,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "end_utc": "2026-11-29T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.001829,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "end_utc": "2026-11-29T12:00:00Z",
+            "fog_probability": 0.035382,
+            "peak_score": 0.333168,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "end_utc": "2026-11-29T18:00:00Z",
+            "fog_probability": 0.069337,
+            "peak_score": 0.585069,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "end_utc": "2026-11-30T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.00118,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "end_utc": "2026-11-30T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000243,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "end_utc": "2026-11-30T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000229,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "end_utc": "2026-11-30T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000288,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "end_utc": "2026-12-01T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000638,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "end_utc": "2026-12-01T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.00064,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.9521,
+        "longitude": -94.0261
+      },
+      {
+        "id": "KGLS",
+        "name": "Galveston",
+        "windows": [
+          {
+            "start_utc": "2026-11-26T06:00:00Z",
+            "end_utc": "2026-11-26T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 5.1e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T12:00:00Z",
+            "end_utc": "2026-11-26T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000104,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-26T18:00:00Z",
+            "end_utc": "2026-11-27T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000111,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T00:00:00Z",
+            "end_utc": "2026-11-27T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 6.3e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T06:00:00Z",
+            "end_utc": "2026-11-27T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 9.1e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T12:00:00Z",
+            "end_utc": "2026-11-27T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000166,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-27T18:00:00Z",
+            "end_utc": "2026-11-28T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000374,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T00:00:00Z",
+            "end_utc": "2026-11-28T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000317,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T06:00:00Z",
+            "end_utc": "2026-11-28T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000562,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T12:00:00Z",
+            "end_utc": "2026-11-28T18:00:00Z",
+            "fog_probability": 0.002797,
+            "peak_score": 0.007424,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-28T18:00:00Z",
+            "end_utc": "2026-11-29T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.001925,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T00:00:00Z",
+            "end_utc": "2026-11-29T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000426,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T06:00:00Z",
+            "end_utc": "2026-11-29T12:00:00Z",
+            "fog_probability": 0.003021,
+            "peak_score": 0.016001,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T12:00:00Z",
+            "end_utc": "2026-11-29T18:00:00Z",
+            "fog_probability": 0.006421,
+            "peak_score": 0.07739,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-29T18:00:00Z",
+            "end_utc": "2026-11-30T00:00:00Z",
+            "fog_probability": 0.002797,
+            "peak_score": 0.004724,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T00:00:00Z",
+            "end_utc": "2026-11-30T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000108,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T06:00:00Z",
+            "end_utc": "2026-11-30T12:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 8.4e-05,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T12:00:00Z",
+            "end_utc": "2026-11-30T18:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000152,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-11-30T18:00:00Z",
+            "end_utc": "2026-12-01T00:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000327,
+            "in_calibration_season": true
+          },
+          {
+            "start_utc": "2026-12-01T00:00:00Z",
+            "end_utc": "2026-12-01T06:00:00Z",
+            "fog_probability": 0.0,
+            "peak_score": 0.000229,
+            "in_calibration_season": true
+          }
+        ],
+        "latitude": 29.27,
+        "longitude": -94.86
+      }
+    ],
+    "init_time_utc": "2026-11-26T00:00:00Z"
+  }
+}
