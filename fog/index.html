@@ -518,11 +518,11 @@
       const lines = [`${fmtWindow(start)} – ${fmtWindow(end)}`];
       points().forEach((point) => {
         const window = point.windows.find((item) => item.start_utc === start);
-        if (!window || !window.members) {
+        if (!window) {
           lines.push(`${point.name}: —`);
           return;
         }
-        lines.push(`${point.name}: ${chanceText(window)} chance · ${window.votes} of ${window.members} members`);
+        lines.push(`${point.name}: ${chanceText(window)} chance`);
       });
       return lines.join("\n");
     }
@@ -659,10 +659,7 @@
           yaxis: axis,
           mode: "markers",
           marker: { size: 10, color: colour, opacity: 0 },
-          customdata: windows.map((window) => [window.votes, window.members]),
-          hovertemplate:
-            `<b>${point.name}</b> %{y:.0%}` +
-            " <span style='color:#666'>· %{customdata[0]}/%{customdata[1]}</span><extra></extra>",
+          hovertemplate: `<b>${point.name}</b> %{y:.0%}<extra></extra>`,
         });
         layout[axis === "y" ? "yaxis" : `yaxis${index + 1}`] = {
           domain: [low, low + span],
