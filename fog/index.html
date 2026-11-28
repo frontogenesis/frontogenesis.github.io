@@ -213,7 +213,7 @@
     <div class="key">
       <h2>How to read this</h2>
       <h3>Calibrated chance</h3>
-      <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” On the readout, the band around the line is where 8 of every 10 forecasts fall: a high chance with a wide band is a less settled forecast than the same chance with a narrow one. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
+      <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” How much the 51 forecasts agree is shown in the member-vote section below. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
       <h3>Share of members</h3>
       <p>Each of the 51 forecasts is asked a yes-or-no question: does fog show up anywhere in this six-hour window? The model is built to catch fog, not to avoid false alarms. It is set so that it finds about 9 of every 10 foggy windows, and it will flag some quiet windows along the way to do that. The bars count how many forecasts said yes. 25 of 51 means half of them expect fog. That is a head count, not the chance that fog occurs.</p>
       <h3>Window chances</h3>
@@ -538,6 +538,55 @@
       });
     }
 
+    function smoothChance(x, y) {
+      const n = y.length;
+      if (n < 2) return { x, y };
+      const h = [];
+      const delta = [];
+      for (let i = 0; i < n - 1; i += 1) {
+        h.push(x[i + 1] - x[i]);
+        delta.push((y[i + 1] - y[i]) / h[i]);
+      }
+      const slope = new Array(n);
+      slope[0] = delta[0];
+      slope[n - 1] = delta[n - 2];
+      for (let i = 1; i < n - 1; i += 1) {
+        if (delta[i - 1] === 0 || delta[i] === 0 || delta[i - 1] * delta[i] < 0) slope[i] = 0;
+        else slope[i] = (h[i - 1] + h[i]) / (h[i - 1] / delta[i - 1] + h[i] / delta[i]);
+      }
+      for (let i = 0; i < n - 1; i += 1) {
+        if (delta[i] === 0) {
+          slope[i] = 0;
+          slope[i + 1] = 0;
+          continue;
+        }
+        const a = slope[i] / delta[i];
+        const b = slope[i + 1] / delta[i];
+        const scale = a * a + b * b;
+        if (scale > 9) {
+          const tau = 3 / Math.sqrt(scale);
+          slope[i] = tau * a * delta[i];
+          slope[i + 1] = tau * b * delta[i];
+        }
+      }
+      const outX = [];
+      const outY = [];
+      for (let i = 0; i < n - 1; i += 1) {
+        for (let k = 0; k < 8; k += 1) {
+          const t = k / 8;
+          const h00 = (1 + 2 * t) * (1 - t) ** 2;
+          const h10 = t * (1 - t) ** 2;
+          const h01 = t ** 2 * (3 - 2 * t);
+          const h11 = t ** 2 * (t - 1);
+          outX.push(x[i] + t * h[i]);
+          outY.push(h00 * y[i] + h10 * h[i] * slope[i] + h01 * y[i + 1] + h11 * h[i] * slope[i + 1]);
+        }
+      }
+      outX.push(x[n - 1]);
+      outY.push(y[n - 1]);
+      return { x: outX, y: outY };
+    }
+
     function drawLive() {
       const block = aifs();
       const plot = document.getElementById("cal-plot");
@@ -549,8 +598,7 @@
       let ceiling = 0.2;
       series.forEach((point) => {
         point.windows.forEach((window) => {
-          const high = window.calibrated_q90 != null ? window.calibrated_q90 : window.calibrated_mean;
-          if (high != null) ceiling = Math.max(ceiling, high);
+          if (window.calibrated_mean != null) ceiling = Math.max(ceiling, window.calibrated_mean);
         });
       });
       const top = Math.min(1, ceiling * 1.25);
@@ -572,7 +620,6 @@
         if (!windows.length) return;
         const end = plusHours(windows[windows.length - 1].start_utc, state.drop.window_hours || 6);
         const xs = windows.map((window) => centralStamp(window.start_utc)).concat([centralStamp(end)]);
-        const step = (key) => windows.map((window) => window[key]).concat([windows[windows.length - 1][key]]);
         const colour = COLORS[point.id] || "#4a4a4a";
         const low = 1 - (index + 1) * span - index * gap;
         const yref = axis === "y" ? "y domain" : `${axis} domain`;
@@ -582,19 +629,17 @@
             fillcolor: "rgba(93, 115, 144, 0.18)", line: { width: 0 }, layer: "below",
           });
         });
+        const spanHours = state.drop.window_hours || 6;
+        const centreMs = windows.map((window) => new Date(plusHours(window.start_utc, spanHours / 2)).getTime());
+        const chance = windows.map((window) => window.calibrated_mean);
+        const curve = smoothChance(
+          [new Date(windows[0].start_utc).getTime(), ...centreMs, new Date(end).getTime()],
+          [chance[0], ...chance, chance[chance.length - 1]],
+        );
         traces.push({
-          x: xs, y: step("calibrated_q90"), yaxis: axis, mode: "lines",
-          line: { width: 0, shape: "hv" }, hoverinfo: "skip",
-        });
-        traces.push({
-          x: xs, y: step("calibrated_q10"), yaxis: axis, mode: "lines",
-          line: { width: 0, shape: "hv" }, fill: "tonexty",
-          fillcolor: hexAlpha(colour, 0.22),
-          hoverinfo: "skip",
-        });
-        traces.push({
-          x: xs, y: step("calibrated_mean"), yaxis: axis, mode: "lines",
-          line: { color: colour, width: 2.6, shape: "hv" }, hoverinfo: "skip",
+          x: curve.x.map((ms) => centralStamp(new Date(ms).toISOString())),
+          y: curve.y, yaxis: axis, mode: "lines",
+          line: { color: colour, width: 2.6 }, hoverinfo: "skip",
         });
         const monthly = (block.monthly_base_rates || {})[point.id];
         if (monthly) {
@@ -614,16 +659,10 @@
           yaxis: axis,
           mode: "markers",
           marker: { size: 10, color: colour, opacity: 0 },
-          customdata: windows.map((window) => [
-            window.calibrated_q10 == null ? "" : Math.round(window.calibrated_q10 * 100),
-            window.calibrated_q90 == null ? "" : Math.round(window.calibrated_q90 * 100),
-            window.votes,
-            window.members,
-          ]),
+          customdata: windows.map((window) => [window.votes, window.members]),
           hovertemplate:
             `<b>${point.name}</b> %{y:.0%}` +
-            " <span style='color:#666'>(%{customdata[0]}–%{customdata[1]}%)" +
-            " · %{customdata[2]}/%{customdata[3]}</span><extra></extra>",
+            " <span style='color:#666'>· %{customdata[0]}/%{customdata[1]}</span><extra></extra>",
         });
         layout[axis === "y" ? "yaxis" : `yaxis${index + 1}`] = {
           domain: [low, low + span],
@@ -687,14 +726,6 @@
       });
       state.plotReady = true;
       return drawn;
-    }
-
-    function hexAlpha(hex, alpha) {
-      const value = hex.replace("#", "");
-      const r = parseInt(value.slice(0, 2), 16);
-      const g = parseInt(value.slice(2, 4), 16);
-      const b = parseInt(value.slice(4, 6), 16);
-      return `rgba(${r},${g},${b},${alpha})`;
     }
 
     function showLive() {
