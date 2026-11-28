@@ -17,6 +17,7 @@
   }
   .section-row .section-title { margin: 0; }
   .metric-badge { margin: 8px 0 14px; font-size: 15px; }
+  .credit { margin: 28px 0 4px; font-size: 13px; color: #5c6570; }
   .metric-badge strong {
     font-variant-numeric: tabular-nums;
     color: var(--accent-cool);
@@ -177,29 +178,29 @@
     </div>
 
     <div class="section-row">
-      <h2 class="section-title">Calibrated chance</h2>
-      <div class="seg" role="group" aria-label="Calibrated figure">
+      <h2 class="section-title">Chance of fog</h2>
+      <div class="seg" role="group" aria-label="Chance of fog">
         <button type="button" data-view="live" aria-pressed="true">Readout</button>
         <button type="button" data-view="image" aria-pressed="false">Chart</button>
       </div>
     </div>
-    <p class="status metric-badge" id="cal-badge">Loading calibrated chance…</p>
+    <p class="status metric-badge" id="cal-badge">Loading the chance of fog…</p>
     <div class="frame" id="cal-image">
-      <img id="primary" alt="Calibrated AIFS fog chance at five Gulf Coast points" src="aifs_calibrated_forecast.png">
+      <img id="primary" alt="Fog model: chance of fog at five Gulf Coast points" src="aifs_calibrated_forecast.png">
     </div>
     <div class="frame frame--live" id="cal-live" hidden>
       <div id="cal-plot"></div>
     </div>
 
-    <h2 class="section-title">Member votes</h2>
-    <p class="status metric-badge" id="vote-badge">Loading member votes…</p>
+    <h2 class="section-title">How many of the 51 forecasts show fog</h2>
+    <p class="status metric-badge" id="vote-badge">Loading forecast counts…</p>
     <div class="frame">
-      <img id="votes" alt="Share of AIFS members expecting fog in each window" src="aifs_ensemble_forecast.png">
+      <img id="votes" alt="Fog model: how many of the 51 forecasts show fog in each window" src="aifs_ensemble_forecast.png">
     </div>
 
-    <h2 class="section-title">What is driving the score</h2>
+    <h2 class="section-title">What is driving the forecast</h2>
     <div class="frame">
-      <img id="drivers" alt="What is pushing the AIFS fog score up or down" src="aifs_drivers.png">
+      <img id="drivers" alt="Fog model: what is driving the forecast" src="aifs_drivers.png">
     </div>
 
     <h2 class="section-title">Window chances</h2>
@@ -212,16 +213,17 @@
 
     <div class="key">
       <h2>How to read this</h2>
-      <h3>Calibrated chance</h3>
-      <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” How much the 51 forecasts agree is shown in the member-vote section. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
-      <h3>Share of members</h3>
+      <h3>Chance of fog</h3>
+      <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the fog model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” How many of the 51 forecasts show fog is in the section above. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
+      <h3>How many forecasts show fog</h3>
       <p>Each of the 51 forecasts is asked a yes-or-no question: does fog show up anywhere in this six-hour window? The model is built to catch fog, not to avoid false alarms. It is set so that it finds about 9 of every 10 foggy windows, and it will flag some quiet windows along the way to do that. The bars count how many forecasts said yes. 25 of 51 means half of them expect fog. That is a head count, not the chance that fog occurs.</p>
       <h3>Window chances</h3>
-      <p>Each cell is the calibrated chance of fog in that six-hour window, the same number as the chart. The shaded row is the selected site's highest chance.</p>
-      <h3>What is driving the score</h3>
+      <p>Each cell is the chance of fog in that six-hour window, the same number as the chart. The shaded row is the selected site's highest chance.</p>
+      <h3>What is driving the forecast</h3>
       <p>The colored bands are what the model is weighing. Color above the zero line is pushing toward fog. Color below it is pushing against. The black line is the balance of the two. It shows what this model used, not a list of causes.</p>
-      <p>The run time at the top is UTC. The figures, the badges, and the table are in Central time. On the chance and member-vote charts, the vertical gray bands are night, 6pm to 6am Central. From April through September the calibrated chances are outside the months the correction was fitted on, so treat them as a rough guide.</p>
+      <p>The run time at the top is UTC. The figures, the badges, and the table are in Central time. On the chance and forecast-count charts, the vertical gray bands are night, 6pm to 6am Central. From April through September the chances are outside the months the correction was fitted on, so treat them as a rough guide.</p>
     </div>
+    <p class="credit">Machine-learning fog model, run on the 51-member ECMWF AIFS ensemble (via dynamical.org, CC-BY-4.0).</p>
   </div>
 
   <footer class="site-footer">
@@ -420,12 +422,12 @@
       const status = document.getElementById("status");
       const block = aifs();
       if (!block) {
-        status.textContent = "AIFS Ensemble chart not published yet";
+        status.textContent = "Fog model forecast not published yet";
         return;
       }
       status.textContent = block.init_time_utc
-        ? `AIFS Ensemble init ${fmtInit(block.init_time_utc)}`
-        : "AIFS Ensemble";
+        ? `Fog model run of ${fmtInit(block.init_time_utc)}`
+        : "Fog model";
     }
 
     function renderBadges() {
@@ -433,8 +435,8 @@
       const cal = document.getElementById("cal-badge");
       const point = pointById(state.site);
       if (!point) {
-        vote.textContent = "Member votes not published yet.";
-        cal.textContent = "Calibrated chance not published yet.";
+        vote.textContent = "Forecast counts not published yet.";
+        cal.textContent = "Chance of fog not published yet.";
         return;
       }
       const votePeak = peakOf(point, "votes");
@@ -442,17 +444,17 @@
       const voteSelect = siteOptions("votes");
       const calSelect = siteOptions("calibrated");
       if (!votePeak || votePeak.votes <= 0) {
-        vote.innerHTML = `No AIFS member puts fog at ${voteSelect} in this run.`;
+        vote.innerHTML = `None of the 51 forecasts puts fog at ${voteSelect} in this run.`;
       } else {
         const pct = Math.round((votePeak.votes / votePeak.members) * 100);
         vote.innerHTML =
           `${voteSelect} peaks at <strong>${pct}%</strong> ` +
-          `(${votePeak.votes} of ${votePeak.members} members) in the 6 hours starting at ${fmtWindow(votePeak.start_utc)}.`;
+          `(${votePeak.votes} of ${votePeak.members} forecasts) in the 6 hours starting at ${fmtWindow(votePeak.start_utc)}.`;
       }
       if (!calPeak || calPeak.calibrated_mean == null) {
-        cal.innerHTML = `Calibrated chance for ${calSelect} is not in this run.`;
+        cal.innerHTML = `Chance of fog for ${calSelect} is not in this run.`;
       } else if (calPeak.calibrated_mean <= 0) {
-        cal.innerHTML = `Calibrated chance at ${calSelect} stays at 0% in this run.`;
+        cal.innerHTML = `Chance of fog at ${calSelect} stays at 0% in this run.`;
       } else {
         const pct = Math.round(calPeak.calibrated_mean * 100);
         cal.innerHTML =
@@ -538,55 +540,6 @@
       });
     }
 
-    function smoothChance(x, y) {
-      const n = y.length;
-      if (n < 2) return { x, y };
-      const h = [];
-      const delta = [];
-      for (let i = 0; i < n - 1; i += 1) {
-        h.push(x[i + 1] - x[i]);
-        delta.push((y[i + 1] - y[i]) / h[i]);
-      }
-      const slope = new Array(n);
-      slope[0] = delta[0];
-      slope[n - 1] = delta[n - 2];
-      for (let i = 1; i < n - 1; i += 1) {
-        if (delta[i - 1] === 0 || delta[i] === 0 || delta[i - 1] * delta[i] < 0) slope[i] = 0;
-        else slope[i] = (h[i - 1] + h[i]) / (h[i - 1] / delta[i - 1] + h[i] / delta[i]);
-      }
-      for (let i = 0; i < n - 1; i += 1) {
-        if (delta[i] === 0) {
-          slope[i] = 0;
-          slope[i + 1] = 0;
-          continue;
-        }
-        const a = slope[i] / delta[i];
-        const b = slope[i + 1] / delta[i];
-        const scale = a * a + b * b;
-        if (scale > 9) {
-          const tau = 3 / Math.sqrt(scale);
-          slope[i] = tau * a * delta[i];
-          slope[i + 1] = tau * b * delta[i];
-        }
-      }
-      const outX = [];
-      const outY = [];
-      for (let i = 0; i < n - 1; i += 1) {
-        for (let k = 0; k < 8; k += 1) {
-          const t = k / 8;
-          const h00 = (1 + 2 * t) * (1 - t) ** 2;
-          const h10 = t * (1 - t) ** 2;
-          const h01 = t ** 2 * (3 - 2 * t);
-          const h11 = t ** 2 * (t - 1);
-          outX.push(x[i] + t * h[i]);
-          outY.push(h00 * y[i] + h10 * h[i] * slope[i] + h01 * y[i + 1] + h11 * h[i] * slope[i + 1]);
-        }
-      }
-      outX.push(x[n - 1]);
-      outY.push(y[n - 1]);
-      return { x: outX, y: outY };
-    }
-
     function drawLive() {
       const block = aifs();
       const plot = document.getElementById("cal-plot");
@@ -610,9 +563,11 @@
         hoversubplots: "axis",
         plot_bgcolor: "#f7f7f7",
         paper_bgcolor: "#ffffff",
-        height: 210 * n + 120,
-        margin: { l: 64, r: 16, t: 8, b: 48 },
+        height: 210 * n + 160,
+        margin: { l: 64, r: 16, t: 16, b: 48 },
         showlegend: false,
+        barmode: "overlay",
+        uniformtext: { minsize: 9, mode: "hide" },
       };
       series.forEach((point, index) => {
         const axis = index === 0 ? "y" : `y${index + 1}`;
@@ -629,18 +584,6 @@
             fillcolor: "rgba(93, 115, 144, 0.18)", line: { width: 0 }, layer: "below",
           });
         });
-        const spanHours = state.drop.window_hours || 6;
-        const centreMs = windows.map((window) => new Date(plusHours(window.start_utc, spanHours / 2)).getTime());
-        const chance = windows.map((window) => window.calibrated_mean);
-        const curve = smoothChance(
-          [new Date(windows[0].start_utc).getTime(), ...centreMs, new Date(end).getTime()],
-          [chance[0], ...chance, chance[chance.length - 1]],
-        );
-        traces.push({
-          x: curve.x.map((ms) => centralStamp(new Date(ms).toISOString())),
-          y: curve.y, yaxis: axis, mode: "lines",
-          line: { color: colour, width: 2.6 }, hoverinfo: "skip",
-        });
         const monthly = (block.monthly_base_rates || {})[point.id];
         if (monthly) {
           const normal = windows.map((window) => {
@@ -653,12 +596,19 @@
           });
         }
         const centres = windows.map((window) => centralStamp(plusHours(window.start_utc, 3)));
+        const chance = windows.map((window) => window.calibrated_mean);
         readouts.push({
+          type: "bar",
           x: centres,
-          y: windows.map((window) => window.calibrated_mean),
+          y: chance,
           yaxis: axis,
-          mode: "markers",
-          marker: { size: 10, color: colour, opacity: 0 },
+          width: (state.drop.window_hours || 6) * 3600000 * 0.92,
+          marker: { color: colour, opacity: 0.85, line: { width: 0 } },
+          text: chance.map((value) => (value >= 0.05 ? `${Math.round(value * 100)}%` : "")),
+          textposition: "outside",
+          textangle: 0,
+          cliponaxis: false,
+          textfont: { size: 11, color: colour },
           hovertemplate: `<b>${point.name}</b> %{y:.0%}<extra></extra>`,
         });
         layout[axis === "y" ? "yaxis" : `yaxis${index + 1}`] = {
