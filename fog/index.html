@@ -309,6 +309,16 @@
       return `${part.hour} UTC ${part.day} ${part.month} ${part.year}`;
     }
 
+    function fmtSpan(startIso, endIso) {
+      const dayAndTime = (iso) => fmtWindow(iso).replace(" CT", "").split(" ");
+      const start = dayAndTime(startIso);
+      const end = dayAndTime(endIso);
+      const startDay = start.slice(0, -1).join(" ");
+      const endDay = end.slice(0, -1).join(" ");
+      if (startDay === endDay) return `${startDay}, ${start.at(-1)}–${end.at(-1)} CT`;
+      return `${startDay}, ${start.at(-1)}–${endDay}, ${end.at(-1)} CT`;
+    }
+
     function fmtWindow(iso) {
       const date = new Date(iso);
       if (Number.isNaN(date.getTime())) return iso;
@@ -559,8 +569,7 @@
       const readouts = [];
       const shapes = [];
       const layout = {
-        hovermode: "x unified",
-        hoversubplots: "axis",
+        hovermode: "closest",
         plot_bgcolor: "#f7f7f7",
         paper_bgcolor: "#ffffff",
         height: 210 * n + 160,
@@ -597,19 +606,26 @@
         }
         const centres = windows.map((window) => centralStamp(plusHours(window.start_utc, 3)));
         const chance = windows.map((window) => window.calibrated_mean);
+        const hours = state.drop.window_hours || 6;
         readouts.push({
           type: "bar",
           x: centres,
           y: chance,
           yaxis: axis,
-          width: (state.drop.window_hours || 6) * 3600000 * 0.92,
+          width: hours * 3600000 * 0.92,
           marker: { color: colour, opacity: 0.85, line: { width: 0 } },
           text: chance.map((value) => (value >= 0.05 ? `${Math.round(value * 100)}%` : "")),
           textposition: "outside",
           textangle: 0,
           cliponaxis: false,
           textfont: { size: 11, color: colour },
-          hovertemplate: `<b>${point.name}</b> %{y:.0%}<extra></extra>`,
+          customdata: windows.map((window) => fmtSpan(window.start_utc, plusHours(window.start_utc, hours))),
+          hoverlabel: {
+            bgcolor: "#ffffff",
+            bordercolor: colour,
+            font: { size: 14, color: "#1a1a1a" },
+          },
+          hovertemplate: `<b>${point.name}</b> %{y:.0%}<br>%{customdata}<extra></extra>`,
         });
         layout[axis === "y" ? "yaxis" : `yaxis${index + 1}`] = {
           domain: [low, low + span],
@@ -621,21 +637,6 @@
           fixedrange: true,
         };
       });
-      const first = series[0];
-      if (first) {
-        traces.push({
-          x: first.windows.map((window) => centralStamp(plusHours(window.start_utc, 3))),
-          y: first.windows.map(() => 0),
-          yaxis: "y",
-          mode: "markers",
-          marker: { size: 1, opacity: 0 },
-          customdata: first.windows.map((window) => {
-            const end = plusHours(window.start_utc, state.drop.window_hours || 6);
-            return `${fmtWindow(window.start_utc).replace(" CT", "")}–${fmtWindow(end)}`;
-          }),
-          hovertemplate: "%{customdata}<extra></extra>",
-        });
-      }
       readouts.forEach((trace) => traces.push(trace));
       layout.xaxis = {
         type: "date",
