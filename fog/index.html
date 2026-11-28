@@ -671,7 +671,6 @@
           fixedrange: true,
         };
       });
-      readouts.reverse().forEach((trace) => traces.push(trace));
       const first = series[0];
       if (first) {
         traces.push({
@@ -687,6 +686,7 @@
           hovertemplate: "%{customdata}<extra></extra>",
         });
       }
+      readouts.forEach((trace) => traces.push(trace));
       layout.xaxis = {
         type: "date",
         tickformat: "%a %m/%d",
