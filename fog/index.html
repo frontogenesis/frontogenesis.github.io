@@ -136,7 +136,7 @@
     </div>
     <p class="status metric-badge" id="cal-badge">Loading calibrated chance…</p>
     <div class="frame" id="cal-image">
-      <img id="primary" alt="Calibrated AIFS fog chance at four Gulf Coast points" src="aifs_calibrated_forecast.png">
+      <img id="primary" alt="Calibrated AIFS fog chance at five Gulf Coast points" src="aifs_calibrated_forecast.png">
     </div>
     <div class="frame frame--live" id="cal-live" hidden>
       <div id="cal-plot"></div>
@@ -167,6 +167,8 @@
       <p>This one is the chance. The same scores are turned into probabilities with a correction fitted on years of real observations, then averaged. A reading of 15% means that, in the past, windows the model scored like this one had fog about 15 times in 100. It is not “15 of the 51 forecasts said yes.” On the readout, the band around the line is where 8 of every 10 forecasts fall: a high chance with a wide band is a less settled forecast than the same chance with a narrow one. The dotted line, drawn only for Nederland and Galveston, is how often fog usually occurs there in that month.</p>
       <h3>Share of members</h3>
       <p>Each of the 51 forecasts is asked a yes-or-no question: does fog show up anywhere in this six-hour window? The model is built to catch fog, not to avoid false alarms. It is set so that it finds about 9 of every 10 foggy windows, and it will flag some quiet windows along the way to do that. The bars count how many forecasts said yes. 25 of 51 means half of them expect fog. That is a head count, not the chance that fog occurs.</p>
+      <h3>Window chances</h3>
+      <p>Each cell is the calibrated chance for that six-hour window, then the member head count: “15% · 12/51” means a 15% chance, with 12 of the 51 forecasts saying yes. The shaded row is the selected site's highest chance.</p>
       <h3>What is driving the score</h3>
       <p>The colored bands are what the model is weighing. Color above the zero line is pushing toward fog. Color below it is pushing against. The black line is the balance of the two. It shows what this model used, not a list of causes.</p>
       <p>The run time at the top is UTC. The figures, the badges, and the table are in Central time. On the chance and member-vote charts, the vertical gray bands are night, 6pm to 6am Central. From April through September the calibrated chances are outside the months the correction was fitted on, so treat them as a rough guide.</p>
@@ -188,6 +190,7 @@
       SABINE_OFFSHORE: "#2e7d5b",
       KBPT: "#1f4e79",
       KGLS: "#7a5195",
+      COASTAL_BEND: "#b8860b",
     };
     const state = { drop: null, site: "SABINE_ONSHORE", view: "live", plotReady: false };
 
@@ -404,19 +407,28 @@
         });
       });
       starts.sort();
-      const peak = peakOf(pointById(state.site), "votes");
-      const peakStart = peak && peak.votes > 0 ? peak.start_utc : null;
+      const peak = peakOf(pointById(state.site), "calibrated");
+      const peakStart = peak && peak.calibrated_mean > 0 ? peak.start_utc : null;
       const body = starts.map((start) => {
         const cells = rows.map((point) => {
           const window = point.windows.find((item) => item.start_utc === start);
           if (!window || !window.members) return "<td>—</td>";
-          const pct = Math.round((window.votes / window.members) * 100);
-          return `<td>${pct}% · ${window.votes}/${window.members}</td>`;
+          return `<td>${chanceText(window)} · ${window.votes}/${window.members}</td>`;
         }).join("");
         const mark = start === peakStart ? " class=\"peak\"" : "";
         return `<tr${mark} data-start="${start}"><td>${fmtTable(start)}</td>${cells}</tr>`;
       }).join("");
       table.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+    }
+
+    // Calibrated chance for a window, as shown in the table and hover. Under
+    // 1% reads "<1%" rather than a bare 0%, which would claim more certainty
+    // than the calibration has.
+    function chanceText(window) {
+      const value = window.calibrated_mean;
+      if (value == null || !Number.isFinite(value)) return "—";
+      if (value > 0 && value < 0.005) return "<1%";
+      return `${Math.round(value * 100)}%`;
     }
 
     function hoverText(start) {
@@ -428,8 +440,7 @@
           lines.push(`${point.name}: —`);
           return;
         }
-        const pct = Math.round((window.votes / window.members) * 100);
-        lines.push(`${point.name}: ${window.votes} of ${window.members} members (${pct}%)`);
+        lines.push(`${point.name}: ${chanceText(window)} chance · ${window.votes} of ${window.members} members`);
       });
       return lines.join("\n");
     }
