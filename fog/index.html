@@ -101,7 +101,7 @@
     color: var(--ink);
   }
   .key h3:first-of-type { margin-top: 2px; }
-  .page { padding-bottom: 72px; }
+  .page { padding-bottom: 72px; overflow-anchor: none; }
   .region-dock {
     position: fixed;
     left: 50%;
@@ -679,13 +679,14 @@
         bgcolor: "rgba(255,255,255,0.8)",
         borderpad: 3,
       }];
-      window.Plotly.react(plot, traces, layout, {
+      const drawn = window.Plotly.react(plot, traces, layout, {
         responsive: true,
         displaylogo: false,
         scrollZoom: false,
         modeBarButtonsToRemove: ["select2d", "lasso2d", "autoScale2d"],
       });
       state.plotReady = true;
+      return drawn;
     }
 
     function hexAlpha(hex, alpha) {
@@ -703,7 +704,11 @@
         .then(() => {
           if (plot.classList.contains("js-plotly-plot")) window.Plotly.purge(plot);
           else plot.replaceChildren();
-          drawLive();
+          Promise.resolve(drawLive()).then(() => {
+            if (!state.holdScroll) return;
+            state.holdScroll();
+            requestAnimationFrame(() => state.holdScroll());
+          });
         })
         .catch(() => {
           plot.textContent = "The readout needs a network connection to load the chart.";
@@ -718,8 +723,36 @@
       if (state.view === "live") showLive();
     }
 
+    function scrollSpot() {
+      const nodes = [
+        document.getElementById("region-controls"),
+        ...document.querySelectorAll("h2.section-title"),
+        document.querySelector(".key"),
+      ].filter(Boolean);
+      let chosen = nodes[0];
+      let top = chosen.getBoundingClientRect().top;
+      let best = Math.abs(top - 72);
+      nodes.forEach((node) => {
+        const y = node.getBoundingClientRect().top;
+        const dist = Math.abs(y - 72);
+        if (y < window.innerHeight * 0.85 && dist < best) {
+          chosen = node;
+          top = y;
+          best = dist;
+        }
+      });
+      return { node: chosen, top };
+    }
+
+    function holdSpot(spot) {
+      if (!spot || !spot.node) return;
+      const delta = spot.node.getBoundingClientRect().top - spot.top;
+      if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+    }
+
     function setRegion(id) {
-      if (!REGIONS[id]) return;
+      if (!REGIONS[id] || id === state.region) return;
+      const spot = scrollSpot();
       state.region = id;
       const ids = (REGIONS[id] || []).filter((pointId) => pointById(pointId));
       if (!ids.includes(state.site)) state.site = ids[0] || state.site;
@@ -727,7 +760,12 @@
       document.querySelectorAll("[data-region]").forEach((button) => {
         button.setAttribute("aria-pressed", button.getAttribute("data-region") === id ? "true" : "false");
       });
+      state.holdScroll = () => holdSpot(spot);
       render();
+      [0, 50, 150, 400].forEach((ms) => setTimeout(() => holdSpot(spot), ms));
+      document.querySelectorAll("#primary, #votes, #drivers").forEach((img) => {
+        if (!img.complete) img.addEventListener("load", () => holdSpot(spot), { once: true });
+      });
     }
 
     document.querySelectorAll("[data-region]").forEach((button) => {
