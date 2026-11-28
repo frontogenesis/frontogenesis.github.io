@@ -101,6 +101,44 @@
     color: var(--ink);
   }
   .key h3:first-of-type { margin-top: 2px; }
+  .page { padding-bottom: 72px; }
+  .region-dock {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    z-index: 100;
+    transform: translateX(-50%) translateY(120%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px 8px 14px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(12, 21, 36, 0.08), 0 12px 28px rgba(12, 21, 36, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+  .region-dock.is-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .region-dock__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .region-dock .seg { border-radius: 999px; }
+  .region-dock .seg button { padding: 6px 12px; font-size: 12.5px; }
+  @media (max-width: 520px) {
+    .region-dock { left: 12px; right: 12px; bottom: 12px; transform: translateY(120%); }
+    .region-dock.is-visible { transform: translateY(0); }
+    .region-dock__label { display: none; }
+  }
 </style>
 <title>Northwest Gulf Fog Forecasts</title>
 </head>
@@ -126,6 +164,17 @@
       or convective precipitation.
     </p>
     <p class="status" id="status">Loading latest init…</p>
+
+    <div class="controls" id="region-controls">
+      <div class="control">
+        <span class="control-label">Region</span>
+        <div class="seg" role="group" aria-label="Region">
+          <button type="button" data-region="sabine" aria-pressed="true">Sabine Pass</button>
+          <button type="button" data-region="galveston" aria-pressed="false">Galveston</button>
+          <button type="button" data-region="coastal" aria-pressed="false">Coastal Bend</button>
+        </div>
+      </div>
+    </div>
 
     <div class="section-row">
       <h2 class="section-title">Calibrated chance</h2>
@@ -182,6 +231,15 @@
     </div>
   </footer>
 
+  <div class="region-dock" id="region-dock" aria-hidden="true">
+    <span class="region-dock__label">Region</span>
+    <div class="seg" role="group" aria-label="Region">
+      <button type="button" data-region="sabine" aria-pressed="true">Sabine Pass</button>
+      <button type="button" data-region="galveston" aria-pressed="false">Galveston</button>
+      <button type="button" data-region="coastal" aria-pressed="false">Coastal Bend</button>
+    </div>
+  </div>
+
   <div class="tip" id="tip" hidden></div>
 
   <script>
@@ -192,7 +250,29 @@
       KGLS: "#7a5195",
       COASTAL_BEND: "#b8860b",
     };
-    const state = { drop: null, site: "SABINE_ONSHORE", view: "live", plotReady: false };
+    const REGIONS = {
+      sabine: ["SABINE_ONSHORE", "SABINE_OFFSHORE", "KBPT"],
+      galveston: ["KGLS"],
+      coastal: ["COASTAL_BEND"],
+    };
+    const REGION_FIGURES = {
+      sabine: {
+        calibrated: "aifs_calibrated_sabine.png",
+        ensemble: "aifs_ensemble_sabine.png",
+        drivers: "aifs_drivers_sabine.png",
+      },
+      galveston: {
+        calibrated: "aifs_calibrated_galveston.png",
+        ensemble: "aifs_ensemble_galveston.png",
+        drivers: "aifs_drivers_galveston.png",
+      },
+      coastal: {
+        calibrated: "aifs_calibrated_coastal.png",
+        ensemble: "aifs_ensemble_coastal.png",
+        drivers: "aifs_drivers_coastal.png",
+      },
+    };
+    const state = { drop: null, site: "SABINE_ONSHORE", region: "sabine", view: "live", plotReady: false };
 
     function aifs() {
       return state.drop && state.drop.aifs ? state.drop.aifs : null;
@@ -200,7 +280,9 @@
 
     function points() {
       const block = aifs();
-      return block ? block.points : [];
+      const all = block ? block.points : [];
+      const ids = REGIONS[state.region] || REGIONS.sabine;
+      return ids.map((id) => all.find((point) => point.id === id)).filter(Boolean);
     }
 
     function pointById(id) {
@@ -381,12 +463,12 @@
     }
 
     function renderFigures() {
-      const files = (state.drop && state.drop.figures) || {};
+      const files = REGION_FIGURES[state.region] || REGION_FIGURES.sabine;
       const votes = document.getElementById("votes");
       const drivers = document.getElementById("drivers");
-      if (files.aifs_ensemble) votes.src = files.aifs_ensemble;
-      if (files.aifs_drivers) drivers.src = files.aifs_drivers;
-      if (files.aifs_calibrated) document.getElementById("primary").src = files.aifs_calibrated;
+      votes.src = files.ensemble;
+      drivers.src = files.drivers;
+      document.getElementById("primary").src = files.calibrated;
       document.getElementById("cal-image").hidden = state.view !== "image";
       document.getElementById("cal-live").hidden = state.view !== "live";
       document.querySelectorAll("[data-view]").forEach((button) => {
@@ -619,7 +701,8 @@
       if (!window.Plotly) plot.textContent = "Loading readout…";
       loadPlotly()
         .then(() => {
-          plot.replaceChildren();
+          if (plot.classList.contains("js-plotly-plot")) window.Plotly.purge(plot);
+          else plot.replaceChildren();
           drawLive();
         })
         .catch(() => {
@@ -633,6 +716,36 @@
       renderFigures();
       renderTable();
       if (state.view === "live") showLive();
+    }
+
+    function setRegion(id) {
+      if (!REGIONS[id]) return;
+      state.region = id;
+      const ids = (REGIONS[id] || []).filter((pointId) => pointById(pointId));
+      if (!ids.includes(state.site)) state.site = ids[0] || state.site;
+      state.plotReady = false;
+      document.querySelectorAll("[data-region]").forEach((button) => {
+        button.setAttribute("aria-pressed", button.getAttribute("data-region") === id ? "true" : "false");
+      });
+      render();
+    }
+
+    document.querySelectorAll("[data-region]").forEach((button) => {
+      button.addEventListener("click", () => setRegion(button.getAttribute("data-region")));
+    });
+
+    const regionControls = document.getElementById("region-controls");
+    const regionDock = document.getElementById("region-dock");
+    if (regionControls && regionDock && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          const show = !entry.isIntersecting;
+          regionDock.classList.toggle("is-visible", show);
+          regionDock.setAttribute("aria-hidden", show ? "false" : "true");
+        },
+        { threshold: 0, rootMargin: "-8px 0px 0px 0px" }
+      );
+      observer.observe(regionControls);
     }
 
     document.querySelectorAll("[data-view]").forEach((button) => {
